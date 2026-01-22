@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bell Bearings - Elden Ring Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="search-styles.css">
+  <link rel="stylesheet" href="music-player.css">
+  
+  <style>
+    :root {
+      --gold: #ed8a09; --gold-bright: #f9c043; --gold-dark: #bd6707; --gold-muted: #e1b26b;
+      --bg-black: #040200; --bg-dark: #0d0906; --bg-surface: #1a1410; --bg-card: #231a12;
+      --text-primary: #f5f3e0; --text-secondary: #c9b99a; --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3); --glow: rgba(237, 138, 9, 0.4);
+      --smithing: #6db3f2; --somber: #9370db; --glovewort: #9acd32; --ghost: #87ceeb;
+      --hunter: #dc143c; --merchant: #e1b26b; --npc: #ffd700; --dlc: #ff6b35;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; color: var(--text-primary); background: var(--bg-black); min-height: 100vh; overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 150px 60px rgba(0,0,0,0.8); z-index: 100; }
+    
+    #vanta-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .ember { position: absolute; border-radius: 50%; animation: ember-float linear infinite; opacity: 0; }
+    @keyframes ember-float { 
+      0% { opacity: 0; transform: translateY(100vh) translateX(0) scale(0); } 
+      10% { opacity: 1; transform: translateY(90vh) translateX(10px) scale(1); } 
+      90% { opacity: 0.8; transform: translateY(10vh) translateX(-20px) scale(0.8); } 
+      100% { opacity: 0; transform: translateY(-5vh) translateX(30px) scale(0); } 
+    }
+    
+    h1, h2, h3, h4, h5, h6 { font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
+    .title-decorative { font-family: 'Cinzel Decorative', serif; }
+    .gold-text { background: linear-gradient(to bottom, #cfc09f 0%, #ffecb3 25%, #e7c66e 50%, #a17720 75%, #5c3d00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    .glow-text { color: var(--gold); text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px var(--glow); }
+    
+    .content-wrapper { position: relative; z-index: 10; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 80px 0; }
+    
+    /* Header */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s ease; padding: 15px 0; }
+    header.scrolled { background: rgba(4, 2, 0, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px var(--glow)); transition: all 0.3s ease; }
+    .logo:hover .logo-icon img { filter: drop-shadow(0 0 20px var(--glow)); transform: scale(1.05); }
+    .logo-text h1 { font-size: 1.4rem; letter-spacing: 0.15em; }
+    .logo-text span { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--text-muted); text-transform: uppercase; display: block; }
+    
+    nav { display: flex; gap: 5px; }
+    nav a { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: 10px 18px; border-radius: 2px; transition: all 0.3s ease; position: relative; }
+    nav a:hover { color: var(--gold); background: rgba(237, 138, 9, 0.1); }
+    nav a.active { color: var(--gold); }
+    nav a.active::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+    
+    .search-box { position: relative; }
+    .search-box input { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; background: rgba(26, 20, 16, 0.8); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 40px 10px 15px; border-radius: 2px; width: 220px; transition: all 0.3s ease; }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 15px rgba(237, 138, 9, 0.15); width: 280px; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    
+    /* Page Hero */
+    .page-hero { padding: 160px 0 80px; text-align: center; position: relative; }
+    .page-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(237, 138, 9, 0.1) 0%, transparent 70%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.15em; margin-bottom: 15px; }
+    .page-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 700px; margin: 0 auto; }
+    
+    .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 30px 0; }
+    .divider-line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); }
+    .divider-symbol { color: var(--gold); font-size: 1.2rem; letter-spacing: 0.3em; }
+    
+    /* Breadcrumb */
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--gold-muted); text-decoration: none; transition: color 0.3s ease; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 8px; }
+    
+    /* Info Box */
+    .info-box { background: linear-gradient(135deg, var(--bg-card), var(--bg-surface)); border: 1px solid var(--border); border-radius: 3px; padding: 25px; margin-bottom: 40px; border-left: 3px solid var(--gold-dark); }
+    .info-box h3 { font-size: 1.1rem; color: var(--gold-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .info-box h3 i { color: var(--gold); }
+    .info-box p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 10px; }
+    .info-box p:last-child { margin-bottom: 0; }
+    .info-box ul { margin-left: 25px; color: var(--text-secondary); }
+    .info-box li { margin-bottom: 8px; }
+    
+    /* Category Section */
+    .category-section { margin-bottom: 60px; }
+    .category-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+    .category-header h2 { font-size: 1.5rem; color: var(--text-primary); }
+    .category-header .count { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-muted); background: rgba(237, 138, 9, 0.15); padding: 4px 12px; border-radius: 2px; }
+    
+    /* Items Grid */
+    .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 25px; margin-bottom: 40px; }
+    
+    /* Bell Bearing Card */
+    .bellbearing-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 3px; padding: 25px; transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; }
+    .bellbearing-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); opacity: 0; transition: opacity 0.3s ease; }
+    .bellbearing-card:hover { border-color: var(--gold-dark); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .bellbearing-card:hover::before { opacity: 1; }
+    .bellbearing-card.expanded { border-color: var(--gold); box-shadow: 0 15px 50px rgba(237, 138, 9, 0.2), 0 0 40px rgba(237, 138, 9, 0.1); transform: scale(1.02); }
+    .bellbearing-card.expanded::before { opacity: 1; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    
+    .bellbearing-header { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 15px; }
+    .bellbearing-icon { width: 70px; height: 70px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden; }
+    .bellbearing-icon::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%); }
+    .bellbearing-icon i { font-size: 2rem; color: var(--gold-muted); z-index: 1; }
+    
+    .bellbearing-title { flex: 1; }
+    .bellbearing-title h4 { font-size: 1.15rem; color: var(--text-primary); margin-bottom: 5px; transition: color 0.3s ease; display: flex; align-items: center; justify-content: space-between; }
+    .bellbearing-card:hover .bellbearing-title h4 { color: var(--gold); }
+    .bellbearing-title span { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .expand-icon { font-size: 1.2rem; color: var(--gold-muted); transition: all 0.3s ease; margin-left: 10px; }
+    .bellbearing-card:hover .expand-icon { color: var(--gold); }
+    .bellbearing-card.expanded .expand-icon { transform: rotate(180deg); color: var(--gold); }
+    
+    .bellbearing-desc { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 15px; font-style: italic; }
+    .bellbearing-lore { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; border-left: 2px solid var(--gold-dark); padding-left: 15px; margin: 15px 0; }
+    
+    .unlocks-section { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(189, 103, 7, 0.15); }
+    .unlocks-label { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-muted); margin-bottom: 10px; }
+    .unlock-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .unlock-tag { font-size: 0.75rem; padding: 5px 12px; border-radius: 2px; display: flex; align-items: center; gap: 5px; }
+    .unlock-tag i { font-size: 0.85rem; }
+    .unlock-smithing { background: rgba(109, 179, 242, 0.2); color: var(--smithing); }
+    .unlock-somber { background: rgba(147, 112, 219, 0.2); color: var(--somber); }
+    .unlock-glovewort { background: rgba(154, 205, 50, 0.2); color: var(--glovewort); }
+    .unlock-ghost { background: rgba(135, 206, 235, 0.2); color: var(--ghost); }
+    .unlock-crafting { background: rgba(225, 178, 107, 0.2); color: var(--merchant); }
+    .unlock-consumable { background: rgba(220, 20, 60, 0.2); color: var(--hunter); }
+    .unlock-spell { background: rgba(255, 215, 0, 0.2); color: var(--npc); }
+    .unlock-armor { background: rgba(192, 192, 192, 0.2); color: #c0c0c0; }
+    
+    .location-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(189, 103, 7, 0.15); }
+    .location-label { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .location-label i { color: var(--gold); }
+    .location-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+    
+    .ngplus-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.7rem; padding: 3px 8px; border-radius: 2px; background: rgba(154, 205, 50, 0.2); color: var(--glovewort); margin-left: 10px; }
+    .ngplus-badge i { font-size: 0.8rem; }
+
+    /* Category Type Colors */
+    .type-smithing .bellbearing-icon { border-color: var(--smithing); }
+    .type-smithing .bellbearing-icon i { color: var(--smithing); }
+    .type-somber .bellbearing-icon { border-color: var(--somber); }
+    .type-somber .bellbearing-icon i { color: var(--somber); }
+    .type-glovewort .bellbearing-icon { border-color: var(--glovewort); }
+    .type-glovewort .bellbearing-icon i { color: var(--glovewort); }
+    .type-ghost .bellbearing-icon { border-color: var(--ghost); }
+    .type-ghost .bellbearing-icon i { color: var(--ghost); }
+    .type-hunter .bellbearing-icon { border-color: var(--hunter); }
+    .type-hunter .bellbearing-icon i { color: var(--hunter); }
+    .type-npc .bellbearing-icon { border-color: var(--npc); }
+    .type-npc .bellbearing-icon i { color: var(--npc); }
+    .type-dlc .bellbearing-icon { border-color: var(--dlc); }
+    .type-dlc .bellbearing-icon i { color: var(--dlc); }
+    
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+    
+    /* Animations */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    
+    /* Back to Top */
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-muted); cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 99; }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--gold); color: var(--bg-black); border-color: var(--gold); transform: translateY(-3px); }
+    
+    /* Modal Popup */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.4s ease; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    
+    .modal-content { background: linear-gradient(145deg, var(--bg-card), var(--bg-surface)); border: 1px solid var(--gold-dark); border-radius: 5px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; transform: scale(0.9) translateY(20px); transition: all 0.4s ease; box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 60px rgba(237, 138, 9, 0.15); }
+    .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+    
+    .modal-header { padding: 25px 30px; border-bottom: 1px solid var(--border); position: relative; background: linear-gradient(180deg, rgba(237, 138, 9, 0.08) 0%, transparent 100%); }
+    .modal-close { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 50%; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; font-size: 1.2rem; }
+    .modal-close:hover { background: var(--gold); color: var(--bg-black); border-color: var(--gold); transform: rotate(90deg); }
+    
+    .modal-icon { width: 80px; height: 80px; background: var(--bg-dark); border: 2px solid var(--gold-dark); border-radius: 5px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; position: relative; }
+    .modal-icon::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%); border-radius: 4px; }
+    .modal-icon i { font-size: 2.5rem; color: var(--gold); z-index: 1; }
+    .modal-title { font-size: 1.6rem; color: var(--gold); margin-bottom: 8px; }
+    .modal-subtitle { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .modal-badge { background: rgba(154, 205, 50, 0.2); color: var(--glovewort); padding: 3px 10px; border-radius: 3px; font-size: 0.7rem; }
+    .modal-badge.dlc { background: rgba(255, 107, 53, 0.2); color: var(--dlc); }
+    
+    .modal-body { padding: 25px 30px; }
+    
+    .modal-section { margin-bottom: 25px; }
+    .modal-section:last-child { margin-bottom: 0; }
+    .modal-section-title { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .modal-section-title i { color: var(--gold); font-size: 1rem; }
+    
+    .modal-lore { font-style: italic; color: var(--text-secondary); line-height: 1.8; padding: 15px 20px; background: rgba(0,0,0,0.3); border-left: 3px solid var(--gold-dark); border-radius: 0 3px 3px 0; }
+    
+    .modal-unlocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+    .modal-unlock-item { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; padding: 12px 15px; display: flex; align-items: center; gap: 10px; transition: all 0.3s ease; }
+    .modal-unlock-item:hover { border-color: var(--gold-dark); background: rgba(237, 138, 9, 0.05); }
+    .modal-unlock-item i { font-size: 1.2rem; }
+    .modal-unlock-item span { font-size: 0.9rem; color: var(--text-secondary); }
+    .modal-unlock-item.smithing i { color: var(--smithing); }
+    .modal-unlock-item.somber i { color: var(--somber); }
+    .modal-unlock-item.glovewort i { color: var(--glovewort); }
+    .modal-unlock-item.ghost i { color: var(--ghost); }
+    .modal-unlock-item.crafting i { color: var(--merchant); }
+    .modal-unlock-item.consumable i { color: var(--hunter); }
+    .modal-unlock-item.spell i { color: var(--npc); }
+    
+    .modal-location { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; padding: 20px; }
+    .modal-location-region { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold); margin-bottom: 8px; }
+    .modal-location-details { color: var(--text-secondary); line-height: 1.7; margin-bottom: 15px; }
+    .modal-location-tip { font-size: 0.85rem; color: var(--text-muted); padding: 10px 15px; background: rgba(237, 138, 9, 0.08); border-radius: 3px; border-left: 2px solid var(--gold-dark); }
+    .modal-location-tip i { color: var(--gold); margin-right: 8px; }
+    
+    .modal-notes { background: rgba(220, 20, 60, 0.1); border: 1px solid rgba(220, 20, 60, 0.3); border-radius: 3px; padding: 15px; }
+    .modal-notes p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; }
+    .modal-notes p:last-child { margin-bottom: 0; }
+    .modal-notes strong { color: var(--hunter); }
+    
+    .modal-price-table { width: 100%; border-collapse: collapse; }
+    .modal-price-table th, .modal-price-table td { padding: 10px 15px; text-align: left; border-bottom: 1px solid var(--border); }
+    .modal-price-table th { font-family: 'Cinzel', serif; font-size: 0.8rem; color: var(--gold-muted); text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg-dark); }
+    .modal-price-table td { color: var(--text-secondary); }
+    .modal-price-table tr:last-child td { border-bottom: none; }
+    .modal-price-table .price { color: var(--gold); font-weight: 600; }
+    
+    /* Modal scrollbar */
+    .modal-content::-webkit-scrollbar { width: 8px; }
+    .modal-content::-webkit-scrollbar-track { background: var(--bg-dark); }
+    .modal-content::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+    .modal-content::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    @media (max-width: 768px) {
+      .items-grid { grid-template-columns: 1fr; }
+      nav { display: none; }
+      .header-content { flex-wrap: wrap; gap: 15px; }
+      .search-box input { width: 100%; }
+      .modal-content { max-height: 90vh; }
+      .modal-header, .modal-body { padding: 20px; }
+      .modal-unlocks { grid-template-columns: 1fr; }
+    }
+  
+    #footerClock {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-muted);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+  <div class="particles-container" id="particles"></div>
+
+  <div class="content-wrapper">
+    <header id="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">
+              <img src="elden-ring-logo.png" alt="Elden Ring">
+            </div>
+            <div class="logo-text">
+              <h1 class="gold-text">ELDEN RING</h1>
+              <span>Encyclopaedia</span>
+            </div>
+          </a>
+                    <nav>
+            <a href="index.html">Home</a>
+            <a href="bosses.html">Bosses</a>
+            <a href="characters.html">Characters</a>
+            <a href="items.html" class="active">Items</a>
+            <a href="lore.html">Lore</a>
+          </nav>
+          <div class="search-box">
+            <input type="text" placeholder="Search the wiki..." id="searchInput">
+            <i class="ra ra-magnifying-glass"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a> <span>›</span>
+          <a href="items.html">Items</a> <span>›</span>
+          <span>Bell Bearings</span>
+        </div>
+        <h1 class="title-decorative gold-text">Bell Bearings</h1>
+        <p>Key items that expand the Twin Maiden Husks' shop at the Roundtable Hold</p>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <span class="divider-symbol">◆ ◆ ◆</span>
+          <div class="divider-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="info-box fade-in">
+          <h3><i class="ra ra-hand"></i> About Bell Bearings</h3>
+          <p>Bell Bearings are Key Items which, when given to the Twin Maiden Husks at the Roundtable Hold, expand their shop with new items. Though often collected after the death of NPCs, these bearings are occasionally dropped by Bosses or found throughout the Lands Between.</p>
+          <p>In total, there are <strong>62 Bell Bearings</strong> — 51 in the base game and 10 in Shadow of the Erdtree. Only certain Bell Bearings that add crafting or upgrade materials are kept when going into New Game+; those from NPCs or Merchants must be collected again.</p>
+        </div>
+
+        <!-- Smithing Stone Miner's Bell Bearings -->
+        <div class="category-section fade-in">
+          <div class="category-header">
+            <h2><i class="ra ra-anvil" style="color: var(--smithing);"></i> Smithing-Stone Miner's Bell Bearings</h2>
+            <span class="count">4 Items</span>
+          </div>
+          <div class="items-grid">
+            
+            <div class="bellbearing-card type-smithing" data-name="Smithing-Stone Miner's Bell Bearing [1]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-diamond"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Smithing-Stone Miner's Bell Bearing [1] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-smithing"><i class="ra ra-gem-pendant"></i> Smithing Stone [1]</span>
+                  <span class="unlock-tag unlock-smithing"><i class="ra ra-gem-pendant"></i> Smithing Stone [2]</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-crystal-ball"></i> Glintstone Scrap</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Crystalian boss at the end of Raya Lucaria Crystal Tunnel in Liurnia of the Lakes.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-smithing" data-name="Smithing-Stone Miner's Bell Bearing [2]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-diamond"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Smithing-Stone Miner's Bell Bearing [2] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-smithing"><i class="ra ra-gem-pendant"></i> Smithing Stone [3]</span>
+                  <span class="unlock-tag unlock-smithing"><i class="ra ra-gem-pendant"></i> Smithing Stone [4]</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-bomb"></i> Explosive Stone</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a chest halfway down the Sealed Tunnel in Altus Plateau, near Leyndell.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-smithing" data-name="Smithing-Stone Miner's Bell Bearing [3]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-diamond"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Smithing-Stone Miner's Bell Bearing [3] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-smithing"><i class="ra ra-gem-pendant"></i> Smithing Stone [5]</span>
+                  <span class="unlock-tag unlock-smithing"><i class="ra ra-gem-pendant"></i> Smithing Stone [6]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a chest in the Zamor Ruins, east of the Grand Lift of Rold in the Mountaintops of the Giants.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-smithing" data-name="Smithing-Stone Miner's Bell Bearing [4]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-diamond"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Smithing-Stone Miner's Bell Bearing [4] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-smithing"><i class="ra ra-gem-pendant"></i> Smithing Stone [7]</span>
+                  <span class="unlock-tag unlock-smithing"><i class="ra ra-gem-pendant"></i> Smithing Stone [8]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Godskin Duo boss in the Dragon Temple area of Crumbling Farum Azula.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Somberstone Miner's Bell Bearings -->
+        <div class="category-section fade-in">
+          <div class="category-header">
+            <h2><i class="ra ra-crystal-cluster" style="color: var(--somber);"></i> Somberstone Miner's Bell Bearings</h2>
+            <span class="count">5 Items</span>
+          </div>
+          <div class="items-grid">
+            
+            <div class="bellbearing-card type-somber" data-name="Somberstone Miner's Bell Bearing [1]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-crystal-cluster"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Somberstone Miner's Bell Bearing [1] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for somber smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [1]</span>
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [2]</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-crystal-ball"></i> Glintstone Scrap</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Fallingstar Beast boss in Sellia Crystal Tunnel in Caelid.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-somber" data-name="Somberstone Miner's Bell Bearing [2]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-crystal-cluster"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Somberstone Miner's Bell Bearing [2] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for somber smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [3]</span>
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [4]</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-crystal-ball"></i> Cracked Crystal</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Crystalian (Spear) & Crystalian (Ringblade) duo boss in Altus Tunnel.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-somber" data-name="Somberstone Miner's Bell Bearing [3]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-crystal-cluster"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Somberstone Miner's Bell Bearing [3] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for somber smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [5]</span>
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [6]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found on a corpse just outside the First Church of Marika in the Mountaintops of the Giants.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-somber" data-name="Somberstone Miner's Bell Bearing [4]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-crystal-cluster"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Somberstone Miner's Bell Bearing [4] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for somber smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [7]</span>
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [8]</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-crystal-ball"></i> Sanctuary Stone</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found on a corpse at the edge of the cliffs by the Tempest-Facing Balcony Site of Grace in Crumbling Farum Azula.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-somber" data-name="Somberstone Miner's Bell Bearing [5]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-crystal-cluster"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Somberstone Miner's Bell Bearing [5] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Upgrade Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a miner who once dug for somber smithing stone.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-somber"><i class="ra ra-gem"></i> Somber Smithing Stone [9]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found on a corpse in a small church in Crumbling Farum Azula, near the Beside the Great Bridge Site of Grace.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Glovewort Picker's Bell Bearings -->
+        <div class="category-section fade-in">
+          <div class="category-header">
+            <h2><i class="ra ra-flower" style="color: var(--glovewort);"></i> Glovewort Picker's Bell Bearings</h2>
+            <span class="count">3 Items</span>
+          </div>
+          <div class="items-grid">
+            
+            <div class="bellbearing-card type-glovewort" data-name="Glovewort Picker's Bell Bearing [1]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-flower"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Glovewort Picker's Bell Bearing [1] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Spirit Ash Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a glovewort picker who gathered in catacombs.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [1]</span>
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [2]</span>
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [3]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Erdtree Burial Watchdog boss in Wyndham Catacombs in Altus Plateau.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-glovewort" data-name="Glovewort Picker's Bell Bearing [2]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-flower"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Glovewort Picker's Bell Bearing [2] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Spirit Ash Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a glovewort picker who gathered in catacombs.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [4]</span>
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [5]</span>
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [6]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Ulcerated Tree Spirit boss in Giants' Mountaintop Catacombs.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-glovewort" data-name="Glovewort Picker's Bell Bearing [3]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-flower"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Glovewort Picker's Bell Bearing [3] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Spirit Ash Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a glovewort picker who gathered in catacombs.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [7]</span>
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [8]</span>
+                  <span class="unlock-tag unlock-glovewort"><i class="ra ra-flower"></i> Grave Glovewort [9]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found on a body in a lakeside gazebo in Crumbling Farum Azula. Accessible via elevator from the Crumbling Beast Grave Depths Site of Grace.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Ghost-Glovewort Picker's Bell Bearings -->
+        <div class="category-section fade-in">
+          <div class="category-header">
+            <h2><i class="ra ra-fairy-wand" style="color: var(--ghost);"></i> Ghost-Glovewort Picker's Bell Bearings</h2>
+            <span class="count">3 Items</span>
+          </div>
+          <div class="items-grid">
+            
+            <div class="bellbearing-card type-ghost" data-name="Ghost-Glovewort Picker's Bell Bearing [1]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-fairy-wand"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Ghost-Glovewort Picker's Bell Bearing [1] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Spirit Ash Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a glovewort picker who gathered in eternal cities.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [1]</span>
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [2]</span>
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [3]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found on a corpse in a gazebo near the entrance of Nokron, Eternal City.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-ghost" data-name="Ghost-Glovewort Picker's Bell Bearing [2]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-fairy-wand"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Ghost-Glovewort Picker's Bell Bearing [2] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Spirit Ash Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a glovewort picker who gathered in eternal cities.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [4]</span>
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [5]</span>
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [6]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a chest at the top of the west stairs after entering Nokstella, Eternal City in Ainsel River.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-ghost" data-name="Ghost-Glovewort Picker's Bell Bearing [3]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-fairy-wand"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Ghost-Glovewort Picker's Bell Bearing [3] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Spirit Ash Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a glovewort picker who gathered in eternal cities.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [7]</span>
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [8]</span>
+                  <span class="unlock-tag unlock-ghost"><i class="ra ra-flower"></i> Ghost Glovewort [9]</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found on a grave in the western section of the graveyard in Elphael, Brace of the Haligtree.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Bell Bearing Hunter Bell Bearings -->
+        <div class="category-section fade-in">
+          <div class="category-header">
+            <h2><i class="ra ra-crossed-swords" style="color: var(--hunter);"></i> Bell Bearing Hunter Drops</h2>
+            <span class="count">4 Items</span>
+          </div>
+          <div class="items-grid">
+            
+            <div class="bellbearing-card type-hunter" data-name="Bone Peddler's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-bone-bite"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Bone Peddler's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a peddler who traded in animal bones.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-bone"></i> Thick Animal Bones</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-bone"></i> Hefty Beast Bones</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Bell Bearing Hunter that appears at the Warmaster's Shack in Limgrave at night.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-hunter" data-name="Meat Peddler's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-meat"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Meat Peddler's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a peddler who traded in beast meat.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-meat"></i> Sliver of Meat</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-meat"></i> Lump of Flesh</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-meat"></i> Turtle Neck Meat</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Bell Bearing Hunter that appears at the Church of Vows in Liurnia at night.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-hunter" data-name="Medicine Peddler's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-health"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Medicine Peddler's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Consumables • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a peddler who traded in medicines.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-consumable"><i class="ra ra-health"></i> Neutralizing Boluses</span>
+                  <span class="unlock-tag unlock-consumable"><i class="ra ra-health"></i> Stanching Boluses</span>
+                  <span class="unlock-tag unlock-consumable"><i class="ra ra-health"></i> Thawfrost Boluses</span>
+                  <span class="unlock-tag unlock-consumable"><i class="ra ra-health"></i> Stimulating Boluses</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Bell Bearing Hunter that appears at the Hermit Merchant's Shack on Mt. Gelmir at night.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-hunter" data-name="Gravity Stone Peddler's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Gravity Stone Peddler's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">The bell bearing of a peddler who traded in gravity stones.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-crystal-ball"></i> Gravity Stone Fan</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-crystal-ball"></i> Gravity Stone Chunk</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by the Bell Bearing Hunter that appears at the Isolated Merchant's Shack in Caelid at night.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Shadow of the Erdtree Bell Bearings -->
+        <div class="category-section fade-in">
+          <div class="category-header">
+            <h2><i class="ra ra-sun" style="color: var(--dlc);"></i> Shadow of the Erdtree Bell Bearings</h2>
+            <span class="count">10 Items</span>
+          </div>
+          <div class="items-grid">
+            
+            <div class="bellbearing-card type-dlc" data-name="Herbalist's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-leaf"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Herbalist's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of an herbalist from the Land of Shadow.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-leaf"></i> Various Herbs</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a hanging pot along the path between the Pillar Path Waypoint Site of Grace and Dragon's Pit in Scadu Altus.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="Greasemonger's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-oil"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Greasemonger's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of a grease merchant from the Land of Shadow.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-oil"></i> Various Greases</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a hanging pot southeast of the Church District Highroad Site of Grace in Scadu Altus.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="Moldmonger's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-mushroom"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Moldmonger's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of a mold trader from the Land of Shadow.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-mushroom"></i> Mold Materials</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a hanging pot northeast of the Recluses' River Downstream Site of Grace, accessed via the Ruins of Unte.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="String-Seller's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-rope"></i></div>
+                <div class="bellbearing-title">
+                  <h4>String-Seller's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of a string seller from the Land of Shadow.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-rope"></i> String Materials</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a hanging pot in Prospect Town, southeast of Belurat, Tower Settlement.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="Mushroom-Seller's Bell Bearing [1]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-mushroom"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Mushroom-Seller's Bell Bearing [1] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of a mushroom seller from the Land of Shadow.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-mushroom"></i> Various Mushrooms</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a hanging pot near the Ellac River Cave, accessible from a waterfall west of the Cave entrance.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="Mushroom-Seller's Bell Bearing [2]">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-mushroom"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Mushroom-Seller's Bell Bearing [2] <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • Crafting Material • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of a mushroom seller from the Land of Shadow.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-mushroom"></i> Advanced Mushrooms</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in a hanging pot in the deeper areas of the Land of Shadow.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="Spellmachinist's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-gear-heart"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Spellmachinist's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • Spells • Carries to NG+</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of a spellmachinist from the Land of Shadow.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-spell"><i class="ra ra-lightning-bolt"></i> Machine Sorceries</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Found in the Land of Shadow after defeating certain enemies.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="Moore's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-player"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Moore's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • NPC Bell Bearing</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Moore's bell bearing, found upon his perished flesh.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-potion"></i> Moore's Inventory</span>
+                  <span class="unlock-tag unlock-crafting"><i class="ra ra-potion"></i> Thiollier's Items</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Obtained from Moore's body. Location depends on quest choices: found north of Church of the Crusade, or in Enir-Ilim after certain events.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="Ymir's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-hood"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Ymir's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • NPC Bell Bearing</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of Count Ymir, Mother of Fingers.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-spell"><i class="ra ra-crystal-ball"></i> Ymir's Sorceries</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Dropped by Count Ymir after completing his questline and defeating him as a boss in the Cathedral of Manus Metyr.</p>
+              </div>
+            </div>
+            
+            <div class="bellbearing-card type-dlc" data-name="Igon's Bell Bearing">
+              <div class="bellbearing-header">
+                <div class="bellbearing-icon"><i class="ra ra-dragon"></i></div>
+                <div class="bellbearing-title">
+                  <h4>Igon's Bell Bearing <i class="ra ra-arrow-cluster expand-icon" style="transform: rotate(90deg);"></i></h4>
+                  <span>DLC • NPC Bell Bearing</span>
+                </div>
+              </div>
+              <p class="bellbearing-desc">Bell bearing of Igon, the dragon hunter.</p>
+              <div class="unlocks-section">
+                <div class="unlocks-label">Unlocks for Purchase</div>
+                <div class="unlock-tags">
+                  <span class="unlock-tag unlock-armor"><i class="ra ra-helmet"></i> Igon's Equipment</span>
+                </div>
+              </div>
+              <div class="location-section">
+                <div class="location-label"><i class="ra ra-compass"></i> Location</div>
+                <p class="location-text">Obtained after Igon's death during his questline involving Bayle the Dread.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal-content" id="modalContent">
+        <div class="modal-header">
+          <button class="modal-close" id="modalClose"><i class="ra ra-cancel"></i></button>
+          <div class="modal-icon" id="modalIcon"><i class="ra ra-diamond"></i></div>
+          <h2 class="modal-title" id="modalTitle">Bell Bearing Name</h2>
+          <div class="modal-subtitle" id="modalSubtitle">
+            <span>Key Item</span>
+            <span class="modal-badge">NG+ Persistent</span>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="modal-section">
+            <div class="modal-section-title"><i class="ra ra-scroll-unfurled"></i> Item Description</div>
+            <div class="modal-lore" id="modalLore">Loading...</div>
+          </div>
+          <div class="modal-section">
+            <div class="modal-section-title"><i class="ra ra-key"></i> Unlocks for Purchase</div>
+            <div class="modal-unlocks" id="modalUnlocks"></div>
+          </div>
+          <div class="modal-section" id="modalPriceSection">
+            <div class="modal-section-title"><i class="ra ra-gold-bar"></i> Shop Prices</div>
+            <table class="modal-price-table" id="modalPriceTable">
+              <thead><tr><th>Item</th><th>Price</th></tr></thead>
+              <tbody id="modalPrices"></tbody>
+            </table>
+          </div>
+          <div class="modal-section">
+            <div class="modal-section-title"><i class="ra ra-compass"></i> Location</div>
+            <div class="modal-location" id="modalLocation">
+              <div class="modal-location-region" id="modalRegion">Region</div>
+              <div class="modal-location-details" id="modalLocationDetails">Details...</div>
+              <div class="modal-location-tip" id="modalLocationTip"><i class="ra ra-lightbulb-on"></i> <span id="modalTipText">Tip text</span></div>
+            </div>
+          </div>
+          <div class="modal-section" id="modalNotesSection">
+            <div class="modal-section-title"><i class="ra ra-aware"></i> Notes</div>
+            <div class="modal-notes" id="modalNotes"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <span>ELDEN RING WIKI</span>
+          </div>
+          <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Music Player -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()">
+      <i class="ra ra-music-note" id="minimizedIcon"></i>
+    </div>
+    <div class="player-expanded">
+      <div class="player-header">
+        <span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span>
+        <button class="player-minimize" onclick="togglePlayer()">−</button>
+      </div>
+      <div class="player-track">
+        <div class="track-name" id="trackName">Track 1</div>
+        <div class="track-info" id="trackInfo">Elden Ring OST</div>
+      </div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header">
+          <span class="volume-label">Volume</span>
+          <button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button>
+        </div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" preload="auto">
+    <source src="bgm1.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+  
+  <script src="music-player.js"></script>
+  
+  <script>
+    // Bell Bearing Data
+    const bellBearingData = {
+      "Smithing-Stone Miner's Bell Bearing [1]": {
+        icon: "ra-diamond",
+        type: "smithing",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for smithing stone. The Lands Between were once rich with mines, and skilled miners would spend their lives extracting precious stones from the earth. This bearing carries the memory of one such craftsman, whose work now benefits all who seek to strengthen their armaments.",
+        unlocks: [
+          { name: "Smithing Stone [1]", type: "smithing", price: "200" },
+          { name: "Smithing Stone [2]", type: "smithing", price: "400" },
+          { name: "Glintstone Scrap", type: "crafting", price: "100" }
+        ],
+        region: "Liurnia of the Lakes",
+        locationDetails: "Dropped by the Crystalian boss at the end of Raya Lucaria Crystal Tunnel. The tunnel entrance is located on the northern shore of Liurnia, northeast of the Academy of Raya Lucaria.",
+        tip: "The Crystalian is highly resistant to physical damage until you break its crystalline shell. Use Strike weapons or heavy attacks to shatter its defenses.",
+        notes: [
+          "This is one of the earliest upgrade material bell bearings you can obtain.",
+          "War Counselor Iji also sells Smithing Stones [1] and [2] infinitely while alive."
+        ]
+      },
+      "Smithing-Stone Miner's Bell Bearing [2]": {
+        icon: "ra-diamond",
+        type: "smithing",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for smithing stone. As miners delved deeper into the earth, they discovered rarer and more potent stones. This bearing belonged to one who specialized in extracting the medium-grade materials essential for weapon advancement.",
+        unlocks: [
+          { name: "Smithing Stone [3]", type: "smithing", price: "600" },
+          { name: "Smithing Stone [4]", type: "smithing", price: "900" },
+          { name: "Explosive Stone", type: "crafting", price: "200" }
+        ],
+        region: "Altus Plateau",
+        locationDetails: "Found in a chest halfway down the Sealed Tunnel. The tunnel entrance is hidden in a pool directly east of the Outer Wall Phantom Tree Site of Grace, near Leyndell. You must strike an illusory wall to access the main tunnel.",
+        tip: "Look for the chest in a side room before descending the main shaft. The tunnel also leads to the Divine Tower of West Altus.",
+        notes: [
+          "The Sealed Tunnel requires the Grand Lift of Dectus or the Ruin-Strewn Precipice route to access.",
+          "Don't confuse this with the Altus Tunnel, which drops a Somberstone bell bearing."
+        ]
+      },
+      "Smithing-Stone Miner's Bell Bearing [3]": {
+        icon: "ra-diamond",
+        type: "smithing",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for smithing stone. The frozen peaks held deposits of exceptional smithing stones, though few miners could withstand the bitter cold long enough to extract them. This bearing honors their sacrifice.",
+        unlocks: [
+          { name: "Smithing Stone [5]", type: "smithing", price: "1200" },
+          { name: "Smithing Stone [6]", type: "smithing", price: "1500" }
+        ],
+        region: "Mountaintops of the Giants",
+        locationDetails: "Found in a chest at the bottom of the staircase in Zamor Ruins. The ruins are located east of the Grand Lift of Rold, directly along the main path through the frozen wastes.",
+        tip: "Watch out for the Ancient Hero of Zamor that patrols the ruins. You can grab the chest without engaging him if you're quick.",
+        notes: [
+          "Requires defeating Morgott, the Omen King to access the Mountaintops.",
+          "The Zamor Ruins contain other valuable loot worth exploring."
+        ]
+      },
+      "Smithing-Stone Miner's Bell Bearing [4]": {
+        icon: "ra-diamond",
+        type: "smithing",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for smithing stone. The crumbling ruins of Farum Azula hold ancient deposits of the most potent smithing materials, guarded jealously by the remnants of the Dragonlord's forces.",
+        unlocks: [
+          { name: "Smithing Stone [7]", type: "smithing", price: "2400" },
+          { name: "Smithing Stone [8]", type: "smithing", price: "3600" }
+        ],
+        region: "Crumbling Farum Azula",
+        locationDetails: "Dropped by the Godskin Duo boss in the Dragon Temple area. This is a mandatory boss for story progression, found in the northern section of Farum Azula.",
+        tip: "Use the Sleep status effect on one Godskin while fighting the other. Sleep Pots or the Sword of St. Trina are very effective.",
+        notes: [
+          "This is one of the last bell bearings you'll obtain in a standard playthrough.",
+          "There is no bell bearing for Smithing Stones [9] or Ancient Dragon Smithing Stones."
+        ]
+      },
+      "Somberstone Miner's Bell Bearing [1]": {
+        icon: "ra-crystal-cluster",
+        type: "somber",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for somber smithing stone. These rare stones, imbued with the echo of ancient battles, could only be found in the deepest crystal tunnels where gravity itself seemed to bend.",
+        unlocks: [
+          { name: "Somber Smithing Stone [1]", type: "somber", price: "200" },
+          { name: "Somber Smithing Stone [2]", type: "somber", price: "400" },
+          { name: "Glintstone Scrap", type: "crafting", price: "100" }
+        ],
+        region: "Caelid",
+        locationDetails: "Dropped by the Fallingstar Beast boss in Sellia Crystal Tunnel. The tunnel entrance is found in northern Caelid, near the border with Dragonbarrow.",
+        tip: "The Fallingstar Beast is weak to physical damage on its head. Use the cramped arena to your advantage by baiting its charge attacks into walls.",
+        notes: [
+          "War Counselor Iji sells the same Somber Stones [1] and [2] infinitely while alive.",
+          "Don't confuse this with Raya Lucaria Crystal Tunnel, which drops regular Smithing Stone bell bearing."
+        ]
+      },
+      "Somberstone Miner's Bell Bearing [2]": {
+        icon: "ra-crystal-cluster",
+        type: "somber",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for somber smithing stone. The Altus Plateau's tunnels held deposits of mid-grade somber stones, carefully extracted by miners under the watchful eyes of crystalline guardians.",
+        unlocks: [
+          { name: "Somber Smithing Stone [3]", type: "somber", price: "600" },
+          { name: "Somber Smithing Stone [4]", type: "somber", price: "900" },
+          { name: "Cracked Crystal", type: "crafting", price: "200" }
+        ],
+        region: "Altus Plateau",
+        locationDetails: "Dropped by the Crystalian (Spear) & Crystalian (Ringblade) duo boss in Altus Tunnel. The tunnel is located in the cliffs northwest of the Altus Highway Junction.",
+        tip: "Focus on one Crystalian at a time. The Spear variant is more aggressive but the Ringblade has dangerous ranged attacks.",
+        notes: [
+          "Don't confuse Altus Tunnel with Sealed Tunnel—they contain different bell bearings.",
+          "Both Crystalians must be defeated to receive the drop."
+        ]
+      },
+      "Somberstone Miner's Bell Bearing [3]": {
+        icon: "ra-crystal-cluster",
+        type: "somber",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for somber smithing stone. Even in the frozen heights where Marika's first church stands forgotten, miners once sought the precious stones that now lie scattered among the snows.",
+        unlocks: [
+          { name: "Somber Smithing Stone [5]", type: "somber", price: "1200" },
+          { name: "Somber Smithing Stone [6]", type: "somber", price: "1500" }
+        ],
+        region: "Mountaintops of the Giants",
+        locationDetails: "Found on a corpse just outside the entrance to the First Church of Marika. The church is located in the eastern section of the Mountaintops, near the frozen lake.",
+        tip: "The item can be hard to spot in the snow. Look for the white glowing pickup indicator directly in front of the church entrance.",
+        notes: [
+          "This is a simple pickup with no boss fight required.",
+          "The First Church of Marika also contains a Sacred Tear."
+        ]
+      },
+      "Somberstone Miner's Bell Bearing [4]": {
+        icon: "ra-crystal-cluster",
+        type: "somber",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for somber smithing stone. The ancient stones of Farum Azula, suspended outside of time itself, contain somber smithing materials of extraordinary potency.",
+        unlocks: [
+          { name: "Somber Smithing Stone [7]", type: "somber", price: "2400" },
+          { name: "Somber Smithing Stone [8]", type: "somber", price: "3600" },
+          { name: "Sanctuary Stone", type: "crafting", price: "1200" }
+        ],
+        region: "Crumbling Farum Azula",
+        locationDetails: "Found on a corpse at the edge of the cliffs by the Tempest-Facing Balcony Site of Grace. The body is visible from the grace, lying near a precipice overlooking the storm.",
+        tip: "Be careful near the edge—the strong winds can push you off. Collect the item quickly and retreat.",
+        notes: [
+          "No combat required, just careful navigation.",
+          "Sanctuary Stone is useful for crafting Holy Grease and other holy-infused items."
+        ]
+      },
+      "Somberstone Miner's Bell Bearing [5]": {
+        icon: "ra-crystal-cluster",
+        type: "somber",
+        category: "Upgrade Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a miner who once dug for somber smithing stone. The highest grade of somber stone was found only in the most sacred—or most forsaken—places. This miner gave everything to extract them.",
+        unlocks: [
+          { name: "Somber Smithing Stone [9]", type: "somber", price: "4800" }
+        ],
+        region: "Crumbling Farum Azula",
+        locationDetails: "Found on a corpse in a small church/temple in Crumbling Farum Azula, near the Beside the Great Bridge Site of Grace. Take the elevator down from the grace, then take every right path to find the altar room.",
+        tip: "If coming from the Dragon Temple Rooftop, drop down to the red rooftops heading east, then south past a bard. Watch for the dragon's red lightning.",
+        notes: [
+          "You must defeat the Godskin Duo to reach this area.",
+          "There is no bell bearing for Somber Ancient Dragon Smithing Stones—those must be found individually."
+        ]
+      },
+      "Glovewort Picker's Bell Bearing [1]": {
+        icon: "ra-flower",
+        type: "glovewort",
+        category: "Spirit Ash Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a glovewort picker who worked in catacombs. Those who gathered the pale flowers that bloomed near the graves of the dead developed an intimate familiarity with death itself. This picker's knowledge now benefits those who command spirit ashes.",
+        unlocks: [
+          { name: "Grave Glovewort [1]", type: "glovewort", price: "800" },
+          { name: "Grave Glovewort [2]", type: "glovewort", price: "1200" },
+          { name: "Grave Glovewort [3]", type: "glovewort", price: "1600" }
+        ],
+        region: "Altus Plateau",
+        locationDetails: "Dropped by the Erdtree Burial Watchdog boss in Wyndham Catacombs. The catacombs entrance is found in the valley below Wyndham Ruins, near the southern cliffs of Mt. Gelmir.",
+        tip: "The Watchdog boss uses fire attacks and a deadly staff slam. Stay mobile and attack during recovery animations.",
+        notes: [
+          "Grave Gloveworts upgrade standard Spirit Ashes (like Spirit Jellyfish).",
+          "Wyndham Catacombs also contains the Glovewort Picker's Bell Bearing Ashes."
+        ]
+      },
+      "Glovewort Picker's Bell Bearing [2]": {
+        icon: "ra-flower",
+        type: "glovewort",
+        category: "Spirit Ash Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a glovewort picker who gathered in catacombs. The frozen catacombs of the giants held gloveworts of remarkable potency, nourished by the ancient dead who slumber in the ice.",
+        unlocks: [
+          { name: "Grave Glovewort [4]", type: "glovewort", price: "2400" },
+          { name: "Grave Glovewort [5]", type: "glovewort", price: "3200" },
+          { name: "Grave Glovewort [6]", type: "glovewort", price: "4000" }
+        ],
+        region: "Mountaintops of the Giants",
+        locationDetails: "Dropped by the Ulcerated Tree Spirit boss in Giants' Mountaintop Catacombs. The catacombs entrance is on the western side of the frozen wastes, built into the cliffs.",
+        tip: "The Ulcerated Tree Spirit is aggressive but vulnerable during its grab attack recovery. Fire damage is effective against it.",
+        notes: [
+          "This is a challenging catacombs with fire-spewing traps.",
+          "The area requires the Grand Lift of Rold to access."
+        ]
+      },
+      "Glovewort Picker's Bell Bearing [3]": {
+        icon: "ra-flower",
+        type: "glovewort",
+        category: "Spirit Ash Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a glovewort picker who gathered in catacombs. The ancient burial grounds of Farum Azula, suspended in the eye of the storm, grow gloveworts of unparalleled quality—if one can survive to pick them.",
+        unlocks: [
+          { name: "Grave Glovewort [7]", type: "glovewort", price: "4800" },
+          { name: "Grave Glovewort [8]", type: "glovewort", price: "6000" },
+          { name: "Grave Glovewort [9]", type: "glovewort", price: "7500" }
+        ],
+        region: "Crumbling Farum Azula",
+        locationDetails: "Found on a body in a lakeside gazebo in Crumbling Farum Azula. From the Crumbling Beast Grave Depths Site of Grace, go through the northwest church and out the southwest entrance. Take the lift down and look for a small lake with a gazebo.",
+        tip: "The path to this bell bearing doesn't require fighting any major enemies if you move carefully.",
+        notes: [
+          "There is no bell bearing for Great Grave Glovewort (the max level material).",
+          "Great Grave Gloveworts must be found individually throughout the world."
+        ]
+      },
+      "Ghost-Glovewort Picker's Bell Bearing [1]": {
+        icon: "ra-fairy-wand",
+        type: "ghost",
+        category: "Spirit Ash Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a glovewort picker who gathered in eternal cities. The ghostly flowers that bloom in the underground cities glow with an ethereal light, their essence perfect for strengthening the spirits of legendary warriors.",
+        unlocks: [
+          { name: "Ghost Glovewort [1]", type: "ghost", price: "800" },
+          { name: "Ghost Glovewort [2]", type: "ghost", price: "1200" },
+          { name: "Ghost Glovewort [3]", type: "ghost", price: "1600" }
+        ],
+        region: "Nokron, Eternal City",
+        locationDetails: "Found on a corpse lying at the base of a gazebo near the entrance of Nokron, Eternal City. The gazebo is visible shortly after descending into Nokron from Siofra River.",
+        tip: "This is accessible early in Nokron, before navigating the rooftop sections. Look for it just past the first group of Silver Tears.",
+        notes: [
+          "Ghost Gloveworts upgrade special/legendary Spirit Ashes (like Mimic Tear, Black Knife Tiche).",
+          "Nokron becomes accessible after defeating Starscourge Radahn."
+        ]
+      },
+      "Ghost-Glovewort Picker's Bell Bearing [2]": {
+        icon: "ra-fairy-wand",
+        type: "ghost",
+        category: "Spirit Ash Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a glovewort picker who gathered in eternal cities. Nokstella's depths held ghost gloveworts of even greater potency, their glow undimmed by countless ages in the dark.",
+        unlocks: [
+          { name: "Ghost Glovewort [4]", type: "ghost", price: "2400" },
+          { name: "Ghost Glovewort [5]", type: "ghost", price: "3200" },
+          { name: "Ghost Glovewort [6]", type: "ghost", price: "4000" }
+        ],
+        region: "Nokstella, Eternal City",
+        locationDetails: "Found in a chest at the top of the west stairs after just entering Nokstella, Eternal City. From the Nokstella Site of Grace, head east to a building and climb to the second floor.",
+        tip: "Watch out for the Silver Tear enemies guarding the chest—some can transform into dangerous forms.",
+        notes: [
+          "Nokstella is accessed through the Ainsel River, which connects to Ranni's questline.",
+          "The same building contains other valuable items worth exploring."
+        ]
+      },
+      "Ghost-Glovewort Picker's Bell Bearing [3]": {
+        icon: "ra-fairy-wand",
+        type: "ghost",
+        category: "Spirit Ash Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a glovewort picker who gathered in eternal cities. The Haligtree's branches sheltered a graveyard where the most potent ghost gloveworts bloomed, tended by those who sought Miquella's blessing.",
+        unlocks: [
+          { name: "Ghost Glovewort [7]", type: "ghost", price: "4800" },
+          { name: "Ghost Glovewort [8]", type: "ghost", price: "6000" },
+          { name: "Ghost Glovewort [9]", type: "ghost", price: "7500" }
+        ],
+        region: "Elphael, Brace of the Haligtree",
+        locationDetails: "Found on a grave in the western section of the graveyard in the northeast of Elphael. From the Prayer Room Site of Grace, head down and navigate through the village area to reach the graveyard.",
+        tip: "The Kindred of Rot enemies in this area are extremely dangerous. Consider running past them or using ranged attacks.",
+        notes: [
+          "Elphael requires the secret Haligtree Medallion to access via the Grand Lift of Rold.",
+          "There is no bell bearing for Great Ghost Glovewort—those must be found individually."
+        ]
+      },
+      "Bone Peddler's Bell Bearing": {
+        icon: "ra-bone-bite",
+        type: "hunter",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a peddler who traded in animal bones. The merchants who dealt in beast remains traveled dangerous roads, their wares essential for crafters of bolts, arrows, and ritual items. This peddler met their end at the hands of a hunter who coveted their bell.",
+        unlocks: [
+          { name: "Thick Animal Bones", type: "crafting", price: "150" },
+          { name: "Hefty Beast Bones", type: "crafting", price: "300" }
+        ],
+        region: "Limgrave",
+        locationDetails: "Dropped by the Bell Bearing Hunter that appears at the Warmaster's Shack at night. The shack is located north of the Warmaster's Shack Site of Grace in Stormhill.",
+        tip: "The Bell Bearing Hunter only spawns at night. Rest at the grace until nightfall, then stand up to trigger the fight. He's weak to Guard Counters.",
+        notes: [
+          "Bell Bearing Hunters are the spirits of Elemer of the Briar, who murdered merchants for their bearings.",
+          "This is the easiest Bell Bearing Hunter encounter, found in the starting area."
+        ]
+      },
+      "Meat Peddler's Bell Bearing": {
+        icon: "ra-meat",
+        type: "hunter",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a peddler who traded in beast meat. Fresh meat was always in demand, and those who butchered and sold it were valued—until a hunter decided their bell bearing was worth more than their lives.",
+        unlocks: [
+          { name: "Sliver of Meat", type: "crafting", price: "100" },
+          { name: "Lump of Flesh", type: "crafting", price: "300" },
+          { name: "Turtle Neck Meat", type: "crafting", price: "400" }
+        ],
+        region: "Liurnia of the Lakes",
+        locationDetails: "Dropped by the Bell Bearing Hunter that appears at the Church of Vows at night. The church is located in eastern Liurnia, home to the great turtle Miriel.",
+        tip: "Clear the area and rest until night. The Hunter here is more aggressive than the Limgrave version. Use the church pillars for cover.",
+        notes: [
+          "Fighting here won't aggro or harm Miriel, Pastor of Vows.",
+          "Turtle Neck Meat is useful for crafting Pickled Turtle Neck (stamina boost)."
+        ]
+      },
+      "Medicine Peddler's Bell Bearing": {
+        icon: "ra-health",
+        type: "hunter",
+        category: "Consumables",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a peddler who traded in medicines. Curative boluses were lifesaving items in the plague-ridden lands, and this merchant's remedies saved many lives—until the hunter came for their bell.",
+        unlocks: [
+          { name: "Neutralizing Boluses", type: "consumable", price: "600" },
+          { name: "Stanching Boluses", type: "consumable", price: "600" },
+          { name: "Thawfrost Boluses", type: "consumable", price: "600" },
+          { name: "Stimulating Boluses", type: "consumable", price: "600" }
+        ],
+        region: "Mt. Gelmir",
+        locationDetails: "Dropped by the Bell Bearing Hunter at the Hermit Merchant's Shack at night. The shack is located on the road between Volcano Manor and the Erdtree-Gazing Hill.",
+        tip: "This is one of the stronger Bell Bearing Hunters. His extended combos can be punished after the final swing.",
+        notes: [
+          "These boluses cure Poison, Hemorrhage, Frostbite, and Sleep respectively.",
+          "Having infinite access to these is extremely useful for challenging areas."
+        ]
+      },
+      "Gravity Stone Peddler's Bell Bearing": {
+        icon: "ra-crystal-ball",
+        type: "hunter",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: false,
+        lore: "The bell bearing of a peddler who traded in gravity stones. These strange materials, imbued with the power to manipulate gravity, were prized by warriors who wished to strike from unexpected angles.",
+        unlocks: [
+          { name: "Gravity Stone Fan", type: "crafting", price: "300" },
+          { name: "Gravity Stone Chunk", type: "crafting", price: "600" }
+        ],
+        region: "Caelid",
+        locationDetails: "Dropped by the Bell Bearing Hunter at the Isolated Merchant's Shack in Dragonbarrow at night. The shack is in northeastern Caelid, accessed via the Bestial Sanctum or Dragonbarrow Fork.",
+        tip: "This is the most difficult Bell Bearing Hunter. His combos are extremely long and he deals massive damage. Patience is key.",
+        notes: [
+          "Gravity Stones are used to craft Gravity Stone Fans (throwing weapon) and other items.",
+          "The Isolated Merchant also sells the Arrow's Sting Talisman."
+        ]
+      },
+      "Herbalist's Bell Bearing": {
+        icon: "ra-leaf",
+        type: "dlc",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: true,
+        lore: "Bell bearing of an herbalist who once gathered plants in the Land of Shadow. The realm's unique flora held properties unknown to the Lands Between, and this gatherer devoted their life to cataloging them.",
+        unlocks: [
+          { name: "Fulgurbloom", type: "crafting", price: "300" },
+          { name: "Toxic Mushroom", type: "crafting", price: "200" },
+          { name: "Various Herbs", type: "crafting", price: "Varies" }
+        ],
+        region: "Scadu Altus (DLC)",
+        locationDetails: "Found in a hanging pot along the path between the Pillar Path Waypoint Site of Grace and Dragon's Pit in Scadu Altus. The pot hangs from the western cliff wall along the narrow path.",
+        tip: "You need a ranged weapon to shoot down the hanging pot. A bow or crossbow works—spells and throwables also work.",
+        notes: [
+          "Shadow of the Erdtree DLC bell bearings are hidden in hanging pots that must be shot down.",
+          "Bring a bow with arrows when exploring the Land of Shadow."
+        ]
+      },
+      "Greasemonger's Bell Bearing": {
+        icon: "ra-oil",
+        type: "dlc",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: true,
+        lore: "Bell bearing of a grease merchant from the Land of Shadow. Weapon greases were essential for survival in this cursed realm, where every enemy seemed to have a unique vulnerability to exploit.",
+        unlocks: [
+          { name: "Lightning Grease", type: "crafting", price: "600" },
+          { name: "Holy Grease", type: "crafting", price: "600" },
+          { name: "Various Greases", type: "crafting", price: "Varies" }
+        ],
+        region: "Scadu Altus (DLC)",
+        locationDetails: "Found in a hanging pot southeast of the Church District Highroad Site of Grace in Scadu Altus. Ride south from Bonny Village and keep the cliff wall to your right.",
+        tip: "The pot is suspended against the cliff wall—it can be tricky to spot. Listen for the distinct sound hanging pots make.",
+        notes: [
+          "Greases are temporary weapon buffs that add elemental damage.",
+          "This bearing provides access to many greases that are otherwise limited in the DLC."
+        ]
+      },
+      "Moldmonger's Bell Bearing": {
+        icon: "ra-mushroom",
+        type: "dlc",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: true,
+        lore: "Bell bearing of a mold trader from the Land of Shadow. The unique molds and fungi of this realm held powerful properties—both beneficial and deadly—and this merchant specialized in their procurement.",
+        unlocks: [
+          { name: "Hefty Dragonbone", type: "crafting", price: "500" },
+          { name: "Mold Materials", type: "crafting", price: "Varies" }
+        ],
+        region: "Scadu Altus (DLC)",
+        locationDetails: "Found in a hanging pot northeast of the Recluses' River Downstream Site of Grace. Access this area via the Ruins of Unte (through Shadow Keep). The pot hangs from the cliff wall near the ravine.",
+        tip: "Use the platforms extending from the cliff wall southeast of the grace to reach the bell bearing after shooting down the pot.",
+        notes: [
+          "The Ruins of Unte area requires significant progress in Shadow Keep to access.",
+          "The Moldmonger's Bell Bearing has unique artwork in your inventory."
+        ]
+      },
+      "String-Seller's Bell Bearing": {
+        icon: "ra-rope",
+        type: "dlc",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: true,
+        lore: "Bell bearing of a string seller from the Land of Shadow. String and rope were essential for crafting arrows, bolts, and various tools. This merchant ensured adventurers never ran short of these basic supplies.",
+        unlocks: [
+          { name: "String", type: "crafting", price: "100" },
+          { name: "Thin Beast Bones", type: "crafting", price: "150" }
+        ],
+        region: "Gravesite Plain (DLC)",
+        locationDetails: "Found in a hanging pot in Prospect Town, southeast of Belurat, Tower Settlement. The pot hangs on the eastern wall of a cliff in the town area.",
+        tip: "Prospect Town is accessible early in the DLC. Clear the area of enemies before trying to shoot down the pot.",
+        notes: [
+          "String is essential for crafting ammunition.",
+          "This is one of the first DLC bell bearings you can obtain."
+        ]
+      },
+      "Mushroom-Seller's Bell Bearing [1]": {
+        icon: "ra-mushroom",
+        type: "dlc",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: true,
+        lore: "Bell bearing of a mushroom seller from the Land of Shadow. The caves and damp areas of this realm grew mushrooms of unusual potency, prized for their use in crafting curatives and poisons alike.",
+        unlocks: [
+          { name: "Melted Mushroom", type: "crafting", price: "200" },
+          { name: "Various Mushrooms", type: "crafting", price: "Varies" }
+        ],
+        region: "Gravesite Plain (DLC)",
+        locationDetails: "Found in a hanging pot near the Ellac River Cave. From the Castle Front Site of Grace, ride southeast through the poison swamp to a fresh water pool. Enter the cave, reach the Ellac River Cave grace, then exit west and ride north toward the waterfall. Turn west near the cliff wall to find the pot.",
+        tip: "The path is convoluted—follow the water northward from the cave exit, then look for the grassy path around the cliff.",
+        notes: [
+          "This area contains poison hazards—bring Neutralizing Boluses.",
+          "The Ellac River area has several valuable items worth exploring."
+        ]
+      },
+      "Mushroom-Seller's Bell Bearing [2]": {
+        icon: "ra-mushroom",
+        type: "dlc",
+        category: "Crafting Material",
+        ngPlus: true,
+        dlc: true,
+        lore: "Bell bearing of a mushroom seller from the Land of Shadow. This merchant specialized in the rarer varieties of fungi, those that grew only in the deepest, most dangerous parts of the realm.",
+        unlocks: [
+          { name: "Poisonbloom", type: "crafting", price: "300" },
+          { name: "Advanced Mushrooms", type: "crafting", price: "Varies" }
+        ],
+        region: "Abyssal Woods (DLC)",
+        locationDetails: "Found in a hanging pot in the deeper areas of the Land of Shadow, in the Abyssal Woods region.",
+        tip: "The Abyssal Woods is home to extremely dangerous enemies—consider just grabbing the bell bearing and leaving.",
+        notes: [
+          "This area is accessed late in the DLC.",
+          "The mushrooms unlocked here are useful for crafting poison items."
+        ]
+      },
+      "Spellmachinist's Bell Bearing": {
+        icon: "ra-gear-heart",
+        type: "dlc",
+        category: "Spells",
+        ngPlus: true,
+        dlc: true,
+        lore: "Bell bearing of a spellmachinist from the Land of Shadow. The engineers of this realm developed unique sorceries that blended magic with mechanical ingenuity, creating devastating effects unknown elsewhere.",
+        unlocks: [
+          { name: "Machine Sorceries", type: "spell", price: "Varies" },
+          { name: "Magical Materials", type: "crafting", price: "Varies" }
+        ],
+        region: "Various (DLC)",
+        locationDetails: "Found in the Land of Shadow after defeating certain enemies or discovering hidden areas. Check mechanical-themed locations throughout the DLC.",
+        tip: "Spellmachinist items often pair well with Intelligence builds. Look for them in areas with Automatons.",
+        notes: [
+          "This bearing unlocks access to unique DLC sorceries.",
+          "The Machine Sorceries are thematically tied to the constructs found in the Land of Shadow."
+        ]
+      },
+      "Moore's Bell Bearing": {
+        icon: "ra-player",
+        type: "dlc",
+        category: "NPC Bell Bearing",
+        ngPlus: false,
+        dlc: true,
+        lore: "Moore's bell bearing, found upon his perished flesh. Moore was a gentle soul who found purpose in gathering items for travelers in the Land of Shadow. His death, whether by tragedy or treachery, leaves behind only this bearing and fond memories.",
+        unlocks: [
+          { name: "Moore's Full Inventory", type: "crafting", price: "Varies" },
+          { name: "Thiollier's Items", type: "consumable", price: "Varies" },
+          { name: "Consumables & Materials", type: "crafting", price: "Varies" }
+        ],
+        region: "Various (DLC)",
+        locationDetails: "Moore's body location depends on your quest choices: 1) North of the Church of the Crusade in Scadu Altus if you tell him to 'remain sad forever' after a Great Rune shatters. 2) In Enir-Ilim after the final confrontation if you told him to 'put it behind you.'",
+        tip: "Moore first appears at the Main Gate Cross Site of Grace. Complete his questline to access the best items.",
+        notes: [
+          "Killing Forager Broods advances Moore's quest.",
+          "Moore's Bell Bearing also includes Thiollier's inventory—very valuable for consumables.",
+          "This bearing does NOT carry over to NG+."
+        ]
+      },
+      "Ymir's Bell Bearing": {
+        icon: "ra-hood",
+        type: "dlc",
+        category: "NPC Bell Bearing",
+        ngPlus: false,
+        dlc: true,
+        lore: "Bell bearing of Count Ymir, Mother of Fingers. The mysterious count sought to uncover secrets of the fingers and their connection to the Greater Will. His research led him down a dark path, culminating in a final confrontation.",
+        unlocks: [
+          { name: "Ymir's Sorceries", type: "spell", price: "Varies" },
+          { name: "Finger-Themed Items", type: "crafting", price: "Varies" }
+        ],
+        region: "Cathedral of Manus Metyr (DLC)",
+        locationDetails: "Dropped by Count Ymir after completing his questline and defeating him as a boss in the Cathedral of Manus Metyr. Complete all three Finger Ruins bell-ringing tasks, then defeat Metyr, Mother of Fingers first.",
+        tip: "Ymir's questline is one of the longest in the DLC. Make sure to exhaust his dialogue and complete all bell-ringing locations.",
+        notes: [
+          "Ymir teaches unique sorceries focused on finger and cosmos themes.",
+          "This bearing does NOT carry over to NG+.",
+          "Ymir's Bell Bearing has unique artwork."
+        ]
+      },
+      "Igon's Bell Bearing": {
+        icon: "ra-dragon",
+        type: "dlc",
+        category: "NPC Bell Bearing",
+        ngPlus: false,
+        dlc: true,
+        lore: "Bell bearing of Igon, the dragon hunter. Igon devoted his life to slaying Bayle the Dread, the fearsome dragon who maimed him. Whether he succeeded or fell in the attempt, his bell bearing carries on his legacy.",
+        unlocks: [
+          { name: "Igon's Equipment", type: "armor", price: "Varies" },
+          { name: "Dragon-Slaying Items", type: "consumable", price: "Varies" }
+        ],
+        region: "Jagged Peak (DLC)",
+        locationDetails: "Obtained after Igon's death during his questline involving Bayle the Dread. Igon can be summoned to help fight Bayle at the Jagged Peak summit after completing his questline steps.",
+        tip: "Igon's summon sign for the Bayle fight is crucial—he deals significant damage and keeps Bayle's attention. Make sure to complete his dialogue at each location.",
+        notes: [
+          "Igon first appears near the Jagged Peak Site of Grace area.",
+          "His quest involves dragon communion and hunting Bayle.",
+          "This bearing does NOT carry over to NG+.",
+          "Igon's Bell Bearing has unique artwork."
+        ]
+      }
+    };
+
+    // Modal Elements
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    const modalLore = document.getElementById('modalLore');
+    const modalUnlocks = document.getElementById('modalUnlocks');
+    const modalPrices = document.getElementById('modalPrices');
+    const modalRegion = document.getElementById('modalRegion');
+    const modalLocationDetails = document.getElementById('modalLocationDetails');
+    const modalTipText = document.getElementById('modalTipText');
+    const modalNotes = document.getElementById('modalNotes');
+    const modalNotesSection = document.getElementById('modalNotesSection');
+    const modalPriceSection = document.getElementById('modalPriceSection');
+
+    // Open Modal
+    function openModal(bearingName) {
+      const data = bellBearingData[bearingName];
+      if (!data) return;
+
+      // Update modal content
+      modalIcon.innerHTML = `<i class="ra ${data.icon}"></i>`;
+      modalIcon.style.borderColor = getTypeColor(data.type);
+      modalIcon.querySelector('i').style.color = getTypeColor(data.type);
+      
+      modalTitle.textContent = bearingName;
+      
+      let subtitleHTML = `<span>${data.category}</span>`;
+      if (data.ngPlus) subtitleHTML += `<span class="modal-badge">NG+ Persistent</span>`;
+      if (data.dlc) subtitleHTML += `<span class="modal-badge dlc">Shadow of the Erdtree</span>`;
+      modalSubtitle.innerHTML = subtitleHTML;
+      
+      modalLore.textContent = data.lore;
+      
+      // Unlocks
+      modalUnlocks.innerHTML = data.unlocks.map(item => `
+        <div class="modal-unlock-item ${item.type}">
+          <i class="ra ${getUnlockIcon(item.type)}"></i>
+          <span>${item.name}</span>
+        </div>
+      `).join('');
+      
+      // Prices table
+      if (data.unlocks.some(item => item.price && item.price !== 'Varies')) {
+        modalPriceSection.style.display = 'block';
+        modalPrices.innerHTML = data.unlocks.map(item => `
+          <tr>
+            <td>${item.name}</td>
+            <td class="price">${item.price === 'Varies' ? 'Varies' : item.price + ' Runes'}</td>
+          </tr>
+        `).join('');
+      } else {
+        modalPriceSection.style.display = 'none';
+      }
+      
+      // Location
+      modalRegion.textContent = data.region;
+      modalLocationDetails.textContent = data.locationDetails;
+      modalTipText.textContent = data.tip;
+      
+      // Notes
+      if (data.notes && data.notes.length > 0) {
+        modalNotesSection.style.display = 'block';
+        modalNotes.innerHTML = data.notes.map(note => `<p>• ${note}</p>`).join('');
+      } else {
+        modalNotesSection.style.display = 'none';
+      }
+      
+      // Show modal
+      modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close Modal
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Helper Functions
+    function getTypeColor(type) {
+      const colors = {
+        smithing: '#6db3f2',
+        somber: '#9370db',
+        glovewort: '#9acd32',
+        ghost: '#87ceeb',
+        hunter: '#dc143c',
+        npc: '#ffd700',
+        dlc: '#ff6b35'
+      };
+      return colors[type] || '#ed8a09';
+    }
+
+    function getUnlockIcon(type) {
+      const icons = {
+        smithing: 'ra-gem-pendant',
+        somber: 'ra-gem',
+        glovewort: 'ra-flower',
+        ghost: 'ra-fairy-wand',
+        crafting: 'ra-cog',
+        consumable: 'ra-health',
+        spell: 'ra-lightning-bolt',
+        armor: 'ra-helmet'
+      };
+      return icons[type] || 'ra-key';
+    }
+
+    // Event Listeners
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', function(e) {
+      if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Initialize Vanta Fog Background
+    try {
+      VANTA.FOG({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        highlightColor: 0x5c3d00,
+        midtoneColor: 0x1a0f00,
+        lowlightColor: 0x000000,
+        baseColor: 0x0a0500,
+        blurFactor: 0.5,
+        speed: 1.5,
+        zoom: 1.2
+      });
+    } catch(e) {
+      console.log('Vanta background not loaded');
+    }
+
+    // Create Floating Embers
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        const size = Math.random() * 4 + 2;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 20;
+        const hue = Math.random() * 30 + 20;
+        const lightness = Math.random() * 20 + 50;
+        ember.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${left}%;
+          background: radial-gradient(circle, hsl(${hue}, 100%, ${lightness}%) 0%, hsl(${hue}, 100%, 30%) 50%, transparent 70%);
+          animation-duration: ${duration}s;
+          animation-delay: -${delay}s;
+          box-shadow: 0 0 ${size * 2}px hsl(${hue}, 100%, ${lightness}%);
+        `;
+        container.appendChild(ember);
+      }
+    }
+    createEmbers();
+
+    // Header Scroll Effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 500);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Initialize Universal Search
+    if (typeof initializeSearch === 'function') {
+      initializeSearch('bellbearings');
+    }
+
+    // Bell Bearing Card Click - Open Modal
+    document.querySelectorAll('.bellbearing-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+        const bearingName = this.getAttribute('data-name');
+        openModal(bearingName);
+      });
+    });
+
+    // Keyboard accessibility
+    document.querySelectorAll('.bellbearing-card').forEach(card => {
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+    });
+  </script>
+
+  <!-- Footer Clock -->
+  <script>
+    function updateFooterClock() {
+      const now = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('en-US', options);
+      const clockEl = document.getElementById('footerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    updateFooterClock();
+    setInterval(updateFooterClock, 1000);
+  </script>
+
+  <!-- Global Wiki Search -->
+  <script src="items-search.js"></script>
+  <script>document.addEventListener("DOMContentLoaded",function(){if(typeof initializeSearch==="function")initializeSearch();});</script>
+
+</body>
+</html>

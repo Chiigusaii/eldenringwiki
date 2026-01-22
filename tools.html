@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools - Elden Ring Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="search-styles.css">
+  <link rel="stylesheet" href="music-player.css">
+  
+  <style>
+    :root {
+      --gold: #ed8a09; --gold-bright: #f9c043; --gold-dark: #bd6707; --gold-muted: #e1b26b;
+      --bg-black: #040200; --bg-dark: #0d0906; --bg-surface: #1a1410; --bg-card: #231a12;
+      --text-primary: #f5f3e0; --text-secondary: #c9b99a; --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3); --glow: rgba(237, 138, 9, 0.4);
+      --essential: #4dabf7; --boss: #ff6b6b; --offensive: #ffa500; --transform: #9775fa;
+      --communication: #69db7c; --multiplayer: #da77f2; --dlc: #ff6b35;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; color: var(--text-primary); background: var(--bg-black); min-height: 100vh; overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 150px 60px rgba(0,0,0,0.8); z-index: 100; }
+    
+    #vanta-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .ember { position: absolute; border-radius: 50%; animation: ember-float linear infinite; opacity: 0; }
+    @keyframes ember-float { 0% { opacity: 0; transform: translateY(100vh) scale(0); } 10% { opacity: 1; } 90% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-5vh) scale(0); } }
+    
+    h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
+    .title-decorative { font-family: 'Cinzel Decorative', serif; }
+    .gold-text { background: linear-gradient(to bottom, #cfc09f 0%, #ffecb3 25%, #e7c66e 50%, #a17720 75%, #5c3d00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    
+    .content-wrapper { position: relative; z-index: 10; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 80px 0; }
+    
+    /* Header */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s ease; padding: 15px 0; }
+    header.scrolled { background: rgba(4, 2, 0, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px var(--glow)); transition: all 0.3s ease; }
+    .logo:hover .logo-icon img { filter: drop-shadow(0 0 20px var(--glow)); transform: scale(1.05); }
+    .logo-text h1 { font-size: 1.4rem; letter-spacing: 0.15em; }
+    .logo-text span { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--text-muted); text-transform: uppercase; display: block; }
+    
+    nav { display: flex; gap: 5px; }
+    nav a { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: 10px 18px; border-radius: 2px; transition: all 0.3s ease; position: relative; }
+    nav a:hover { color: var(--gold); background: rgba(237, 138, 9, 0.1); }
+    nav a.active { color: var(--gold); }
+    nav a.active::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+    
+    .search-box { position: relative; }
+    .search-box input { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; background: rgba(26, 20, 16, 0.8); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 40px 10px 15px; border-radius: 2px; width: 220px; transition: all 0.3s ease; }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 15px rgba(237, 138, 9, 0.15); width: 280px; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    
+    /* Page Hero */
+    .page-hero { padding: 160px 0 80px; text-align: center; position: relative; }
+    .page-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(237, 138, 9, 0.1) 0%, transparent 70%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.15em; margin-bottom: 15px; }
+    .page-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 750px; margin: 0 auto; line-height: 1.8; }
+    
+    .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 30px 0; }
+    .divider-line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); }
+    .divider-symbol { color: var(--gold); font-size: 1.2rem; letter-spacing: 0.3em; }
+    
+    /* Breadcrumb */
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--gold-muted); text-decoration: none; transition: color 0.3s ease; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 8px; }
+    
+    /* Info Box */
+    .info-box { background: linear-gradient(135deg, var(--bg-card), var(--bg-surface)); border: 1px solid var(--border); border-radius: 3px; padding: 25px; margin-bottom: 40px; border-left: 3px solid var(--gold-dark); }
+    .info-box h3 { font-size: 1.1rem; color: var(--gold-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .info-box h3 i { color: var(--gold); }
+    .info-box p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 10px; }
+    .info-box p:last-child { margin-bottom: 0; }
+    
+    /* Tabs */
+    .tabs { display: flex; gap: 5px; margin-bottom: 30px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 10px; justify-content: center; }
+    .tab-btn { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 10px 20px; cursor: pointer; transition: all 0.3s ease; border-radius: 2px 2px 0 0; }
+    .tab-btn:hover { color: var(--text-primary); background: rgba(237, 138, 9, 0.05); }
+    .tab-btn.active { color: var(--gold); border-color: var(--gold-dark); border-bottom-color: transparent; background: rgba(237, 138, 9, 0.1); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Category Header */
+    .category-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+    .category-header i { font-size: 2rem; }
+    .category-header h3 { font-size: 1.4rem; color: var(--text-primary); margin: 0; }
+    .category-header p { font-size: 0.9rem; color: var(--text-muted); margin: 5px 0 0; }
+    
+    /* Items Grid */
+    .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 40px; }
+    
+    /* Tool Card */
+    .tool-card { background: var(--bg-card); border: 2px solid var(--border); border-radius: 3px; padding: 20px; transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden; }
+    .tool-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s ease; }
+    .tool-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(237, 138, 9, 0.15); }
+    .tool-card:hover::before { opacity: 1; }
+    
+    .tool-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+    .tool-icon { width: 55px; height: 55px; background: var(--bg-dark); border: 2px solid var(--gold-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden; }
+    .tool-icon::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); }
+    .tool-icon i { font-size: 1.4rem; color: var(--gold); z-index: 1; }
+    
+    .tool-title { flex: 1; }
+    .tool-title h4 { font-size: 1rem; color: var(--text-primary); margin-bottom: 2px; transition: color 0.3s ease; }
+    .tool-card:hover .tool-title h4 { color: var(--gold); }
+    .tool-title span { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .tool-effect { font-size: 0.9rem; color: var(--gold-muted); margin-bottom: 10px; padding: 8px 12px; background: rgba(237, 138, 9, 0.08); border-left: 2px solid var(--gold-dark); border-radius: 2px; }
+    
+    .tool-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    
+    .tool-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+    .tool-tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .tool-tag.reusable { background: rgba(105, 219, 124, 0.2); color: var(--communication); }
+    .tool-tag.fp { background: rgba(77, 171, 247, 0.2); color: var(--essential); }
+    .tool-tag.purchase { background: rgba(237, 138, 9, 0.2); color: var(--gold); }
+    .tool-tag.loot { background: rgba(154, 205, 50, 0.2); color: #9acd32; }
+    .tool-tag.quest { background: rgba(147, 112, 219, 0.2); color: var(--transform); }
+    .tool-tag.dlc { background: rgba(255, 107, 53, 0.2); color: var(--dlc); }
+
+    /* Type-specific colors */
+    .type-essential .tool-icon { border-color: var(--essential); }
+    .type-essential .tool-icon i { color: var(--essential); }
+    .type-boss .tool-icon { border-color: var(--boss); }
+    .type-boss .tool-icon i { color: var(--boss); }
+    .type-offensive .tool-icon { border-color: var(--offensive); }
+    .type-offensive .tool-icon i { color: var(--offensive); }
+    .type-transform .tool-icon { border-color: var(--transform); }
+    .type-transform .tool-icon i { color: var(--transform); }
+    .type-communication .tool-icon { border-color: var(--communication); }
+    .type-communication .tool-icon i { color: var(--communication); }
+    .type-dlc .tool-icon { border-color: var(--dlc); }
+    .type-dlc .tool-icon i { color: var(--dlc); }
+    
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+    
+    /* Animations */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    
+    /* Back to Top */
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-muted); cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 99; }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--gold); color: var(--bg-black); border-color: var(--gold); transform: translateY(-3px); }
+    
+    @media (max-width: 768px) {
+      .items-grid { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+  
+    #footerClock {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-muted);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+  <div class="particles-container" id="particles"></div>
+
+  <div class="content-wrapper">
+    <header id="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="index.html" class="logo">
+            <div class="logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <div class="logo-text"><h1 class="gold-text">ELDEN RING</h1><span>Encyclopaedia</span></div>
+          </a>
+                    <nav>
+            <a href="index.html">Home</a>
+            <a href="bosses.html">Bosses</a>
+            <a href="characters.html">Characters</a>
+            <a href="items.html" class="active">Items</a>
+            <a href="lore.html">Lore</a>
+          </nav>
+          <div class="search-box">
+            <input type="text" placeholder="Search the wiki..." id="searchInput">
+            <i class="ra ra-magnifying-glass"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a> <span>›</span>
+          <a href="items.html">Items</a> <span>›</span>
+          <span>Tools</span>
+        </div>
+        <h1 class="title-decorative gold-text">TOOLS</h1>
+        <div class="divider"><div class="divider-line"></div><span class="divider-symbol">◆ ✧ ◆</span><div class="divider-line"></div></div>
+        <p>Reusable items that assist you throughout the Lands Between. From essential exploration gear like the Lantern and Telescope, to boss-weakening shackles and transformative dragon hearts. Unlike consumables, these tools are never depleted.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="info-box fade-in">
+          <h3><i class="ra ra-gear-hammer"></i> About Tools</h3>
+          <p>Tools are reusable items that provide utility, damage, communication, or special effects. Unlike consumables, they are never used up and remain in your inventory permanently. Some require FP to use, while others are completely free.</p>
+          <p>Key tools like the Crafting Kit unlock gameplay features, while boss shackles can turn the tide of difficult encounters. The DLC adds transformation tools that let you take on dragon forms.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs fade-in">
+          <button class="tab-btn active" data-tab="essential">Essential</button>
+          <button class="tab-btn" data-tab="boss">Boss Tools</button>
+          <button class="tab-btn" data-tab="offensive">Offensive</button>
+          <button class="tab-btn" data-tab="transform">Transformation</button>
+          <button class="tab-btn" data-tab="communication">Communication</button>
+          <button class="tab-btn" data-tab="dlc">DLC</button>
+        </div>
+
+        <!-- ESSENTIAL TAB -->
+        <div id="essential" class="tab-content active">
+          <div class="category-header fade-in">
+            <i class="ra ra-compass" style="color: var(--essential);"></i>
+            <div>
+              <h3>Essential Tools</h3>
+              <p>Core tools for exploration, crafting, and traversal. Most are obtained early in your journey.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="tool-card type-essential" data-name="Crafting Kit">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-anvil"></i></div>
+                <div class="tool-title"><h4>Crafting Kit</h4><span>Key Item</span></div>
+              </div>
+              <div class="tool-effect">Enables item crafting from main menu</div>
+              <div class="tool-desc">Leather bag containing pestle, mortar, small blade, and tools. Essential for survival in the Lands Between.</div>
+              <div class="tool-tags">
+                <span class="tool-tag purchase">300 Runes</span>
+                <span class="tool-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-essential" data-name="Spectral Steed Whistle">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-horse-head"></i></div>
+                <div class="tool-title"><h4>Spectral Steed Whistle</h4><span>Key Item</span></div>
+              </div>
+              <div class="tool-effect">Summons Torrent, the spectral steed</div>
+              <div class="tool-desc">Given by Melina when she offers her accord. Torrent is an invaluable companion for traversing the vast Lands Between.</div>
+              <div class="tool-tags">
+                <span class="tool-tag quest">Story Item</span>
+                <span class="tool-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-essential" data-name="Memory of Grace">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-sunbeams"></i></div>
+                <div class="tool-title"><h4>Memory of Grace</h4><span>Starting Item</span></div>
+              </div>
+              <div class="tool-effect">Return to last Site of Grace (lose all runes)</div>
+              <div class="tool-desc">All Tarnished start with this. Useful when stuck, but costs all held runes. Cannot use during boss fights.</div>
+              <div class="tool-tags">
+                <span class="tool-tag quest">Starting Item</span>
+                <span class="tool-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-essential" data-name="Lantern">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-lantern-flame"></i></div>
+                <div class="tool-title"><h4>Lantern</h4><span>Exploration Tool</span></div>
+              </div>
+              <div class="tool-effect">Attach to waist to illuminate surroundings</div>
+              <div class="tool-desc">Small waist-worn lantern. Dimmer than a torch but frees both hands for combat. Toggle on/off with use.</div>
+              <div class="tool-tags">
+                <span class="tool-tag purchase">1,800 Runes</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-essential" data-name="Telescope">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-telescope"></i></div>
+                <div class="tool-title"><h4>Telescope</h4><span>Exploration Tool</span></div>
+              </div>
+              <div class="tool-effect">See faraway things more clearly</div>
+              <div class="tool-desc">Carian astrology tool. Part of a larger instrument, removed and stolen. Scout ahead for enemies and paths.</div>
+              <div class="tool-tags">
+                <span class="tool-tag purchase">500 Runes</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-essential" data-name="Tailoring Tools">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-crossed-swords"></i></div>
+                <div class="tool-title"><h4>Tailoring Tools</h4><span>Customization</span></div>
+              </div>
+              <div class="tool-effect">Enables armor alterations at Sites of Grace</div>
+              <div class="tool-desc">Portable set of tailoring tools. Remove capes, alter helms, and adjust armor appearance for 500 runes.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Coastal Cave</span>
+                <span class="tool-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-essential" data-name="Golden Tailoring Tools">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-gem"></i></div>
+                <div class="tool-title"><h4>Golden Tailoring Tools</h4><span>Customization</span></div>
+              </div>
+              <div class="tool-effect">Enables alteration of demigod armor</div>
+              <div class="tool-desc">Elaborate tailoring tools once in the possession of Enia. Required to alter boss and demigod armor sets.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Leyndell</span>
+                <span class="tool-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-essential" data-name="Spirit Calling Bell">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-bell"></i></div>
+                <div class="tool-title"><h4>Spirit Calling Bell</h4><span>Key Item</span></div>
+              </div>
+              <div class="tool-effect">Enables Spirit Ash summoning</div>
+              <div class="tool-desc">Given by Renna at Church of Elleh (night) or sold by Twin Maiden Husks. Required to summon Spirit Ashes.</div>
+              <div class="tool-tags">
+                <span class="tool-tag quest">NPC Gift</span>
+                <span class="tool-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- BOSS TOOLS TAB -->
+        <div id="boss" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-chain" style="color: var(--boss);"></i>
+            <div>
+              <h3>Boss Tools</h3>
+              <p>Special items that weaken or stun specific bosses. Can only be used twice per fight, first phase only.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="tool-card type-boss" data-name="Margit's Shackle">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-chain"></i></div>
+                <div class="tool-title"><h4>Margit's Shackle</h4><span>Boss Tool</span></div>
+              </div>
+              <div class="tool-effect">Binds Margit/Morgott to the ground briefly</div>
+              <div class="tool-desc">Fetish bathed in golden magic. Stuns Margit and Morgott for a few seconds. Also reveals illusory walls and triggers dungeon traps.</div>
+              <div class="tool-tags">
+                <span class="tool-tag purchase">5,000 Runes (Patches)</span>
+                <span class="tool-tag reusable">2x Per Fight</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-boss" data-name="Mohg's Shackle">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-chain"></i></div>
+                <div class="tool-title"><h4>Mohg's Shackle</h4><span>Boss Tool</span></div>
+              </div>
+              <div class="tool-effect">Binds Mohg to the ground briefly</div>
+              <div class="tool-desc">Works on both Mohg, the Omen and Mohg, Lord of Blood. Found deep in the Subterranean Shunning-Grounds, guarded by giant crayfish.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Shunning-Grounds</span>
+                <span class="tool-tag reusable">2x Per Fight</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-boss" data-name="Blasphemous Claw">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-hand"></i></div>
+                <div class="tool-title"><h4>Blasphemous Claw</h4><span>Boss Tool</span></div>
+              </div>
+              <div class="tool-effect">Parry Maliketh's destined death attacks</div>
+              <div class="tool-desc">Claw of the defeated Recusant Bernahl. Can parry Maliketh's golden blade attacks when timed correctly.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Bernahl Drop</span>
+                <span class="tool-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- OFFENSIVE TAB -->
+        <div id="offensive" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-fire-ring" style="color: var(--offensive);"></i>
+            <div>
+              <h3>Offensive Tools</h3>
+              <p>Reusable items that deal damage. Most scale with INT/FTH and cost FP to use.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="tool-card type-offensive" data-name="Wraith Calling Bell">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-skull"></i></div>
+                <div class="tool-title"><h4>Wraith Calling Bell</h4><span>Offensive Tool</span></div>
+              </div>
+              <div class="tool-effect">Summon prowling wraiths (FP cost)</div>
+              <div class="tool-desc">Bell used by worshippers of revenants. Summons homing wraith projectiles. Can be used multiple times in succession.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Laskyar Ruins</span>
+                <span class="tool-tag fp">10 FP</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-offensive" data-name="Omen Bairn">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-fairy"></i></div>
+                <div class="tool-title"><h4>Omen Bairn</h4><span>Offensive Tool</span></div>
+              </div>
+              <div class="tool-effect">Unleash wraiths that chase down foes</div>
+              <div class="tool-desc">Doll of a curseborn bairn. Omen babies have all horns excised, causing most to perish. Scales with INT/FTH.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Shunning-Grounds</span>
+                <span class="tool-tag fp">14 FP</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-offensive" data-name="Regal Omen Bairn">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-crown"></i></div>
+                <div class="tool-title"><h4>Regal Omen Bairn</h4><span>Remembrance Tool</span></div>
+              </div>
+              <div class="tool-effect">Unleash many wraiths (stronger version)</div>
+              <div class="tool-desc">Doll of Morgott. Royal omen babies keep their horns but are imprisoned underground. +5% damage per Omen Set piece worn.</div>
+              <div class="tool-tags">
+                <span class="tool-tag quest">Morgott Remembrance</span>
+                <span class="tool-tag fp">24 FP</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-offensive" data-name="Ancestral Infant's Head">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-bleeding-eye"></i></div>
+                <div class="tool-title"><h4>Ancestral Infant's Head</h4><span>Offensive Tool</span></div>
+              </div>
+              <div class="tool-effect">Fire a spirit orb (INT scaling)</div>
+              <div class="tool-desc">Head of an ancestral spirit infant. Summons a homing spirit projectile. Found in Nokron, Eternal City.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Nokron</span>
+                <span class="tool-tag fp">12 FP</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-offensive" data-name="Miranda's Prayer">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-flower"></i></div>
+                <div class="tool-title"><h4>Miranda's Prayer</h4><span>Offensive Tool</span></div>
+              </div>
+              <div class="tool-effect">Fire golden light projectile (FTH scaling)</div>
+              <div class="tool-desc">Prayer bead of a minor Erdtree church. Miranda Flower prayers call upon the power of gold. Found in Weeping Peninsula.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Callu Baptismal Church</span>
+                <span class="tool-tag fp">8 FP</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TRANSFORMATION TAB -->
+        <div id="transform" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-player-pyromaniac" style="color: var(--transform);"></i>
+            <div>
+              <h3>Transformation Tools</h3>
+              <p>Items that disguise or transform your character. Some are permanent until death.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="tool-card type-transform" data-name="Mimic's Veil">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-player-king"></i></div>
+                <div class="tool-title"><h4>Mimic's Veil</h4><span>Disguise Tool</span></div>
+              </div>
+              <div class="tool-effect">Mimic nearby objects (FP cost)</div>
+              <div class="tool-desc">Golden veil of intricate design. One of many treasures Godrick took when fleeing Leyndell. Great for PvP ambushes.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Stormveil Castle</span>
+                <span class="tool-tag fp">8 FP</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-transform" data-name="Pureblood Knight's Medal">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-medal"></i></div>
+                <div class="tool-title"><h4>Pureblood Knight's Medal</h4><span>Teleport Tool</span></div>
+              </div>
+              <div class="tool-effect">Teleport to Mohgwyn Palace</div>
+              <div class="tool-desc">Proof of a glorious knight of Mohgwyn Dynasty. Grants audience with Mohg. Works as free fast travel without losing runes.</div>
+              <div class="tool-tags">
+                <span class="tool-tag quest">Varré Questline</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- COMMUNICATION TAB -->
+        <div id="communication" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-speech-bubbles" style="color: var(--communication);"></i>
+            <div>
+              <h3>Prattling Pates</h3>
+              <p>Clay sculptures that speak phrases. Used for multiplayer communication or taunting defeated bosses.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="tool-card type-communication" data-name="Prattling Pate 'Hello'">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-hand"></i></div>
+                <div class="tool-title"><h4>Prattling Pate "Hello"</h4><span>Communication</span></div>
+              </div>
+              <div class="tool-effect">Speak the phrase "Hello"</div>
+              <div class="tool-desc">A terracotta pate that speaks for you. Found in Stormfoot Catacombs.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Stormfoot Catacombs</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-communication" data-name="Prattling Pate 'Thank You'">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-hand"></i></div>
+                <div class="tool-title"><h4>Prattling Pate "Thank You"</h4><span>Communication</span></div>
+              </div>
+              <div class="tool-effect">Speak the phrase "Thank you"</div>
+              <div class="tool-desc">Useful for thanking cooperative phantoms. Found in Tombsward Catacombs.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Tombsward Catacombs</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-communication" data-name="Prattling Pate 'Apologies'">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-hand"></i></div>
+                <div class="tool-title"><h4>Prattling Pate "Apologies"</h4><span>Communication</span></div>
+              </div>
+              <div class="tool-effect">Speak the phrase "Apologies"</div>
+              <div class="tool-desc">For those awkward multiplayer moments. Found in Unsightly Catacombs.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Unsightly Catacombs</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-communication" data-name="Prattling Pate 'Please Help'">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-help"></i></div>
+                <div class="tool-title"><h4>Prattling Pate "Please Help"</h4><span>Communication</span></div>
+              </div>
+              <div class="tool-effect">Speak the phrase "Please help"</div>
+              <div class="tool-desc">A desperate cry for assistance. Found in Impaler's Catacombs.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Impaler's Catacombs</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-communication" data-name="Prattling Pate 'Wonderful'">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-trophy"></i></div>
+                <div class="tool-title"><h4>Prattling Pate "Wonderful"</h4><span>Communication</span></div>
+              </div>
+              <div class="tool-effect">Speak the phrase "Wonderful"</div>
+              <div class="tool-desc">Express admiration for a feat well done. Found in Cliffbottom Catacombs.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Cliffbottom Catacombs</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-communication" data-name="Prattling Pate 'My Beloved'">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-heart-tower"></i></div>
+                <div class="tool-title"><h4>Prattling Pate "My Beloved"</h4><span>Communication</span></div>
+              </div>
+              <div class="tool-effect">Speak the phrase "My beloved"</div>
+              <div class="tool-desc">For expressing affection. Found in Raya Lucaria near Sorcerer Thops.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Raya Lucaria</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-communication" data-name="Prattling Pate 'You're Beautiful'">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-love-howl"></i></div>
+                <div class="tool-title"><h4>Prattling Pate "You're Beautiful"</h4><span>Communication</span></div>
+              </div>
+              <div class="tool-effect">Speak the phrase "You're beautiful"</div>
+              <div class="tool-desc">A wholesome compliment. Found in Hermit Village on Mt. Gelmir.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Mt. Gelmir</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-communication" data-name="Prattling Pate 'Let's Get to It'">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-double-team"></i></div>
+                <div class="tool-title"><h4>Prattling Pate "Let's Get to It"</h4><span>Communication</span></div>
+              </div>
+              <div class="tool-effect">Speak the phrase "Let's get to it"</div>
+              <div class="tool-desc">Rally your cooperators. Found in Sainted Hero's Grave.</div>
+              <div class="tool-tags">
+                <span class="tool-tag loot">Sainted Hero's Grave</span>
+                <span class="tool-tag reusable">No FP Cost</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DLC TAB -->
+        <div id="dlc" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-dragon" style="color: var(--dlc);"></i>
+            <div>
+              <h3>Shadow of the Erdtree Tools</h3>
+              <p>New tools from the DLC including dragon transformation hearts and the Lamenter's Mask.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="tool-card type-dlc" data-name="Rock Heart">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-dragon"></i></div>
+                <div class="tool-title"><h4>Rock Heart</h4><span>Transformation</span></div>
+              </div>
+              <div class="tool-effect">Transform into Ancient Dragon form</div>
+              <div class="tool-desc">Heart consumed in ancient Dragon Communion. Use while disrobed to transform. +20% Dragon Communion incantation damage for 60s when used again. +10% all negation, +50 resistance.</div>
+              <div class="tool-tags">
+                <span class="tool-tag dlc">DLC</span>
+                <span class="tool-tag quest">Painting Puzzle</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-dlc" data-name="Priestess Heart">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-dragon"></i></div>
+                <div class="tool-title"><h4>Priestess Heart</h4><span>Transformation</span></div>
+              </div>
+              <div class="tool-effect">Transform into Priestess Dragon form</div>
+              <div class="tool-desc">Stone heart of Dragon Communion Priestess. She sacrificed her dragon form to help destroy Bayle. +20% Dragon Cult incantation damage for 60s. +7% negation, +70 resistance.</div>
+              <div class="tool-tags">
+                <span class="tool-tag dlc">DLC</span>
+                <span class="tool-tag quest">Defeat Bayle</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-dlc" data-name="Lamenter's Mask">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-player-dodge"></i></div>
+                <div class="tool-title"><h4>Lamenter's Mask</h4><span>Transformation</span></div>
+              </div>
+              <div class="tool-effect">Transform into Lamenter form</div>
+              <div class="tool-desc">Dungeon boss drop from Lamenter's Gaol. Transforms appearance until death. A more unsettling transformation option.</div>
+              <div class="tool-tags">
+                <span class="tool-tag dlc">DLC</span>
+                <span class="tool-tag loot">Lamenter's Gaol</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-dlc" data-name="Tanglehorn Bairn">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-fairy"></i></div>
+                <div class="tool-title"><h4>Tanglehorn Bairn</h4><span>Offensive Tool</span></div>
+              </div>
+              <div class="tool-effect">Summon vengeful spirits around caster</div>
+              <div class="tool-desc">Doll of a tanglehorn bairn. Tangled horns symbolize spirituality, but most born bearing them meet early demise.</div>
+              <div class="tool-tags">
+                <span class="tool-tag dlc">DLC</span>
+                <span class="tool-tag fp">FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-dlc" data-name="Ranah's Flame Burner">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-fire"></i></div>
+                <div class="tool-title"><h4>Ranah's Flame Burner</h4><span>Offensive Tool</span></div>
+              </div>
+              <div class="tool-effect">Spout flames forward</div>
+              <div class="tool-desc">Small bottle wrapped in bright-red cloth. Filled with flammable perfume oil. Used by dancers of Ranah to mark passion with searing flame.</div>
+              <div class="tool-tags">
+                <span class="tool-tag dlc">DLC</span>
+                <span class="tool-tag fp">FP Cost</span>
+              </div>
+            </div>
+
+            <div class="tool-card type-dlc" data-name="Spritestone">
+              <div class="tool-header">
+                <div class="tool-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="tool-title"><h4>Spritestone</h4><span>Offensive Tool</span></div>
+              </div>
+              <div class="tool-effect">Cause spiritual explosion</div>
+              <div class="tool-desc">Large burrowstone with perfectly white gem. Ritual implement made to control explosions of spiritual power. Consumes sprite within.</div>
+              <div class="tool-tags">
+                <span class="tool-tag dlc">DLC</span>
+                <span class="tool-tag fp">FP Cost</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+        <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <span>ELDEN RING WIKI</span>
+          </div>
+          <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+      </div>
+    </footer>
+  </div>
+
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()"><i class="ra ra-music-note" id="minimizedIcon"></i></div>
+    <div class="player-expanded">
+      <div class="player-header"><span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span><button class="player-minimize" onclick="togglePlayer()">−</button></div>
+      <div class="player-track"><div class="track-name" id="trackName">Track 1</div><div class="track-info" id="trackInfo">Elden Ring OST</div></div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header"><span class="volume-label">Volume</span><button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button></div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" preload="auto"><source src="bgm1.mp3" type="audio/mpeg"></audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+  
+  <script src="music-player.js"></script>
+  
+  <script>
+    // Vanta Background
+    try {
+      VANTA.FOG({ el: "#vanta-bg", mouseControls: true, touchControls: true, gyroControls: false, minHeight: 200, minWidth: 200, highlightColor: 0x5c3d00, midtoneColor: 0x1a0f00, lowlightColor: 0x000000, baseColor: 0x0a0500, blurFactor: 0.5, speed: 1.5, zoom: 1.2 });
+    } catch(e) { console.log('Vanta not loaded'); }
+
+    // Embers
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        const size = Math.random() * 4 + 2;
+        ember.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:radial-gradient(circle,hsl(${Math.random()*30+20},100%,${Math.random()*20+50}%) 0%,hsl(${Math.random()*30+20},100%,30%) 50%,transparent 70%);animation-duration:${Math.random()*15+10}s;animation-delay:-${Math.random()*20}s;box-shadow:0 0 ${size*2}px hsl(${Math.random()*30+20},100%,${Math.random()*20+50}%);`;
+        container.appendChild(ember);
+      }
+    }
+    createEmbers();
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+
+    // Header scroll
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50));
+
+    // Back to top
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 500));
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Fade in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    if (typeof initializeSearch === 'function') initializeSearch('tool');
+  </script>
+
+  <!-- Footer Clock -->
+  <script>
+    function updateFooterClock() {
+      const now = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('en-US', options);
+      const clockEl = document.getElementById('footerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    updateFooterClock();
+    setInterval(updateFooterClock, 1000);
+  </script>
+
+  <!-- Global Wiki Search -->
+  <script src="items-search.js"></script>
+  <script>document.addEventListener("DOMContentLoaded",function(){if(typeof initializeSearch==="function")initializeSearch();});</script>
+
+</body>
+</html>

@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ammunition - Elden Ring Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="search-styles.css">
+  <link rel="stylesheet" href="music-player.css">
+  
+  <style>
+    :root {
+      --gold: #ed8a09; --gold-bright: #f9c043; --gold-dark: #bd6707; --gold-muted: #e1b26b;
+      --bg-black: #040200; --bg-dark: #0d0906; --bg-surface: #1a1410; --bg-card: #231a12;
+      --text-primary: #f5f3e0; --text-secondary: #c9b99a; --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3); --glow: rgba(237, 138, 9, 0.4);
+      --physical: #c9b99a; --fire: #ff6b35; --magic: #6db3f2; --lightning: #f0e68c; --holy: #ffd700;
+      --poison: #9acd32; --blood: #dc143c; --rot: #8b0000; --frost: #87ceeb; --sleep: #9370db;
+      --dlc: #ff6b35;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; color: var(--text-primary); background: var(--bg-black); min-height: 100vh; overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 150px 60px rgba(0,0,0,0.8); z-index: 100; }
+    
+    #vanta-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .ember { position: absolute; border-radius: 50%; animation: ember-float linear infinite; opacity: 0; }
+    @keyframes ember-float { 
+      0% { opacity: 0; transform: translateY(100vh) translateX(0) scale(0); } 
+      10% { opacity: 1; transform: translateY(90vh) translateX(10px) scale(1); } 
+      90% { opacity: 0.8; transform: translateY(10vh) translateX(-20px) scale(0.8); } 
+      100% { opacity: 0; transform: translateY(-5vh) translateX(30px) scale(0); } 
+    }
+    
+    h1, h2, h3, h4, h5, h6 { font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
+    .title-decorative { font-family: 'Cinzel Decorative', serif; }
+    .gold-text { background: linear-gradient(to bottom, #cfc09f 0%, #ffecb3 25%, #e7c66e 50%, #a17720 75%, #5c3d00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    .glow-text { color: var(--gold); text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px var(--glow); }
+    
+    .content-wrapper { position: relative; z-index: 10; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 80px 0; }
+    
+    /* Header */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s ease; padding: 15px 0; }
+    header.scrolled { background: rgba(4, 2, 0, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px var(--glow)); transition: all 0.3s ease; }
+    .logo:hover .logo-icon img { filter: drop-shadow(0 0 20px var(--glow)); transform: scale(1.05); }
+    .logo-text h1 { font-size: 1.4rem; letter-spacing: 0.15em; }
+    .logo-text span { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--text-muted); text-transform: uppercase; display: block; }
+    
+    nav { display: flex; gap: 5px; }
+    nav a { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: 10px 18px; border-radius: 2px; transition: all 0.3s ease; position: relative; }
+    nav a:hover { color: var(--gold); background: rgba(237, 138, 9, 0.1); }
+    nav a.active { color: var(--gold); }
+    nav a.active::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+    
+    .search-box { position: relative; }
+    .search-box input { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; background: rgba(26, 20, 16, 0.8); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 40px 10px 15px; border-radius: 2px; width: 220px; transition: all 0.3s ease; }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 15px rgba(237, 138, 9, 0.15); width: 280px; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    
+    /* Page Hero */
+    .page-hero { padding: 160px 0 80px; text-align: center; position: relative; }
+    .page-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(237, 138, 9, 0.1) 0%, transparent 70%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.15em; margin-bottom: 15px; }
+    .page-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 700px; margin: 0 auto; }
+    
+    .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 30px 0; }
+    .divider-line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); }
+    .divider-symbol { color: var(--gold); font-size: 1.2rem; letter-spacing: 0.3em; }
+    
+    /* Breadcrumb */
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--gold-muted); text-decoration: none; transition: color 0.3s ease; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 8px; }
+    
+    /* Info Box */
+    .info-box { background: linear-gradient(135deg, var(--bg-card), var(--bg-surface)); border: 1px solid var(--border); border-radius: 3px; padding: 25px; margin-bottom: 40px; border-left: 3px solid var(--gold-dark); }
+    .info-box h3 { font-size: 1.1rem; color: var(--gold-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .info-box h3 i { color: var(--gold); }
+    .info-box p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 10px; }
+    .info-box p:last-child { margin-bottom: 0; }
+    
+    /* Tabs */
+    .tabs { display: flex; gap: 5px; margin-bottom: 30px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 10px; justify-content: center; }
+    .tab-btn { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 10px 20px; cursor: pointer; transition: all 0.3s ease; position: relative; border-radius: 2px 2px 0 0; }
+    .tab-btn:hover { color: var(--text-primary); background: rgba(237, 138, 9, 0.05); }
+    .tab-btn.active { color: var(--gold); border-color: var(--gold-dark); border-bottom-color: transparent; background: rgba(237, 138, 9, 0.1); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Category Section */
+    .category-section { margin-bottom: 60px; }
+    .category-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+    .category-header i { font-size: 2rem; }
+    .category-header h3 { font-size: 1.4rem; color: var(--text-primary); margin: 0; }
+    .category-header p { font-size: 0.9rem; color: var(--text-muted); margin: 5px 0 0; }
+    
+    /* Items Grid */
+    .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 40px; }
+    
+    /* Ammo Card */
+    .ammo-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 3px; padding: 20px; transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; }
+    .ammo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); opacity: 0; transition: opacity 0.3s ease; }
+    .ammo-card:hover { border-color: var(--gold-dark); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .ammo-card:hover::before { opacity: 1; }
+    
+    .ammo-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+    .ammo-icon { width: 55px; height: 55px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden; }
+    .ammo-icon::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%); }
+    .ammo-icon i { font-size: 1.6rem; color: var(--gold-muted); z-index: 1; }
+    
+    .ammo-title { flex: 1; }
+    .ammo-title h4 { font-size: 1rem; color: var(--text-primary); margin-bottom: 4px; transition: color 0.3s ease; }
+    .ammo-card:hover .ammo-title h4 { color: var(--gold); }
+    .ammo-title span { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .ammo-stats { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 10px; }
+    .ammo-stat { font-size: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; }
+    .ammo-stat i { font-size: 0.9rem; }
+    .ammo-stat.physical { color: var(--physical); }
+    .ammo-stat.fire { color: var(--fire); }
+    .ammo-stat.magic { color: var(--magic); }
+    .ammo-stat.lightning { color: var(--lightning); }
+    .ammo-stat.holy { color: var(--holy); }
+    .ammo-stat.poison { color: var(--poison); }
+    .ammo-stat.blood { color: var(--blood); }
+    .ammo-stat.rot { color: var(--rot); }
+    .ammo-stat.frost { color: var(--frost); }
+    .ammo-stat.sleep { color: var(--sleep); }
+    
+    .ammo-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; font-style: italic; }
+    
+    .ammo-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+    .ammo-tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .ammo-tag.craftable { background: rgba(154, 205, 50, 0.2); color: var(--poison); }
+    .ammo-tag.purchasable { background: rgba(237, 138, 9, 0.2); color: var(--gold); }
+    .ammo-tag.limited { background: rgba(220, 20, 60, 0.2); color: var(--blood); }
+    .ammo-tag.dlc { background: rgba(255, 107, 53, 0.2); color: var(--dlc); }
+
+    /* Type Colors */
+    .type-physical .ammo-icon { border-color: var(--physical); }
+    .type-physical .ammo-icon i { color: var(--physical); }
+    .type-fire .ammo-icon { border-color: var(--fire); }
+    .type-fire .ammo-icon i { color: var(--fire); }
+    .type-magic .ammo-icon { border-color: var(--magic); }
+    .type-magic .ammo-icon i { color: var(--magic); }
+    .type-lightning .ammo-icon { border-color: var(--lightning); }
+    .type-lightning .ammo-icon i { color: var(--lightning); }
+    .type-holy .ammo-icon { border-color: var(--holy); }
+    .type-holy .ammo-icon i { color: var(--holy); }
+    .type-poison .ammo-icon { border-color: var(--poison); }
+    .type-poison .ammo-icon i { color: var(--poison); }
+    .type-blood .ammo-icon { border-color: var(--blood); }
+    .type-blood .ammo-icon i { color: var(--blood); }
+    .type-rot .ammo-icon { border-color: var(--rot); }
+    .type-rot .ammo-icon i { color: var(--rot); }
+    .type-frost .ammo-icon { border-color: var(--frost); }
+    .type-frost .ammo-icon i { color: var(--frost); }
+    .type-sleep .ammo-icon { border-color: var(--sleep); }
+    .type-sleep .ammo-icon i { color: var(--sleep); }
+
+    /* Modal Popup */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.4s ease; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    
+    .modal-content { background: linear-gradient(145deg, var(--bg-card), var(--bg-surface)); border: 1px solid var(--gold-dark); border-radius: 5px; max-width: 650px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; transform: scale(0.9) translateY(20px); transition: all 0.4s ease; box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 60px rgba(237, 138, 9, 0.15); }
+    .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+    
+    .modal-header { padding: 25px 30px; border-bottom: 1px solid var(--border); position: relative; background: linear-gradient(180deg, rgba(237, 138, 9, 0.08) 0%, transparent 100%); }
+    .modal-close { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 50%; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; font-size: 1.2rem; }
+    .modal-close:hover { background: var(--gold); color: var(--bg-black); border-color: var(--gold); transform: rotate(90deg); }
+    
+    .modal-icon { width: 70px; height: 70px; background: var(--bg-dark); border: 2px solid var(--gold-dark); border-radius: 5px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; position: relative; }
+    .modal-icon::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%); border-radius: 4px; }
+    .modal-icon i { font-size: 2.2rem; color: var(--gold); z-index: 1; }
+    .modal-title { font-size: 1.5rem; color: var(--gold); margin-bottom: 8px; }
+    .modal-subtitle { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .modal-badge { background: rgba(154, 205, 50, 0.2); color: var(--poison); padding: 3px 10px; border-radius: 3px; font-size: 0.7rem; }
+    .modal-badge.purchasable { background: rgba(237, 138, 9, 0.2); color: var(--gold); }
+    .modal-badge.limited { background: rgba(220, 20, 60, 0.2); color: var(--blood); }
+    .modal-badge.dlc { background: rgba(255, 107, 53, 0.2); color: var(--dlc); }
+    
+    .modal-body { padding: 25px 30px; }
+    
+    .modal-section { margin-bottom: 22px; }
+    .modal-section:last-child { margin-bottom: 0; }
+    .modal-section-title { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .modal-section-title i { color: var(--gold); font-size: 1rem; }
+    
+    .modal-lore { font-style: italic; color: var(--text-secondary); line-height: 1.8; padding: 15px 20px; background: rgba(0,0,0,0.3); border-left: 3px solid var(--gold-dark); border-radius: 0 3px 3px 0; }
+    
+    .modal-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .modal-stat-item { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; }
+    .modal-stat-item .label { font-size: 0.85rem; color: var(--text-muted); }
+    .modal-stat-item .value { font-size: 1rem; color: var(--text-primary); font-weight: 600; }
+    .modal-stat-item.highlight .value { color: var(--gold); }
+    
+    .modal-location { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; padding: 15px; }
+    .modal-location p { color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; }
+    .modal-location p:last-child { margin-bottom: 0; }
+    
+    .modal-craft { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; padding: 15px; }
+    .modal-craft-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .modal-craft-item:last-child { margin-bottom: 0; }
+    .modal-craft-item i { color: var(--gold); }
+    .modal-craft-item span { color: var(--text-secondary); font-size: 0.9rem; }
+    
+    .modal-tip { font-size: 0.85rem; color: var(--text-muted); padding: 12px 15px; background: rgba(237, 138, 9, 0.08); border-radius: 3px; border-left: 2px solid var(--gold-dark); }
+    .modal-tip i { color: var(--gold); margin-right: 8px; }
+    
+    /* Modal scrollbar */
+    .modal-content::-webkit-scrollbar { width: 8px; }
+    .modal-content::-webkit-scrollbar-track { background: var(--bg-dark); }
+    .modal-content::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+    .modal-content::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+    
+    /* Animations */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    
+    /* Back to Top */
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-muted); cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 99; }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--gold); color: var(--bg-black); border-color: var(--gold); transform: translateY(-3px); }
+    
+    @media (max-width: 768px) {
+      .items-grid { grid-template-columns: 1fr; }
+      nav { display: none; }
+      .header-content { flex-wrap: wrap; gap: 15px; }
+      .search-box input { width: 100%; }
+      .modal-content { max-height: 90vh; }
+      .modal-header, .modal-body { padding: 20px; }
+      .modal-stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+  <div class="particles-container" id="particles"></div>
+
+  <div class="content-wrapper">
+    <header id="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">
+              <img src="elden-ring-logo.png" alt="Elden Ring">
+            </div>
+            <div class="logo-text">
+              <h1 class="gold-text">ELDEN RING</h1>
+              <span>Encyclopaedia</span>
+            </div>
+          </a>
+          <nav>
+            <a href="index.html">Home</a>
+            <a href="bosses.html">Bosses</a>
+            <a href="characters.html">Characters</a>
+            <a href="items.html" class="active">Items</a>
+            <a href="lore.html">Lore</a>
+          </nav>
+          <div class="search-box">
+            <input type="text" placeholder="Search the wiki..." id="searchInput">
+            <i class="ra ra-magnifying-glass"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a> <span>›</span>
+          <a href="items.html">Items</a> <span>›</span>
+          <span>Ammunition</span>
+        </div>
+        <h1 class="title-decorative gold-text">AMMUNITION</h1>
+        <p>Arrows and bolts for bows, crossbows, and ballistae</p>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <span class="divider-symbol">◆ ◆ ◆</span>
+          <div class="divider-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="info-box fade-in">
+          <h3><i class="ra ra-targeted"></i> About Ammunition</h3>
+          <p>Arrows and Bolts are ammunition for ranged weapons. Arrows are used with Bows and Light Bows, Bolts with Crossbows, Great Arrows with Greatbows, and Greatbolts with Ballistae. Arrows add their damage to your bow's base AR and scale with the bow's stats, while bolts and crossbows have no scaling.</p>
+          <p>Status effects from ammunition (poison, bleed, sleep) scale with Arcane when using the Serpent Bow. Fire and Holy damage scale with Faith on the Erdtree Bow, while Magic damage scales with Intelligence on the Horn Bow.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs fade-in">
+          <button class="tab-btn active" data-tab="arrows">Arrows</button>
+          <button class="tab-btn" data-tab="bolts">Bolts</button>
+          <button class="tab-btn" data-tab="great">Great Arrows & Bolts</button>
+          <button class="tab-btn" data-tab="special">Special & Utility</button>
+        </div>
+
+        <!-- ARROWS TAB -->
+        <div id="arrows" class="tab-content active">
+          <div class="category-header fade-in">
+            <i class="ra ra-arrow-cluster" style="color: var(--gold);"></i>
+            <div>
+              <h3>Arrows</h3>
+              <p>Standard and elemental arrows for Bows and Light Bows. Craftable bone variants offer flexibility in the field.</p>
+            </div>
+          </div>
+          
+          <h3 class="gold-text" style="margin: 30px 0 20px; text-align: center;">Standard Arrows</h3>
+          <div class="items-grid">
+            
+            <div class="ammo-card type-physical" data-name="Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-arrow-cluster"></i></div>
+                <div class="ammo-title">
+                  <h4>Arrow</h4>
+                  <span>Standard Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 40 Physical</span>
+              </div>
+              <p class="ammo-desc">Common arrow with a metal tip. Reliable and affordable.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-physical" data-name="Bone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-arrow-cluster"></i></div>
+                <div class="ammo-title">
+                  <h4>Bone Arrow</h4>
+                  <span>Craftable Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 25 Physical</span>
+              </div>
+              <p class="ammo-desc">Arrow whittled from animal bones. Less damage but easy to craft.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-physical" data-name="Bone Arrow (Fletched)">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-arrow-cluster"></i></div>
+                <div class="ammo-title">
+                  <h4>Bone Arrow (Fletched)</h4>
+                  <span>Craftable Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 25 Physical</span>
+              </div>
+              <p class="ammo-desc">Fletched bone arrow with improved range and accuracy.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+          </div>
+
+          <h3 class="gold-text" style="margin: 40px 0 20px; text-align: center;">Elemental Arrows</h3>
+          <div class="items-grid">
+
+            <div class="ammo-card type-fire" data-name="Fire Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-fire"></i></div>
+                <div class="ammo-title">
+                  <h4>Fire Arrow</h4>
+                  <span>Elemental Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+                <span class="ammo-stat fire"><i class="ra ra-fire"></i> 90 Fire</span>
+              </div>
+              <p class="ammo-desc">Arrow with a burning tip. Effective against beasts.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-fire" data-name="Firebone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-fire"></i></div>
+                <div class="ammo-title">
+                  <h4>Firebone Arrow</h4>
+                  <span>Craftable Elemental</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 10 Physical</span>
+                <span class="ammo-stat fire"><i class="ra ra-fire"></i> 60 Fire</span>
+              </div>
+              <p class="ammo-desc">Bone arrow with tip daubed in fire grease.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-magic" data-name="Dwelling Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="ammo-title">
+                  <h4>Dwelling Arrow</h4>
+                  <span>Magic Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat magic"><i class="ra ra-crystal-ball"></i> 95 Magic</span>
+              </div>
+              <p class="ammo-desc">Arrow imbued with magic. Purely magical damage.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-magic" data-name="Magicbone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="ammo-title">
+                  <h4>Magicbone Arrow</h4>
+                  <span>Craftable Magic</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 10 Physical</span>
+                <span class="ammo-stat magic"><i class="ra ra-crystal-ball"></i> 50 Magic</span>
+              </div>
+              <p class="ammo-desc">Bone arrow with glintstone tincture. Scales with INT on Horn Bow.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-lightning" data-name="Lightningbone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-lightning-bolt"></i></div>
+                <div class="ammo-title">
+                  <h4>Lightningbone Arrow</h4>
+                  <span>Craftable Lightning</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 10 Physical</span>
+                <span class="ammo-stat lightning"><i class="ra ra-lightning-bolt"></i> 50 Lightning</span>
+              </div>
+              <p class="ammo-desc">Bone arrow with lightning-infused tip. Scales with DEX.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-holy" data-name="Golden Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-sun"></i></div>
+                <div class="ammo-title">
+                  <h4>Golden Arrow</h4>
+                  <span>Holy Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+                <span class="ammo-stat holy"><i class="ra ra-sun"></i> 50 Holy</span>
+              </div>
+              <p class="ammo-desc">Arrow blessed with golden light. Effective against undead.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-holy" data-name="Haligbone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-sun"></i></div>
+                <div class="ammo-title">
+                  <h4>Haligbone Arrow</h4>
+                  <span>Craftable Holy</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 10 Physical</span>
+                <span class="ammo-stat holy"><i class="ra ra-sun"></i> 50 Holy</span>
+              </div>
+              <p class="ammo-desc">Bone arrow with golden tincture. Scales with FTH on Erdtree Bow.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+          </div>
+
+          <h3 class="gold-text" style="margin: 40px 0 20px; text-align: center;">Status Effect Arrows</h3>
+          <div class="items-grid">
+            
+            <div class="ammo-card type-poison" data-name="Serpent Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-snake"></i></div>
+                <div class="ammo-title">
+                  <h4>Serpent Arrow</h4>
+                  <span>Poison Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 30 Physical</span>
+                <span class="ammo-stat poison"><i class="ra ra-biohazard"></i> 78 Poison</span>
+              </div>
+              <p class="ammo-desc">Arrow carved to resemble a flying snake. Highest poison buildup.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-poison" data-name="Poisonbone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-biohazard"></i></div>
+                <div class="ammo-title">
+                  <h4>Poisonbone Arrow</h4>
+                  <span>Craftable Poison</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+                <span class="ammo-stat poison"><i class="ra ra-biohazard"></i> 52 Poison</span>
+              </div>
+              <p class="ammo-desc">Bone arrow with tip daubed in venom.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-blood" data-name="Bloodbone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-dripping-blade"></i></div>
+                <div class="ammo-title">
+                  <h4>Bloodbone Arrow</h4>
+                  <span>Bleed Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+                <span class="ammo-stat blood"><i class="ra ra-drop"></i> 50 Bleed</span>
+              </div>
+              <p class="ammo-desc">Bone arrow with blood tincture. Inflicts blood loss buildup.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-rot" data-name="Rotbone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-biohazard"></i></div>
+                <div class="ammo-title">
+                  <h4>Rotbone Arrow</h4>
+                  <span>Scarlet Rot Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+                <span class="ammo-stat rot"><i class="ra ra-biohazard"></i> 50 Rot</span>
+              </div>
+              <p class="ammo-desc">Bone arrow daubed in rot. Inflicts scarlet rot.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-frost" data-name="Coldbone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-snowflake"></i></div>
+                <div class="ammo-title">
+                  <h4>Coldbone Arrow</h4>
+                  <span>Frost Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+                <span class="ammo-stat frost"><i class="ra ra-snowflake"></i> 52 Frost</span>
+              </div>
+              <p class="ammo-desc">Bone arrow with frost-enchanted tip. Builds frostbite.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-sleep" data-name="Sleepbone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-moon-sun"></i></div>
+                <div class="ammo-title">
+                  <h4>Sleepbone Arrow</h4>
+                  <span>Sleep Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+                <span class="ammo-stat sleep"><i class="ra ra-moon-sun"></i> 52 Sleep</span>
+              </div>
+              <p class="ammo-desc">Bone arrow tipped with St. Trina's essence. Induces sleep.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-sleep" data-name="St. Trina's Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-fairy-wand"></i></div>
+                <div class="ammo-title">
+                  <h4>St. Trina's Arrow</h4>
+                  <span>Premium Sleep Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 10 Physical</span>
+                <span class="ammo-stat sleep"><i class="ra ra-moon-sun"></i> 72 Sleep</span>
+              </div>
+              <p class="ammo-desc">Sacred arrow with highest sleep buildup. Very effective against Godskins.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag limited">Limited</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- BOLTS TAB -->
+        <div id="bolts" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-bolt" style="color: var(--gold);"></i>
+            <div>
+              <h3>Crossbow Bolts</h3>
+              <p>Ammunition for crossbows. Bolts have no scaling but offer consistent damage. Combine with Pulley Crossbow for rapid status buildup.</p>
+            </div>
+          </div>
+          
+          <h3 class="gold-text" style="margin: 30px 0 20px; text-align: center;">Standard Bolts</h3>
+          <div class="items-grid">
+            
+            <div class="ammo-card type-physical" data-name="Bolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-bolt"></i></div>
+                <div class="ammo-title">
+                  <h4>Bolt</h4>
+                  <span>Standard Bolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 50 Physical</span>
+              </div>
+              <p class="ammo-desc">Common bolt for crossbows. Reliable and affordable.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-physical" data-name="Bone Bolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-bolt"></i></div>
+                <div class="ammo-title">
+                  <h4>Bone Bolt</h4>
+                  <span>Craftable Bolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 40 Physical</span>
+              </div>
+              <p class="ammo-desc">Bolt carved from animal bone. Easy to craft in bulk.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+          </div>
+
+          <h3 class="gold-text" style="margin: 40px 0 20px; text-align: center;">Elemental Bolts</h3>
+          <div class="items-grid">
+
+            <div class="ammo-card type-fire" data-name="Flaming Bolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-fire"></i></div>
+                <div class="ammo-title">
+                  <h4>Flaming Bolt</h4>
+                  <span>Fire Bolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 30 Physical</span>
+                <span class="ammo-stat fire"><i class="ra ra-fire"></i> 70 Fire</span>
+              </div>
+              <p class="ammo-desc">Bolt with a flaming tip. Strong fire damage.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-fire" data-name="Perfumer's Bolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-fire"></i></div>
+                <div class="ammo-title">
+                  <h4>Perfumer's Bolt</h4>
+                  <span>Special Bolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 40 Physical</span>
+                <span class="ammo-stat fire"><i class="ra ra-fire"></i> 60 Fire</span>
+              </div>
+              <p class="ammo-desc">Alchemic bolt used by Perfumers. Creates spark on impact.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag limited">Limited Drop</span>
+              </div>
+            </div>
+
+          </div>
+
+          <h3 class="gold-text" style="margin: 40px 0 20px; text-align: center;">Status Effect Bolts</h3>
+          <div class="items-grid">
+
+            <div class="ammo-card type-blood" data-name="Burred Bolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-dripping-blade"></i></div>
+                <div class="ammo-title">
+                  <h4>Burred Bolt</h4>
+                  <span>Bleed Bolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 40 Physical</span>
+                <span class="ammo-stat blood"><i class="ra ra-drop"></i> 65 Bleed</span>
+              </div>
+              <p class="ammo-desc">Bolt covered in thorns. Highest bleed buildup of any ammunition.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-blood" data-name="Bloodbone Bolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-dripping-blade"></i></div>
+                <div class="ammo-title">
+                  <h4>Bloodbone Bolt</h4>
+                  <span>Craftable Bleed</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 30 Physical</span>
+                <span class="ammo-stat blood"><i class="ra ra-drop"></i> 55 Bleed</span>
+              </div>
+              <p class="ammo-desc">Bolt with blood tincture tip. Builds hemorrhage.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-sleep" data-name="Sleepbone Bolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-moon-sun"></i></div>
+                <div class="ammo-title">
+                  <h4>Sleepbone Bolt</h4>
+                  <span>Sleep Bolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 30 Physical</span>
+                <span class="ammo-stat sleep"><i class="ra ra-moon-sun"></i> 65 Sleep</span>
+              </div>
+              <p class="ammo-desc">Bolt tipped with St. Trina's essence. Great with Pulley Crossbow.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- GREAT ARROWS & GREATBOLTS TAB -->
+        <div id="great" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-heavy-fall" style="color: var(--fire);"></i>
+            <div>
+              <h3>Great Arrows & Greatbolts</h3>
+              <p>Massive projectiles for Greatbows and Ballistae. High damage and stagger, but heavier and more expensive.</p>
+            </div>
+          </div>
+          
+          <h3 class="gold-text" style="margin: 30px 0 20px; text-align: center;">Great Arrows (Greatbows)</h3>
+          <div class="items-grid">
+            
+            <div class="ammo-card type-physical" data-name="Great Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-heavy-fall"></i></div>
+                <div class="ammo-title">
+                  <h4>Great Arrow</h4>
+                  <span>Greatbow Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 90 Physical</span>
+              </div>
+              <p class="ammo-desc">Massive arrow for Greatbows. High damage and stagger.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-physical" data-name="Bone Great Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-heavy-fall"></i></div>
+                <div class="ammo-title">
+                  <h4>Bone Great Arrow</h4>
+                  <span>Craftable Great Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 60 Physical</span>
+              </div>
+              <p class="ammo-desc">Great arrow whittled from hefty beast bones.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-physical" data-name="Golem's Great Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-heavy-fall"></i></div>
+                <div class="ammo-title">
+                  <h4>Golem's Great Arrow</h4>
+                  <span>Premium Great Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 110 Physical</span>
+              </div>
+              <p class="ammo-desc">Arrow used by Guardian Golems. Excellent damage.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag limited">Limited Drop</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-magic" data-name="Golem's Magic Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="ammo-title">
+                  <h4>Golem's Magic Arrow</h4>
+                  <span>Magic Great Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat magic"><i class="ra ra-crystal-ball"></i> 90 Magic</span>
+              </div>
+              <p class="ammo-desc">Magic-imbued arrow from Golems. Pure magic damage.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag limited">Limited Drop</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-holy" data-name="Golden Great Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-sun"></i></div>
+                <div class="ammo-title">
+                  <h4>Golden Great Arrow</h4>
+                  <span>Holy Great Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 55 Physical</span>
+                <span class="ammo-stat holy"><i class="ra ra-sun"></i> 70 Holy</span>
+              </div>
+              <p class="ammo-desc">Blessed great arrow. Effective against undead.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-physical" data-name="Radahn's Spear">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-spear-head"></i></div>
+                <div class="ammo-title">
+                  <h4>Radahn's Spear</h4>
+                  <span>Legendary Great Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 110 Physical</span>
+              </div>
+              <p class="ammo-desc">Spear used by Radahn. +20% damage with Lion Greatbow.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-physical" data-name="Igon's Harpoon">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-spear-head"></i></div>
+                <div class="ammo-title">
+                  <h4>Igon's Harpoon</h4>
+                  <span>DLC Great Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 85 Physical</span>
+              </div>
+              <p class="ammo-desc">Harpoon crafted by Igon. Bonus damage with Igon's Greatbow.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag dlc">DLC</span>
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+          </div>
+
+          <h3 class="gold-text" style="margin: 40px 0 20px; text-align: center;">Greatbolts (Ballistae)</h3>
+          <div class="items-grid">
+
+            <div class="ammo-card type-physical" data-name="Ballista Bolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-axe"></i></div>
+                <div class="ammo-title">
+                  <h4>Ballista Bolt</h4>
+                  <span>Standard Greatbolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 160 Physical</span>
+              </div>
+              <p class="ammo-desc">Massive bolt for Hand Ballista and Jar Cannon.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-lightning" data-name="Lightning Greatbolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-lightning-bolt"></i></div>
+                <div class="ammo-title">
+                  <h4>Lightning Greatbolt</h4>
+                  <span>Lightning Greatbolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 50 Physical</span>
+                <span class="ammo-stat lightning"><i class="ra ra-lightning-bolt"></i> 180 Lightning</span>
+              </div>
+              <p class="ammo-desc">Explodes on impact. Best ballista ammo. Extra effective in water.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-fire" data-name="Explosive Greatbolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-bomb"></i></div>
+                <div class="ammo-title">
+                  <h4>Explosive Greatbolt</h4>
+                  <span>Fire Greatbolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 50 Physical</span>
+                <span class="ammo-stat fire"><i class="ra ra-fire"></i> 180 Fire</span>
+              </div>
+              <p class="ammo-desc">Detonates a large explosion on impact. Fire damage AoE.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-magic" data-name="Rabbath's Greatbolt">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-bomb"></i></div>
+                <div class="ammo-title">
+                  <h4>Rabbath's Greatbolt</h4>
+                  <span>DLC Magic Greatbolt</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 40 Physical</span>
+                <span class="ammo-stat magic"><i class="ra ra-crystal-ball"></i> 160 Magic</span>
+              </div>
+              <p class="ammo-desc">Explodes into magic AoE on impact. Spellmachinist invention.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag dlc">DLC</span>
+                <span class="ammo-tag purchasable">Purchasable</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SPECIAL & UTILITY TAB -->
+        <div id="special" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-fairy-wand" style="color: var(--magic);"></i>
+            <div>
+              <h3>Special & Utility Arrows</h3>
+              <p>Unique arrows with special effects—staggering, marking locations, luring enemies, and more.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="ammo-card type-physical" data-name="Stormwing Bone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-feather-wing"></i></div>
+                <div class="ammo-title">
+                  <h4>Stormwing Bone Arrow</h4>
+                  <span>Stagger Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+              </div>
+              <p class="ammo-desc">Arrow with stormhawk feather. High poise damage, great for staggering.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-physical" data-name="Shattershard Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-crystal-cluster"></i></div>
+                <div class="ammo-title">
+                  <h4>Shattershard Arrow</h4>
+                  <span>Utility Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+              </div>
+              <p class="ammo-desc">Creates resonating noise on impact. Useful for luring enemies.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-magic" data-name="Rainbow Stone Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-gem"></i></div>
+                <div class="ammo-title">
+                  <h4>Rainbow Stone Arrow</h4>
+                  <span>Utility Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 15 Physical</span>
+              </div>
+              <p class="ammo-desc">Creates colored light on impact. Mark locations from distance.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag craftable">Craftable</span>
+              </div>
+            </div>
+
+            <div class="ammo-card type-fire" data-name="Spiritflame Arrow">
+              <div class="ammo-header">
+                <div class="ammo-icon"><i class="ra ra-fire"></i></div>
+                <div class="ammo-title">
+                  <h4>Spiritflame Arrow</h4>
+                  <span>Ghost Fire Arrow</span>
+                </div>
+              </div>
+              <div class="ammo-stats">
+                <span class="ammo-stat physical"><i class="ra ra-sword"></i> 10 Physical</span>
+                <span class="ammo-stat fire"><i class="ra ra-fire"></i> 55 Fire</span>
+              </div>
+              <p class="ammo-desc">Arrow tipped with ghostflame. Dropped by undead in Nokron.</p>
+              <div class="ammo-tags">
+                <span class="ammo-tag limited">Limited Drop</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal-content" id="modalContent">
+        <div class="modal-header">
+          <button class="modal-close" id="modalClose"><i class="ra ra-cancel"></i></button>
+          <div class="modal-icon" id="modalIcon"><i class="ra ra-arrow-cluster"></i></div>
+          <h2 class="modal-title" id="modalTitle">Ammunition Name</h2>
+          <div class="modal-subtitle" id="modalSubtitle">
+            <span>Arrow</span>
+            <span class="modal-badge">Craftable</span>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="modal-section">
+            <div class="modal-section-title"><i class="ra ra-scroll-unfurled"></i> Description</div>
+            <div class="modal-lore" id="modalLore">Loading...</div>
+          </div>
+          <div class="modal-section">
+            <div class="modal-section-title"><i class="ra ra-sword"></i> Stats</div>
+            <div class="modal-stats-grid" id="modalStats"></div>
+          </div>
+          <div class="modal-section">
+            <div class="modal-section-title"><i class="ra ra-compass"></i> How to Obtain</div>
+            <div class="modal-location" id="modalLocation"></div>
+          </div>
+          <div class="modal-section" id="modalCraftSection">
+            <div class="modal-section-title"><i class="ra ra-anvil"></i> Crafting Requirements</div>
+            <div class="modal-craft" id="modalCraft"></div>
+          </div>
+          <div class="modal-section" id="modalTipSection">
+            <div class="modal-tip" id="modalTip"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <span>ELDEN RING WIKI</span>
+          </div>
+          <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Music Player -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()">
+      <i class="ra ra-music-note" id="minimizedIcon"></i>
+    </div>
+    <div class="player-expanded">
+      <div class="player-header">
+        <span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span>
+        <button class="player-minimize" onclick="togglePlayer()">−</button>
+      </div>
+      <div class="player-track">
+        <div class="track-name" id="trackName">Track 1</div>
+        <div class="track-info" id="trackInfo">Elden Ring OST</div>
+      </div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header">
+          <span class="volume-label">Volume</span>
+          <button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button>
+        </div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" preload="auto">
+    <source src="bgm1.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+  <script src="items-search.js"></script>
+  <script src="music-player.js"></script>
+  
+  <script>
+    // Ammunition Data
+    const ammoData = {
+      "Arrow": {
+        icon: "ra-arrow-cluster", type: "physical", category: "Standard Arrow", 
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "An arrow with a metal tip. A common type of arrow found all over the Lands Between. Simple but reliable, these arrows have been used by hunters and soldiers since time immemorial.",
+        stats: { physical: 40 }, price: "20 Runes",
+        location: "Sold by Merchant Kalé at Church of Elleh (20 Runes). Also sold by most Nomadic Merchants, Twin Maiden Husks, and many other vendors throughout the Lands Between.",
+        tip: "The most cost-effective arrow for general use. Stock up early and often."
+      },
+      "Bone Arrow": {
+        icon: "ra-arrow-cluster", type: "physical", category: "Craftable Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. Less powerful than metal arrows, but can be crafted with relative ease from materials found in the wild.",
+        stats: { physical: 25 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining the Nomadic Warrior's Cookbook [1] from Merchant Kalé.",
+        craft: ["Thin Beast Bones x3"],
+        tip: "Good for conserving runes early game. Farm bones from wildlife in Limgrave."
+      },
+      "Bone Arrow (Fletched)": {
+        icon: "ra-arrow-cluster", type: "physical", category: "Craftable Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Bone arrow with fletching that adds distance to its flight. The feathers improve accuracy and range over standard bone arrows.",
+        stats: { physical: 25 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining the Nomadic Warrior's Cookbook [3].",
+        craft: ["Thin Beast Bones x3", "Flight Pinion x1"],
+        tip: "Use when you need extra range. Flight Pinions drop from birds."
+      },
+      "Fire Arrow": {
+        icon: "ra-arrow-cluster", type: "fire", category: "Elemental Arrow",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "An arrow with a burning tip. The fire inflicts additional damage and is particularly effective against beasts and creatures weak to flame.",
+        stats: { physical: 15, fire: 90 }, price: "120 Runes",
+        location: "Sold by Nomadic Merchant in Weeping Peninsula (South), Nomadic Merchant in Mt. Gelmir, and several other merchants.",
+        tip: "Excellent against beasts and in areas with oil puddles. Fire damage scales with FTH on Erdtree Bow."
+      },
+      "Firebone Arrow": {
+        icon: "ra-arrow-cluster", type: "fire", category: "Craftable Elemental",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is daubed with fire grease. A craftable alternative to merchant-bought fire arrows.",
+        stats: { physical: 10, fire: 60 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Armorer's Cookbook [2] from Nomadic Merchant in Liurnia.",
+        craft: ["Thin Beast Bones x3", "Smoldering Butterfly x1"],
+        tip: "Smoldering Butterflies are common near ruins at night."
+      },
+      "Golden Arrow": {
+        icon: "ra-arrow-cluster", type: "holy", category: "Holy Arrow",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "An arrow blessed with golden light. The sacred essence is effective against Those Who Live in Death and other unholy creatures.",
+        stats: { physical: 15, holy: 50 }, price: "120 Runes",
+        location: "Sold by Hermit Merchant at Hermit Merchant's Shack (Altus Plateau) and Isolated Merchant (Weeping Peninsula).",
+        tip: "Very effective against skeletons and undead. Prevents them from reviving."
+      },
+      "Serpent Arrow": {
+        icon: "ra-snake", type: "poison", category: "Status Arrow",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "Arrow carved to resemble a flying snake. Used in tandem with the Serpent Bow. Loyal minions of the Formless Serpents, their fangs are daubed with deadly poison.",
+        stats: { physical: 30, poison: 78 }, price: "120 Runes",
+        location: "Sold infinitely by Isolated Merchant in Dragonbarrow (120 Runes). Also dropped by Serpent Snails in Nokstella and Volcano Manor.",
+        tip: "Highest poison buildup of any arrow. Pair with Serpent Bow for Arcane scaling on poison."
+      },
+      "Poisonbone Arrow": {
+        icon: "ra-arrow-cluster", type: "poison", category: "Craftable Status",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is daubed with venom extracted from poisonous creatures.",
+        stats: { physical: 15, poison: 52 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Nomadic Warrior's Cookbook [6].",
+        craft: ["Thin Beast Bones x3", "Poisonbloom x1"],
+        tip: "Poisonbloom grows in swamps and cave areas throughout the Lands Between."
+      },
+      "Bloodbone Arrow": {
+        icon: "ra-dripping-blade", type: "blood", category: "Status Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is daubed with a blood tincture. Inflicts blood loss buildup on hit.",
+        stats: { physical: 15, bleed: 50 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Nomadic Warrior's Cookbook [6].",
+        craft: ["Thin Beast Bones x3", "Bloodrose x1"],
+        tip: "Bloodrose grows in areas with lots of death. Combine with Barrage skill for fast bleed procs."
+      },
+      "Rotbone Arrow": {
+        icon: "ra-biohazard", type: "rot", category: "Status Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is daubed with rot. Afflicts targets with the dreaded scarlet rot.",
+        stats: { physical: 15, rot: 50 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Nomadic Warrior's Cookbook [22] in Siofra River.",
+        craft: ["Thin Beast Bones x3", "Aeonian Butterfly x1"],
+        tip: "Aeonian Butterflies are found in Caelid. Scarlet rot is devastating against bosses not immune to it."
+      },
+      "Coldbone Arrow": {
+        icon: "ra-snowflake", type: "frost", category: "Status Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is enchanted with frost. Builds up frostbite on targets.",
+        stats: { physical: 15, frost: 52 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Glintstone Craftsman's Cookbook [1].",
+        craft: ["Thin Beast Bones x3", "Rimed Crystal Bud x1"],
+        tip: "Frostbite deals burst damage and increases damage taken. Reset with fire for repeated procs."
+      },
+      "Sleepbone Arrow": {
+        icon: "ra-moon-sun", type: "sleep", category: "Status Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is daubed with essence of St. Trina. Induces drowsiness and eventual sleep.",
+        stats: { physical: 15, sleep: 52 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Fevor's Cookbook [1] from Nomadic Merchant near Bellum Church.",
+        craft: ["Thin Beast Bones x3", "Trina's Lily x1"],
+        tip: "Trina's Lily found near Minor Erdtrees. Sleep is incredibly strong against Godskin enemies."
+      },
+      "St. Trina's Arrow": {
+        icon: "ra-fairy-wand", type: "sleep", category: "Premium Status",
+        craftable: false, purchasable: false, limited: true, dlc: false,
+        lore: "Arrow imbued with the essence of St. Trina, bearer of slumber. Those struck by this arrow feel an irresistible urge to close their eyes.",
+        stats: { physical: 10, sleep: 72 }, price: "N/A (Limited)",
+        location: "Found in limited quantities throughout the world. Notable locations include Stormveil Castle, Caria Manor, and various dungeons. Not purchasable or craftable.",
+        tip: "Highest sleep buildup. Save these for tough fights like Godskin Duo. Can trivialize certain encounters."
+      },
+      "Magicbone Arrow": {
+        icon: "ra-crystal-ball", type: "magic", category: "Elemental Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is daubed with a glintstone tincture, allowing it to deal magic damage.",
+        stats: { physical: 10, magic: 50 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Glintstone Craftsman's Cookbook [3].",
+        craft: ["Thin Beast Bones x3", "Cracked Crystal x1"],
+        tip: "Magic damage scales with INT on Horn Bow. Cracked Crystals drop from miners in Crystal Tunnels."
+      },
+      "Lightningbone Arrow": {
+        icon: "ra-lightning-bolt", type: "lightning", category: "Elemental Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is infused with lightning. Deals lightning damage that scales with dexterity.",
+        stats: { physical: 10, lightning: 50 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Ancient Dragon Apostle's Cookbook [1] in Wyndham Catacombs.",
+        craft: ["Thin Beast Bones x3", "Fulgurbloom x1"],
+        tip: "Lightning scales with DEX on all bows. Very effective against dragons and in rainy weather."
+      },
+      "Haligbone Arrow": {
+        icon: "ra-sun", type: "holy", category: "Elemental Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones. The tip is daubed with a golden tincture. The holy damage scales with faith.",
+        stats: { physical: 10, holy: 50 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Missionary's Cookbook [3].",
+        craft: ["Thin Beast Bones x3", "Golden Sunflower x1"],
+        tip: "Holy damage scales with FTH on Erdtree Bow. Golden Sunflowers found in the Altus Plateau."
+      },
+      "Bolt": {
+        icon: "ra-bolt", type: "physical", category: "Standard Bolt",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "Ammunition used for crossbows. A widespread, common type of bolt used throughout the Lands Between by soldiers and hunters alike.",
+        stats: { physical: 50 }, price: "40 Runes",
+        location: "Sold by Merchant Kalé (40 Runes) and most other merchants. Available from Twin Maiden Husks.",
+        tip: "Standard crossbow ammunition. More damage than arrows but crossbows have no scaling."
+      },
+      "Bone Bolt": {
+        icon: "ra-bolt", type: "physical", category: "Craftable Bolt",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Bolt carved from animal bone. Less powerful than metal bolts but can be crafted in the field.",
+        stats: { physical: 40 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Nomadic Warrior's Cookbook [5].",
+        craft: ["Thin Beast Bones x2"],
+        tip: "Most efficient craftable ammunition. Always keep materials on hand."
+      },
+      "Flaming Bolt": {
+        icon: "ra-fire", type: "fire", category: "Elemental Bolt",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "Bolt with a flaming tip that deals fire damage on impact. The flames spread briefly, igniting nearby flammable materials.",
+        stats: { physical: 30, fire: 70 }, price: "120 Runes",
+        location: "Sold by Nomadic Merchant in South Caelid (120 Runes).",
+        tip: "Strong fire damage for crossbow users. Good against beasts and in oil areas."
+      },
+      "Burred Bolt": {
+        icon: "ra-dripping-blade", type: "blood", category: "Status Bolt",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "Bolt covered in thorns. One of the most horrific weapons used in the Shattering. The thorns tear flesh and cause severe bleeding.",
+        stats: { physical: 40, bleed: 65 }, price: "160 Runes",
+        location: "Sold infinitely by Nomadic Merchant in Mohgwyn Palace approach (160 Runes). Also sold by Patches after certain events.",
+        tip: "Highest bleed buildup of any ammunition. Devastating with Pulley Crossbow's triple shot."
+      },
+      "Dwelling Arrow": {
+        icon: "ra-crystal-ball", type: "magic", category: "Magic Arrow",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "Arrow imbued with magic. The glintstone energies within deal purely magical damage, bypassing physical defenses entirely.",
+        stats: { magic: 95 }, price: "160 Runes",
+        location: "Sold by Hermit Merchant in Ainsel River (160 Runes). Also sold by Nomadic Merchant in Liurnia.",
+        tip: "Pure magic damage with no physical component. Good against high-armor enemies."
+      },
+      "Sleepbone Bolt": {
+        icon: "ra-moon-sun", type: "sleep", category: "Status Bolt",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Bolt carved from animal bone. The tip is daubed with essence of St. Trina, inducing drowsiness in those it strikes.",
+        stats: { physical: 30, sleep: 65 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Fevor's Cookbook [2] from Isolated Merchant near Academy Main Gate.",
+        craft: ["Thin Beast Bones x3", "Trina's Lily x1"],
+        tip: "Combine with Pulley Crossbow to proc sleep extremely fast. Excellent for Godskin fights."
+      },
+      "Bloodbone Bolt": {
+        icon: "ra-dripping-blade", type: "blood", category: "Status Bolt",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Bolt carved from animal bone. The tip is daubed with a blood tincture that causes hemorrhage buildup.",
+        stats: { physical: 30, bleed: 55 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Nomadic Warrior's Cookbook [6].",
+        craft: ["Thin Beast Bones x3", "Bloodrose x1"],
+        tip: "Alternative to Burred Bolts when you can't reach that merchant yet."
+      },
+      "Great Arrow": {
+        icon: "ra-heavy-fall", type: "physical", category: "Greatbow Ammo",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "A massive arrow for use with greatbows. The sheer size and weight of these projectiles give them tremendous stopping power.",
+        stats: { physical: 90 }, price: "300 Runes",
+        location: "Sold by Hermit Merchant at Hermit Merchant's Shack and various other merchants (300 Runes).",
+        tip: "Standard greatbow ammunition. High damage and excellent stagger potential."
+      },
+      "Golem's Great Arrow": {
+        icon: "ra-heavy-fall", type: "physical", category: "Premium Great Arrow",
+        craftable: false, purchasable: false, limited: true, dlc: false,
+        lore: "A great arrow of the type fired by the Guardian Golems. Their massive bows fire these with devastating force.",
+        stats: { physical: 110 }, price: "N/A (Drop)",
+        location: "Dropped by Guardian Golems throughout the Lands Between. Best farmed at the Limgrave Divine Tower.",
+        tip: "Higher damage than standard Great Arrows. Farm Golems while wearing Silver Scarab."
+      },
+      "Golem's Magic Arrow": {
+        icon: "ra-crystal-ball", type: "magic", category: "Magic Great Arrow",
+        craftable: false, purchasable: false, limited: true, dlc: false,
+        lore: "A magic great arrow of the type fired by Guardian Golems. Imbued with glintstone energy for devastating magical damage.",
+        stats: { magic: 90 }, price: "N/A (Drop)",
+        location: "Dropped by Guardian Golems that fire magic arrows. Found at various Divine Towers.",
+        tip: "Pure magic damage in greatbow form. Good against high physical resistance enemies."
+      },
+      "Radahn's Spear": {
+        icon: "ra-spear-head", type: "physical", category: "Legendary Great Arrow",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "Great arrows modeled after those used by General Radahn in his prime. They are spears imbued with Radahn's might, and deal additional damage when fired from a Lion Greatbow.",
+        stats: { physical: 110 }, price: "800 Runes",
+        location: "Sold infinitely by Finger Reader Enia at Roundtable Hold after defeating Starscourge Radahn (800 Runes).",
+        tip: "+20% damage with Lion Greatbow, +40% if you have two Radahn's Spears equipped. Best greatbow ammo for Radahn's weapon."
+      },
+      "Ballista Bolt": {
+        icon: "ra-axe", type: "physical", category: "Greatbolt",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "A massive bolt for use with ballistae such as the Hand Ballista. The sheer size of these projectiles can knock enemies off their feet.",
+        stats: { physical: 160 }, price: "300 Runes",
+        location: "Sold by various merchants including the Hermit Merchant (Mountaintops). Also found in the world.",
+        tip: "Standard ballista ammunition. Works with Hand Ballista and Jar Cannon."
+      },
+      "Lightning Greatbolt": {
+        icon: "ra-lightning-bolt", type: "lightning", category: "Elemental Greatbolt",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "Greatbolt tipped with a clump of Gravel Stone shards. The lightning-charged stone detonates on impact, creating an electrical explosion.",
+        stats: { physical: 50, lightning: 180 }, price: "500 Runes",
+        location: "Sold by Hermit Merchant south of Stargazer's Ruins in Mountaintops of the Giants (500 Runes).",
+        tip: "Best ballista ammo in most situations. Extra effective in rain and water. Flies straighter than Explosive Greatbolts."
+      },
+      "Explosive Greatbolt": {
+        icon: "ra-bomb", type: "fire", category: "Elemental Greatbolt",
+        craftable: false, purchasable: true, limited: false, dlc: false,
+        lore: "Greatbolt tipped with a clump of Explosive Stone shards. Detonates a large explosion on impact, dealing devastating fire damage.",
+        stats: { physical: 50, fire: 180 }, price: "500 Runes",
+        location: "Sold by Hermit Merchant in Mountaintops of the Giants (500 Runes). Also found in Volcano Manor.",
+        tip: "AoE explosion on impact. Less accurate than Lightning Greatbolts. Worse in wet conditions."
+      },
+      "Bone Great Arrow": {
+        icon: "ra-heavy-fall", type: "physical", category: "Craftable Great Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Great arrow whittled from hefty beast bones. Less powerful than metal great arrows but can be crafted from hunting materials.",
+        stats: { physical: 60 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Nomadic Warrior's Cookbook [13].",
+        craft: ["Hefty Beast Bone x4"],
+        tip: "Hefty Beast Bones from large animals. Get the Bone Peddler's Bell Bearing for infinite bones."
+      },
+      "Stormwing Bone Arrow": {
+        icon: "ra-feather-wing", type: "physical", category: "Utility Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones with fletching from a Stormhawk's feathers. Deals exceptional poise damage.",
+        stats: { physical: 15 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Nomadic Warrior's Cookbook [16].",
+        craft: ["Thin Beast Bones x4", "Stormhawk Feather x1"],
+        tip: "Amazing for staggering enemies. Stormhawk Feathers drop from hawks at Stormveil Castle."
+      },
+      "Shattershard Arrow": {
+        icon: "ra-crystal-cluster", type: "physical", category: "Utility Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrows whittled from animal bones tipped with a shard of crystal. Creates a resonating noise at the point of impact.",
+        stats: { physical: 15 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Glintstone Craftsman's Cookbook [5].",
+        craft: ["Thin Beast Bones x3", "Crystal Cave Moss x1"],
+        tip: "Useful for luring enemies. The noise can draw attention to a specific location."
+      },
+      "Rainbow Stone Arrow": {
+        icon: "ra-gem", type: "physical", category: "Utility Arrow",
+        craftable: true, purchasable: false, limited: false, dlc: false,
+        lore: "Arrow whittled from animal bones tipped with chips of Rainbow Stone. Colored lights shine at the point of impact.",
+        stats: { physical: 15 }, price: "N/A (Craftable)",
+        location: "Craftable after obtaining Nomadic Warrior's Cookbook [7].",
+        craft: ["Thin Beast Bones x3", "Ruin Fragment x3"],
+        tip: "Mark distant locations or safe paths. Useful for co-op communication."
+      },
+      "Spiritflame Arrow": {
+        icon: "ra-fire", type: "fire", category: "Special Arrow",
+        craftable: false, purchasable: false, limited: true, dlc: false,
+        lore: "Arrow tipped with ghostflame. The spectral fire burns with an otherworldly chill, dealing both fire damage and frostbite buildup.",
+        stats: { physical: 10, fire: 55 }, price: "N/A (Drop)",
+        location: "Dropped by undead enemies in Nokron, Eternal City. Best farmed from undead archers near the Ancestral Woods grace.",
+        tip: "Unique arrows that deal both fire damage and frostbite. Very rare - save for special occasions."
+      },
+      "Igon's Harpoon": {
+        icon: "ra-spear-head", type: "physical", category: "DLC Great Arrow",
+        craftable: false, purchasable: true, limited: false, dlc: true,
+        lore: "Harpoon crafted by Igon, the dragon hunter. Designed specifically for piercing dragon scales. Deals bonus damage with Igon's Greatbow.",
+        stats: { physical: 85 }, price: "400 Runes",
+        location: "Purchasable from Twin Maiden Husks after giving them Igon's Bell Bearing (obtained after Igon's death in his questline).",
+        tip: "Bonus damage with Igon's Greatbow makes this the best ammo for that weapon. Complete Igon's quest to access."
+      },
+      "Rabbath's Greatbolt": {
+        icon: "ra-bomb", type: "magic", category: "DLC Greatbolt",
+        craftable: false, purchasable: true, limited: false, dlc: true,
+        lore: "One of Rabbath's finest inventions. This greatbolt explodes into a burst of magic damage on impact, damaging all nearby enemies.",
+        stats: { physical: 40, magic: 160 }, price: "600 Runes",
+        location: "Purchasable from Twin Maiden Husks after giving them Spellmachinist's Bell Bearing (found in Shadow of the Erdtree DLC).",
+        tip: "AoE magic explosion. Excellent against groups or large bosses. Magic damage scales with INT on compatible weapons."
+      }
+    };
+
+    // Modal Elements
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+
+    function openModal(ammoName) {
+      const data = ammoData[ammoName];
+      if (!data) return;
+
+      document.getElementById('modalIcon').innerHTML = `<i class="ra ${data.icon}"></i>`;
+      document.getElementById('modalTitle').textContent = ammoName;
+      
+      let badges = `<span>${data.category}</span>`;
+      if (data.craftable) badges += `<span class="modal-badge">Craftable</span>`;
+      if (data.purchasable) badges += `<span class="modal-badge purchasable">Purchasable</span>`;
+      if (data.limited) badges += `<span class="modal-badge limited">Limited</span>`;
+      if (data.dlc) badges += `<span class="modal-badge dlc">DLC</span>`;
+      document.getElementById('modalSubtitle').innerHTML = badges;
+      
+      document.getElementById('modalLore').textContent = data.lore;
+      
+      // Stats
+      let statsHTML = '';
+      if (data.stats.physical) statsHTML += `<div class="modal-stat-item"><span class="label">Physical</span><span class="value">${data.stats.physical}</span></div>`;
+      if (data.stats.fire) statsHTML += `<div class="modal-stat-item"><span class="label">Fire</span><span class="value" style="color:var(--fire)">${data.stats.fire}</span></div>`;
+      if (data.stats.magic) statsHTML += `<div class="modal-stat-item"><span class="label">Magic</span><span class="value" style="color:var(--magic)">${data.stats.magic}</span></div>`;
+      if (data.stats.lightning) statsHTML += `<div class="modal-stat-item"><span class="label">Lightning</span><span class="value" style="color:var(--lightning)">${data.stats.lightning}</span></div>`;
+      if (data.stats.holy) statsHTML += `<div class="modal-stat-item"><span class="label">Holy</span><span class="value" style="color:var(--holy)">${data.stats.holy}</span></div>`;
+      if (data.stats.poison) statsHTML += `<div class="modal-stat-item"><span class="label">Poison</span><span class="value" style="color:var(--poison)">${data.stats.poison}</span></div>`;
+      if (data.stats.bleed) statsHTML += `<div class="modal-stat-item"><span class="label">Bleed</span><span class="value" style="color:var(--blood)">${data.stats.bleed}</span></div>`;
+      if (data.stats.rot) statsHTML += `<div class="modal-stat-item"><span class="label">Scarlet Rot</span><span class="value" style="color:var(--rot)">${data.stats.rot}</span></div>`;
+      if (data.stats.frost) statsHTML += `<div class="modal-stat-item"><span class="label">Frostbite</span><span class="value" style="color:var(--frost)">${data.stats.frost}</span></div>`;
+      if (data.stats.sleep) statsHTML += `<div class="modal-stat-item"><span class="label">Sleep</span><span class="value" style="color:var(--sleep)">${data.stats.sleep}</span></div>`;
+      statsHTML += `<div class="modal-stat-item highlight"><span class="label">Price</span><span class="value">${data.price}</span></div>`;
+      document.getElementById('modalStats').innerHTML = statsHTML;
+      
+      document.getElementById('modalLocation').innerHTML = `<p>${data.location}</p>`;
+      
+      // Crafting
+      const craftSection = document.getElementById('modalCraftSection');
+      if (data.craft) {
+        craftSection.style.display = 'block';
+        document.getElementById('modalCraft').innerHTML = data.craft.map(item => 
+          `<div class="modal-craft-item"><i class="ra ra-cog"></i><span>${item}</span></div>`
+        ).join('');
+      } else {
+        craftSection.style.display = 'none';
+      }
+      
+      // Tip
+      const tipSection = document.getElementById('modalTipSection');
+      if (data.tip) {
+        tipSection.style.display = 'block';
+        document.getElementById('modalTip').innerHTML = `<i class="ra ra-lightbulb-on"></i>${data.tip}`;
+      } else {
+        tipSection.style.display = 'none';
+      }
+      
+      modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabGroup = this.closest('section');
+        tabGroup.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        tabGroup.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Card clicks
+    document.querySelectorAll('.ammo-card').forEach(card => {
+      card.addEventListener('click', () => openModal(card.dataset.name));
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card.dataset.name); }});
+    });
+
+    // Vanta Background
+    try {
+      VANTA.FOG({ el: "#vanta-bg", mouseControls: true, touchControls: true, gyroControls: false, minHeight: 200, minWidth: 200, highlightColor: 0x5c3d00, midtoneColor: 0x1a0f00, lowlightColor: 0x000000, baseColor: 0x0a0500, blurFactor: 0.5, speed: 1.5, zoom: 1.2 });
+    } catch(e) { console.log('Vanta not loaded'); }
+
+    // Embers
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        const size = Math.random() * 4 + 2;
+        ember.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:radial-gradient(circle,hsl(${Math.random()*30+20},100%,${Math.random()*20+50}%) 0%,hsl(${Math.random()*30+20},100%,30%) 50%,transparent 70%);animation-duration:${Math.random()*15+10}s;animation-delay:-${Math.random()*20}s;box-shadow:0 0 ${size*2}px hsl(${Math.random()*30+20},100%,${Math.random()*20+50}%);`;
+        container.appendChild(ember);
+      }
+    }
+    createEmbers();
+
+    // Header scroll
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50));
+
+    // Back to top
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 500));
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Fade in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Footer Clock
+    function updateFooterClock() {
+      const now = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('en-US', options);
+      const clockEl = document.getElementById('footerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    updateFooterClock();
+    setInterval(updateFooterClock, 1000);
+
+    if (typeof initializeSearch === 'function') initializeSearch('ammunition');
+  </script>
+</body>
+</html>

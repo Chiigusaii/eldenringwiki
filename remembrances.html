@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remembrances - Elden Ring Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="music-player.css">
+  <link rel="stylesheet" href="search-styles.css">
+  
+  <style>
+    :root {
+      --gold: #ed8a09; --gold-bright: #f9c043; --gold-dark: #bd6707; --gold-muted: #e1b26b;
+      --bg-black: #040200; --bg-dark: #0d0906; --bg-surface: #1a1410; --bg-card: #231a12;
+      --text-primary: #f5f3e0; --text-secondary: #c9b99a; --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3); --glow: rgba(237, 138, 9, 0.4);
+      --fire: #ff6b35; --magic: #6db3f2; --lightning: #f0e68c; --holy: #ffd700;
+      --poison: #9acd32; --bleed: #dc143c; --sleep: #9370db; --rot: #8b4513; --frost: #87ceeb;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; color: var(--text-primary); background: var(--bg-black); min-height: 100vh; overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 150px 60px rgba(0,0,0,0.8); z-index: 100; }
+    
+    #vanta-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .ember { position: absolute; border-radius: 50%; animation: ember-float linear infinite; opacity: 0; }
+    @keyframes ember-float { 
+      0% { opacity: 0; transform: translateY(100vh) translateX(0) scale(0); } 
+      10% { opacity: 1; transform: translateY(90vh) translateX(10px) scale(1); } 
+      90% { opacity: 0.8; transform: translateY(10vh) translateX(-20px) scale(0.8); } 
+      100% { opacity: 0; transform: translateY(-5vh) translateX(30px) scale(0); } 
+    }
+    
+    h1, h2, h3, h4, h5, h6 { font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
+    .title-decorative { font-family: 'Cinzel Decorative', serif; }
+    .gold-text { background: linear-gradient(to bottom, #cfc09f 0%, #ffecb3 25%, #e7c66e 50%, #a17720 75%, #5c3d00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    .glow-text { color: var(--gold); text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px var(--glow); }
+    
+    .content-wrapper { position: relative; z-index: 10; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 80px 0; }
+    
+    /* Header */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s ease; padding: 15px 0; }
+    header.scrolled { background: rgba(4, 2, 0, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px var(--glow)); transition: all 0.3s ease; }
+    .logo:hover .logo-icon img { filter: drop-shadow(0 0 20px var(--glow)); transform: scale(1.05); }
+    .logo-text h1 { font-size: 1.4rem; letter-spacing: 0.15em; }
+    .logo-text span { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--text-muted); text-transform: uppercase; display: block; }
+    
+    nav { display: flex; gap: 5px; }
+    nav a { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: 10px 18px; border-radius: 2px; transition: all 0.3s ease; position: relative; }
+    nav a:hover { color: var(--gold); background: rgba(237, 138, 9, 0.1); }
+    nav a.active { color: var(--gold); }
+    nav a.active::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+    
+    .search-box { position: relative; }
+    .search-box input { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; background: rgba(26, 20, 16, 0.8); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 40px 10px 15px; border-radius: 2px; width: 220px; transition: all 0.3s ease; }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 15px rgba(237, 138, 9, 0.15); width: 280px; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    
+    /* Page Hero */
+    .page-hero { padding: 160px 0 80px; text-align: center; position: relative; }
+    .page-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(237, 138, 9, 0.1) 0%, transparent 70%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.15em; margin-bottom: 15px; }
+    .page-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 750px; margin: 0 auto; line-height: 1.8; }
+    
+    .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 30px 0; }
+    .divider-line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); }
+    .divider-symbol { color: var(--gold); font-size: 1.2rem; letter-spacing: 0.3em; }
+    
+    /* Breadcrumb */
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--gold-muted); text-decoration: none; transition: color 0.3s ease; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 8px; }
+    
+    /* Tabs */
+    .tabs { display: flex; gap: 5px; margin-bottom: 30px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 10px; justify-content: center; }
+    .tab-btn { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 10px 20px; cursor: pointer; transition: all 0.3s ease; position: relative; border-radius: 2px 2px 0 0; }
+    .tab-btn:hover { color: var(--text-primary); background: rgba(237, 138, 9, 0.05); }
+    .tab-btn.active { color: var(--gold); border-color: var(--gold-dark); border-bottom-color: transparent; background: rgba(237, 138, 9, 0.1); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Remembrance Grid */
+    .remembrance-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 25px; }
+    
+    /* Remembrance Card */
+    .remembrance-card { background: var(--bg-card); border: 2px solid var(--border); border-radius: 3px; padding: 25px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+    .remembrance-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s ease; }
+    .remembrance-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(237, 138, 9, 0.15); }
+    .remembrance-card:hover::before { opacity: 1; }
+    
+    .remembrance-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(189, 103, 7, 0.2); }
+    .remembrance-icon { width: 70px; height: 70px; background: var(--bg-dark); border: 2px solid var(--gold-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden; }
+    .remembrance-icon::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%); }
+    .remembrance-icon i { font-size: 2rem; color: var(--gold); z-index: 1; }
+    .remembrance-icon.dlc { border-color: var(--fire); }
+    .remembrance-icon.dlc i { color: var(--fire); }
+    
+    .remembrance-title { flex: 1; }
+    .remembrance-title h4 { font-size: 1.15rem; color: var(--text-primary); margin-bottom: 4px; }
+    .remembrance-title .boss-name { font-size: 0.8rem; color: var(--gold-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .remembrance-lore { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; font-style: italic; margin: 12px 0; padding: 10px; background: rgba(0,0,0,0.25); border-radius: 2px; }
+    
+    .rewards-section { margin-top: 15px; }
+    .rewards-title { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+    .rewards-title i { font-size: 0.9rem; }
+    
+    .reward-item { background: rgba(237, 138, 9, 0.08); border-left: 2px solid var(--gold-dark); padding: 10px 12px; margin-bottom: 8px; border-radius: 2px; display: flex; align-items: center; gap: 10px; transition: all 0.2s ease; }
+    .reward-item:hover { background: rgba(237, 138, 9, 0.12); }
+    .reward-item i { color: var(--gold-muted); font-size: 1.1rem; }
+    .reward-name { font-size: 0.95rem; color: var(--text-primary); font-weight: 500; }
+    .reward-type { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-left: auto; }
+    
+    .remembrance-    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+    
+    /* Animations */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; } 
+    ::-webkit-scrollbar-track { background: var(--bg-black); } 
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; } 
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    ::selection { background: var(--gold-dark); color: var(--bg-black); }
+    
+    /* Responsive */
+    @media (max-width: 768px) { 
+      nav, .search-box { display: none; } 
+      .remembrance-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+    }
+  
+    #footerClock {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-muted);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+  <div class="particles-container" id="particles"></div>
+  
+  <div class="content-wrapper">
+    <header id="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">
+              <img src="elden-ring-logo.png" alt="Elden Ring Logo">
+            </div>
+            <div class="logo-text"><h1 class="gold-text">ELDEN RING</h1><span>Wiki Database</span></div>
+          </a>
+                    <nav>
+            <a href="index.html">Home</a>
+            <a href="bosses.html">Bosses</a>
+            <a href="characters.html">Characters</a>
+            <a href="items.html" class="active">Items</a>
+            <a href="lore.html">Lore</a>
+          </nav>
+          <div class="search-box"><input type="text" placeholder="Search the wiki..." id="globalSearch"><i class="ra ra-telescope"></i></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a> <span>›</span>
+          <a href="items.html">Items</a> <span>›</span>
+          <span>Remembrances</span>
+        </div>
+        <h1 class="title-decorative gold-text">REMEMBRANCES</h1>
+        <div class="divider"><div class="divider-line"></div><span class="divider-symbol">◆ ✧ ◆</span><div class="divider-line"></div></div>
+        <p>Powerful relics dropped by the mightiest bosses, hewn into the Erdtree and Scadutree. Each Remembrance can be exchanged with Finger Reader Enia at the Roundtable Hold for unique weapons, spells, or tools—or consumed for a great bounty of Runes. Duplicate at Walking Mausoleums to obtain both rewards.</p>
+      </div>
+    </section>
+
+    <section id="how-to-use">
+      <div class="container">
+        <div class="how-to-use fade-in">
+          <h2>How to Use Remembrances</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4>Defeat a Boss</h4>
+              <p>Obtain a Remembrance by defeating one of the 25 major bosses across the Lands Between and Land of Shadow.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4>Trade with Enia</h4>
+              <p>Visit Finger Reader Enia at Roundtable Hold to exchange the Remembrance for one of two unique rewards.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4>Duplicate (Optional)</h4>
+              <p>Use Walking Mausoleums to duplicate a Remembrance once, allowing you to claim both rewards in one playthrough.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4>Alternative: Consume</h4>
+              <p>Consume the Remembrance directly for a large amount of Runes (not recommended for first playthrough).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="remembrances">
+      <div class="container">
+        <div class="tabs fade-in">
+          <button class="tab-btn active" data-tab="base-game">Base Game (15)</button>
+          <button class="tab-btn" data-tab="dlc">Shadow of the Erdtree (10)</button>
+        </div>
+
+        <!-- BASE GAME REMEMBRANCES -->
+        <div id="base-game" class="tab-content active">
+          <div class="remembrance-grid">
+
+            <!-- GODRICK -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-double-team"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Grafted</h4>
+                  <span class="boss-name">Godrick the Grafted</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"A feeble man sought power through the grotesque act of grafting. 'One day we'll return together, to our home, bathed in rays of gold.'"</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-axe"></i>
+                  <span class="reward-name">Axe of Godrick</span>
+                  <span class="reward-type">Greataxe</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-dragon"></i>
+                  <span class="reward-name">Grafted Dragon</span>
+                  <span class="reward-type">Fist Weapon</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 20,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- RENNALA -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-lightning-bolt"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Full Moon Queen</h4>
+                  <span class="boss-name">Rennala, Queen of the Full Moon</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"In her youth, she was a prominent champion who charmed the academy with her lunar magic. She led the Glintstone Knights and founded the house of Caria."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-crystal-ball"></i>
+                  <span class="reward-name">Carian Regal Scepter</span>
+                  <span class="reward-type">Glintstone Staff</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Rennala's Full Moon</span>
+                  <span class="reward-type">Sorcery</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 20,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- RADAHN -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-sword"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Starscourge</h4>
+                  <span class="boss-name">Starscourge Radahn</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"The mightiest hero of the demigods confronted the falling stars alone—and thus did he crush them, his conquest sealing the very fate of the stars."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-double-team"></i>
+                  <span class="reward-name">Starscourge Greatsword</span>
+                  <span class="reward-type">Colossal Sword (Paired)</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-bow-arrow"></i>
+                  <span class="reward-name">Lion Greatbow</span>
+                  <span class="reward-type">Greatbow</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 40,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- RYKARD -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-serpent"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Blasphemous</h4>
+                  <span class="boss-name">Rykard, Lord of Blasphemy</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Rykard fed himself to the blasphemous serpent, Great Rune and all. 'Togethaaa, we will devouaaa the very gods!'"</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Blasphemous Blade</span>
+                  <span class="reward-type">Greatsword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Rykard's Rancor</span>
+                  <span class="reward-type">Sorcery</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 50,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- MORGOTT -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-crown"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Omen King</h4>
+                  <span class="boss-name">Morgott, the Omen King</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Grace once dwelled in a man called Morgott. Though he was born one of the graceless Omen, he became Grace Given, and rose to defend the Golden Order."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Morgott's Cursed Sword</span>
+                  <span class="reward-type">Curved Greatsword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-bombs"></i>
+                  <span class="reward-name">Regal Omen Bairn</span>
+                  <span class="reward-type">Reusable Tool</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- MOHG -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-bleeding-hearts"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Blood Lord</h4>
+                  <span class="boss-name">Mohg, Lord of Blood</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Mohg and Morgott are twin brothers. But unlike his brother, Mohg has embraced his accursed blood. He dreams of a new dynasty of blood."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-spear"></i>
+                  <span class="reward-name">Mohgwyn's Sacred Spear</span>
+                  <span class="reward-type">Great Spear</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Bloodboon</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- MALENIA -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-rose"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Rot Goddess</h4>
+                  <span class="boss-name">Malenia, Blade of Miquella</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Malenia, daughter of Marika, has never known defeat. She awaits the return of her brother. For that is the only thing that will grant her peace."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Hand of Malenia</span>
+                  <span class="reward-type">Katana</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Scarlet Aeonia</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 50,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- REGAL ANCESTOR -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-beast"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Regal Ancestor</h4>
+                  <span class="boss-name">Regal Ancestor Spirit</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Ancestral spirits exist as a phenomenon beyond the purview of the Erdtree. Life sprouts from death, as it does from birth. Such is the way of the living."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-horn-call"></i>
+                  <span class="reward-name">Winged Greathorn</span>
+                  <span class="reward-type">Curved Greatsword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-horn-call"></i>
+                  <span class="reward-name">Ancestral Spirit's Horn</span>
+                  <span class="reward-type">Talisman</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- FIRE GIANT -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-fire"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Fire Giant</h4>
+                  <span class="boss-name">Fire Giant</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"The Fire Giant is a survivor of the War against the Giants. Upon realizing the flames of their forge would never die, Queen Marika marked him with a curse."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-whip"></i>
+                  <span class="reward-name">Giant's Red Braid</span>
+                  <span class="reward-type">Colossal Weapon (Whip)</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Burn, O Flame!</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- MALIKETH -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-death-skull"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Black Blade</h4>
+                  <span class="boss-name">Maliketh, the Black Blade</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Maliketh was a shadowbound beast given to Queen Marika the Eternal. He was her sworn protector and is the only one who could betray her—the black blade."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Maliketh's Black Blade</span>
+                  <span class="reward-type">Colossal Sword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Black Blade</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- ASTEL -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-falling"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Naturalborn</h4>
+                  <span class="boss-name">Astel, Naturalborn of the Void</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"A malformed star born in the lightless void far away. Once destroyed an Eternal City and took away their sky."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Bastard's Stars</span>
+                  <span class="reward-type">Flail</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-book"></i>
+                  <span class="reward-name">Waves of Darkness</span>
+                  <span class="reward-type">Ash of War</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- FORTISSAX -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-lightning-bolt"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Lichdragon</h4>
+                  <span class="boss-name">Lichdragon Fortissax</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"The mightiest boulderstone said to have been used by Dragonlord Placidusax, and the source of all red lightning in the form of Lichdragon Fortissax."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Fortissax's Lightning Spear</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Death Lightning</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- PLACIDUSAX -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-dragon"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Dragonlord</h4>
+                  <span class="boss-name">Dragonlord Placidusax</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"The Dragonlord whose seat lies at the heart of the storm beyond time is said to have been Elden Lord before the age of the Erdtree."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Dragon King's Cragblade</span>
+                  <span class="reward-type">Heavy Thrusting Sword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Placidusax's Ruin</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- HOARAH LOUX -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-axe"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of Hoarah Loux</h4>
+                  <span class="boss-name">Hoarah Loux, Warrior</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"I've given thee courtesy enough. Godfrey, first Elden Lord, cast aside his crown and became Hoarah Loux, Warrior. Chieftain of the Badlands."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-axe"></i>
+                  <span class="reward-name">Axe of Godfrey</span>
+                  <span class="reward-type">Colossal Weapon</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-book"></i>
+                  <span class="reward-name">Earthshaker</span>
+                  <span class="reward-type">Ash of War</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <!-- ELDEN BEAST -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon">
+                  <i class="ra ra-sun"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Elden Remembrance</h4>
+                  <span class="boss-name">Radagon / Elden Beast</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"It was the vassal beast of the Greater Will and living incarnation of the concept of Order. This remembrance represents the final confrontation."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Sacred Relic Sword</span>
+                  <span class="reward-type">Greatsword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-hammer"></i>
+                  <span class="reward-name">Marika's Hammer</span>
+                  <span class="reward-type">Legendary Hammer</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 50,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DLC REMEMBRANCES -->
+        <div id="dlc" class="tab-content">
+          <div class="remembrance-grid">
+
+            <!-- DANCING LION -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-lion"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Dancing Lion</h4>
+                  <span class="boss-name">Divine Beast Dancing Lion</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"The divine beast danced and cavorted through storms, marking the festival procession's endless march to the tower."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-feather-wing"></i>
+                  <span class="reward-name">Enraged Divine Beast</span>
+                  <span class="reward-type">Talisman</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-book"></i>
+                  <span class="reward-name">Divine Beast Frost Stomp</span>
+                  <span class="reward-type">Ash of War</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 30,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- RELLANA -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-lightning-bolt"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Twin Moon Knight</h4>
+                  <span class="boss-name">Rellana, Twin Moon Knight</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Rellana, Carian Princess, was a formidable enchantress in her own right. She abandoned her house to chase after elder brother Messmer."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-double-team"></i>
+                  <span class="reward-name">Rellana's Twin Blades</span>
+                  <span class="reward-type">Light Greatsword (Paired)</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Rellana's Twin Moons</span>
+                  <span class="reward-type">Sorcery</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 40,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- MESSMER -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-flame"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Impaler</h4>
+                  <span class="boss-name">Messmer the Impaler</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Messmer, much like his younger sister, bore a vision of fire. As did his accursed serpent. A malison—the festering snake—that would eat him from within."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-spear"></i>
+                  <span class="reward-name">Spear of the Impaler</span>
+                  <span class="reward-type">Great Spear</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Messmer's Orb</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 50,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- ROMINA -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-rose"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Saint of the Bud</h4>
+                  <span class="boss-name">Romina, Saint of the Bud</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"After the church was burned, Romina discovered a twisted divine element, which she weaved into the miracle of resurrecting rotted butterflies."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-spear"></i>
+                  <span class="reward-name">Poleblade of the Bud</span>
+                  <span class="reward-type">Twinblade</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Rotten Butterflies</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 50,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- PUTRESCENCE KNIGHT -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-death-skull"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of Putrescence</h4>
+                  <span class="boss-name">Putrescent Knight</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"A knight reborn through putrescence, wielding weapons blessed with holy light despite its corrupted form."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Sword of Light</span>
+                  <span class="reward-type">Greatsword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-axe"></i>
+                  <span class="reward-name">Putrescence Cleaver</span>
+                  <span class="reward-type">Great Katana</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 40,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- SCADUTREE AVATAR -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-tree-branch"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Shadow Sunflower</h4>
+                  <span class="boss-name">Scadutree Avatar</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"The Scadutree Avatar protects the Scadutree at its base. Its blossoms grant power to those who offer fragments."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Blades of Stone</span>
+                  <span class="reward-type">Sorcery</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-spear"></i>
+                  <span class="reward-name">Sword Lance of the Avatar</span>
+                  <span class="reward-type">Thrusting Sword</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 40,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- COMMANDER GAIUS -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-horse-head"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Wild Boar Rider</h4>
+                  <span class="boss-name">Commander Gaius</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Commander Gaius served with Messmer and Radahn as one of Godfrey's greatest knights. He charged into battle atop a wild boar."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-spear"></i>
+                  <span class="reward-name">Sword Lance</span>
+                  <span class="reward-type">Great Spear</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Blades of Stone</span>
+                  <span class="reward-type">Sorcery</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 40,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- BAYLE -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-dragon"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Heart of Bayle</h4>
+                  <span class="boss-name">Bayle the Dread</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Bayle the Dread challenged Placidusax, the Dragonlord, and though he fell, his rebellion scarred the face of the realm and injured Placidusax grievously."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Dragon-Hunter's Great Katana</span>
+                  <span class="reward-type">Great Katana</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Bayle's Tyranny</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> Cannot be consumed</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- METYR -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-eyeball"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of the Mother of Fingers</h4>
+                  <span class="boss-name">Metyr, Mother of Fingers</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"Metyr, the mother of all Two Fingers and Three Fingers. She was the first shooting star to fall, and the envoy of the Greater Will."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose One Reward:</div>
+                <div class="reward-item">
+                  <i class="ra ra-crystals"></i>
+                  <span class="reward-name">Gazing Finger</span>
+                  <span class="reward-type">Weapon</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Maternal Bloom</span>
+                  <span class="reward-type">Sorcery</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 40,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <!-- RADAHN DLC -->
+            <div class="remembrance-card fade-in">
+              <div class="remembrance-header">
+                <div class="remembrance-icon dlc">
+                  <i class="ra ra-sun"></i>
+                </div>
+                <div class="remembrance-title">
+                  <h4>Remembrance of a God and a Lord</h4>
+                  <span class="boss-name">Promised Consort Radahn</span>
+                </div>
+              </div>
+              <div class="remembrance-lore">"In their childhood, Miquella saw in Radahn a lord. His strength and his kindness. And so Miquella made his heartfelt wish: that Radahn would be his king consort."</div>
+              <div class="rewards-section">
+                <div class="rewards-title"><i class="ra ra-crossed-swords"></i> Choose Rewards (Can get all 3!):</div>
+                <div class="reward-item">
+                  <i class="ra ra-double-team"></i>
+                  <span class="reward-name">Greatsword of Radahn (Lord)</span>
+                  <span class="reward-type">Greatsword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-sword"></i>
+                  <span class="reward-name">Greatsword of Radahn (Light)</span>
+                  <span class="reward-type">Greatsword</span>
+                </div>
+                <div class="reward-item">
+                  <i class="ra ra-quill-ink"></i>
+                  <span class="reward-name">Light of Miquella</span>
+                  <span class="reward-type">Incantation</span>
+                </div>
+              </div>
+              <div class="remembrance-footer">
+                <span class="rune-value"><i class="ra ra-gold-bar"></i> 50,000 Runes</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+        <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <span>ELDEN RING WIKI</span>
+          </div>
+          <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+      </div>
+    </footer>
+  </div>
+
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+  
+  
+  <script src="music-player.js"></script>
+  <script>
+    // Initialize Vanta Fog Background
+    try {
+      VANTA.FOG({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        highlightColor: 0x5c3d00,
+        midtoneColor: 0x1a0f00,
+        lowlightColor: 0x000000,
+        baseColor: 0x0a0500,
+        blurFactor: 0.5,
+        speed: 1.5,
+        zoom: 1.2
+      });
+    } catch(e) {
+      console.log('Vanta background not loaded');
+    }
+
+    // Create Floating Embers
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        const size = Math.random() * 4 + 2;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 20;
+        const hue = Math.random() * 30 + 20;
+        const lightness = Math.random() * 20 + 50;
+        ember.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${left}%;
+          background: radial-gradient(circle, hsl(${hue}, 100%, ${lightness}%) 0%, hsl(${hue}, 100%, 30%) 50%, transparent 70%);
+          animation-duration: ${duration}s;
+          animation-delay: -${delay}s;
+          box-shadow: 0 0 ${size * 2}px hsl(${hue}, 100%, ${lightness}%);
+        `;
+        container.appendChild(ember);
+      }
+    }
+    createEmbers();
+
+    // Header Scroll Effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 500);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabGroup = this.closest('section');
+        tabGroup.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        tabGroup.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Initialize Universal Search
+    initializeSearch('remembrance');
+    
+    // Handle item parameter from URL (when navigating from search)
+    handleItemParameter();
+  </script>
+
+  <!-- Music Player -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()"><i class="ra ra-music-note" id="minimizedIcon"></i></div>
+    <div class="player-expanded">
+      <div class="player-header"><span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span><button class="player-minimize" onclick="togglePlayer()">−</button></div>
+      <div class="player-track"><div class="track-name" id="trackName">Track 1</div><div class="track-info" id="trackInfo">Elden Ring OST</div></div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header"><span class="volume-label">Volume</span><button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button></div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+  <audio id="audioPlayer" preload="auto"><source src="bgm1.mp3" type="audio/mpeg"></audio>
+
+  <!-- Footer Clock -->
+  <script>
+    function updateFooterClock() {
+      const now = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('en-US', options);
+      const clockEl = document.getElementById('footerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    updateFooterClock();
+    setInterval(updateFooterClock, 1000);
+  </script>
+
+  <!-- Global Wiki Search -->
+  <script src="items-search.js"></script>
+  <script>document.addEventListener("DOMContentLoaded",function(){if(typeof initializeSearch==="function")initializeSearch();});</script>
+
+</body>
+</html>

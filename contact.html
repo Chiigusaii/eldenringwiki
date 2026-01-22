@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elden Ring Wiki - The Architects</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- RPG Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="search-styles.css">
+  <link rel="stylesheet" href="music-player.css">
+
+  <style>
+    /* ============================================
+       COLOR PALETTE - Elden Ring Theme
+    ============================================ */
+    :root {
+      --gold: #ed8a09;
+      --gold-bright: #f9c043;
+      --gold-dark: #bd6707;
+      --gold-muted: #e1b26b;
+      --bg-black: #040200;
+      --bg-dark: #0d0906;
+      --bg-surface: #1a1410;
+      --bg-card: #231a12;
+      --text-primary: #f5f3e0;
+      --text-secondary: #c9b99a;
+      --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3);
+      --glow: rgba(237, 138, 9, 0.4);
+    }
+
+    /* ============================================
+       BASE STYLES
+    ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Vignette Effect */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 150px 60px rgba(0, 0, 0, 0.8);
+      z-index: 100;
+    }
+
+    /* ============================================
+       FOG BACKGROUND
+    ============================================ */
+    #vanta-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* ============================================
+       FLOATING EMBERS / PARTICLES
+    ============================================ */
+    .particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .ember {
+      position: absolute;
+      border-radius: 50%;
+      animation: ember-float linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes ember-float {
+      0% {
+        opacity: 0;
+        transform: translateY(100vh) translateX(0) scale(0);
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(90vh) translateX(10px) scale(1);
+      }
+      90% {
+        opacity: 0.8;
+        transform: translateY(10vh) translateX(-20px) scale(0.8);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-5vh) translateX(30px) scale(0);
+      }
+    }
+
+    /* ============================================
+       TYPOGRAPHY
+    ============================================ */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+    }
+
+    .title-decorative {
+      font-family: 'Cinzel Decorative', serif;
+    }
+
+    /* Golden Metallic Text Effect */
+    .gold-text {
+      background: linear-gradient(
+        to bottom,
+        #cfc09f 0%,
+        #ffecb3 25%,
+        #e7c66e 50%,
+        #a17720 75%,
+        #5c3d00 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+
+    /* Glowing Text */
+    .glow-text {
+      color: var(--gold);
+      text-shadow: 
+        0 0 10px var(--glow),
+        0 0 20px var(--glow),
+        0 0 40px var(--glow),
+        0 0 60px rgba(237, 138, 9, 0.2);
+    }
+
+    /* ============================================
+       LAYOUT
+    ============================================ */
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    /* ============================================
+       HEADER / NAVIGATION
+    ============================================ */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: all 0.4s ease;
+      padding: 15px 0;
+    }
+
+    header.scrolled {
+      background: rgba(4, 2, 0, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px var(--glow));
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover .logo-icon img {
+      filter: drop-shadow(0 0 20px var(--glow));
+      transform: scale(1.05);
+    }
+
+    .logo-text h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+    }
+
+    .logo-text span {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      gap: 5px;
+    }
+
+    nav a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--gold);
+      background: rgba(237, 138, 9, 0.1);
+    }
+
+    nav a.active {
+      color: var(--gold);
+    }
+
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 2px;
+      background: var(--gold);
+      box-shadow: 0 0 10px var(--glow);
+    }
+
+    /* ============================================
+       HERO SECTION
+    ============================================ */
+    .hero {
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 120px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ============================================
+       HERO LOGO
+    ============================================ */
+    .hero-logo {
+      width: 280px;
+      height: auto;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    .hero-logo::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(237, 138, 9, 0.2) 0%, rgba(237, 138, 9, 0.05) 50%, transparent 70%);
+      animation: ring-glow 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes ring-glow {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .hero-logo img {
+    .page-hero { padding: 160px 0 80px; text-align: center; position: relative; }
+    .page-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(237, 138, 9, 0.1) 0%, transparent 70%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.15em; margin-bottom: 15px; }
+    .page-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 750px; margin: 0 auto; line-height: 1.8; }
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 0 30px var(--glow)) drop-shadow(0 0 60px rgba(237, 138, 9, 0.3));
+      animation: logo-pulse 4s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes logo-pulse {
+      0%, 100% {
+        filter: drop-shadow(0 0 30px var(--glow)) drop-shadow(0 0 60px rgba(237, 138, 9, 0.3));
+        transform: scale(1);
+      }
+      50% {
+        filter: drop-shadow(0 0 40px var(--glow)) drop-shadow(0 0 80px rgba(237, 138, 9, 0.4));
+        transform: scale(1.02);
+      }
+    }
+
+    /* ============================================
+       SECTION HEADER
+    ============================================ */
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    /* ============================================
+       DIVIDER
+    ============================================ */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 30px auto;
+      max-width: 400px;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+    }
+
+    .divider-symbol {
+      color: var(--gold);
+      font-size: 0.9rem;
+      letter-spacing: 0.3em;
+    }
+
+    /* ============================================
+       TEAM GRID
+    ============================================ */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Leader Card - Full Width */
+    .leader-card {
+      grid-column: 1 / -1;
+      max-width: 500px;
+      margin: 0 auto 40px;
+    }
+
+    /* ============================================
+       MEMBER CARDS
+    ============================================ */
+    .member-card {
+      background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-surface) 100%);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .member-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .member-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px var(--glow);
+      border-color: var(--gold-dark);
+    }
+
+    .member-card:hover::before {
+      opacity: 1;
+    }
+
+    .member-card.leader {
+      border-color: var(--gold-dark);
+      box-shadow: 0 0 30px rgba(237, 138, 9, 0.2);
+    }
+
+    .member-card.leader::before {
+      opacity: 1;
+      height: 4px;
+    }
+
+    /* Member Image */
+    .member-image {
+      width: 100%;
+      height: 300px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, var(--bg-surface) 0%, var(--bg-dark) 100%);
+    }
+
+    .member-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .member-card:hover .member-image img {
+      transform: scale(1.05);
+    }
+
+    /* Placeholder for when images aren't available */
+    .member-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, var(--bg-surface) 0%, var(--bg-dark) 100%);
+    }
+
+    .member-placeholder i {
+      font-size: 5rem;
+      color: var(--gold-dark);
+      opacity: 0.5;
+    }
+
+    /* Rarity Badge */
+    .member-rarity {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 6px 14px;
+      border-radius: 3px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .rarity-legendary {
+      background: linear-gradient(135deg, #f9c043 0%, #ed8a09 50%, #bd6707 100%);
+      color: var(--bg-black);
+      box-shadow: 0 0 15px rgba(249, 192, 67, 0.4);
+    }
+
+    .rarity-epic {
+      background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(155, 89, 182, 0.4);
+    }
+
+    .rarity-rare {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(52, 152, 219, 0.4);
+    }
+
+    /* Member Content */
+    .member-content {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .member-content h3 {
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+      color: var(--gold-bright);
+    }
+
+    .member-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .member-title i {
+      font-size: 1rem;
+    }
+
+    .member-id {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      letter-spacing: 0.1em;
+    }
+
+    .member-quote {
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+    }
+
+    .member-quote::before {
+      content: '"';
+      color: var(--gold);
+    }
+
+    .member-quote::after {
+      content: '"';
+      color: var(--gold);
+    }
+
+    /* ============================================
+       LORE QUOTE SECTION
+    ============================================ */
+    .lore-section {
+      padding: 60px 0;
+    }
+
+    .lore-quote {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 40px;
+      border-left: 2px solid var(--gold-dark);
+      border-right: 2px solid var(--gold-dark);
+      position: relative;
+    }
+
+    .lore-quote::before,
+    .lore-quote::after {
+      content: '◆';
+      position: absolute;
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    .lore-quote::before {
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .lore-quote::after {
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .lore-quote blockquote {
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .lore-quote cite {
+      color: var(--gold-muted);
+      font-size: 1rem;
+    }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+
+    /* ============================================
+       SCROLL ANIMATIONS
+    ============================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .section-header h2 {
+        font-size: 1.8rem;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .leader-card {
+        max-width: 100%;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .member-content h3 {
+        font-size: 1.2rem;
+      }
+    }
+  
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-muted); cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 99; }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--gold); color: var(--bg-black); border-color: var(--gold); transform: translateY(-3px); }
+
+  
+    #footerClock {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-muted);
+    }
+
+  
+    /* Team Member Modal */
+    .member-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .member-modal-overlay.active {
+      display: flex;
+    }
+    
+    .member-modal {
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-surface));
+      border: 1px solid var(--gold-dark);
+      border-radius: 8px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalSlideIn 0.3s ease;
+    }
+    
+    @keyframes modalSlideIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .member-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: color 0.3s;
+    }
+    
+    .member-modal-close:hover {
+      color: var(--gold);
+    }
+    
+    .member-modal-header {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 8px 8px 0 0;
+    }
+    
+    .member-modal-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .member-modal-header-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 30px 25px 20px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.9));
+    }
+    
+    .member-modal-role {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+    
+    .member-modal-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+    
+    .member-modal-body {
+      padding: 25px;
+    }
+    
+    .member-modal-section {
+      margin-bottom: 20px;
+    }
+    
+    .member-modal-section h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--gold-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .member-modal-section p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    
+    .member-modal-quote {
+      background: rgba(0,0,0,0.3);
+      border-left: 3px solid var(--gold-dark);
+      padding: 15px 20px;
+      margin: 20px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+    
+    .member-modal-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .member-modal-detail {
+      background: rgba(0,0,0,0.2);
+      padding: 12px 15px;
+      border-radius: 4px;
+      border-left: 2px solid var(--gold-dark);
+    }
+    
+    .member-modal-detail-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 3px;
+    }
+    
+    .member-modal-detail-value {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-muted);
+    }
+    
+    .member-card {
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .member-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(237, 138, 9, 0.2);
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Vanta Fog Background -->
+  <div id="vanta-bg"></div>
+
+  <!-- Floating Embers -->
+  <div class="particles-container" id="particles"></div>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+
+    <!-- Header -->
+    <header id="header">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img src="elden-ring-logo.png" alt="Elden Ring">
+          </div>
+          <div class="logo-text">
+            <h1 class="gold-text">ELDEN RING</h1>
+            <span>Wiki of the Lands Between</span>
+          </div>
+        </a>
+
+                  <nav>
+            <a href="index.html">Home</a>
+            <a href="bosses.html">Bosses</a>
+            <a href="characters.html">Characters</a>
+            <a href="items.html">Items</a>
+            <a href="lore.html">Lore</a>
+          </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="fade-in">
+          <div class="hero-logo">
+            <img src="elden-ring-logo.png" alt="Elden Ring">
+          </div>
+          <h1 class="gold-text title-decorative">The Architects</h1>
+          <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-symbol">✧ ⚔ ✧</span>
+            <div class="divider-line"></div>
+          </div>
+          <p>Those who forged this sacred wiki from the ashes of knowledge. The Tarnished who dared document the Lands Between.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+      <div class="container">
+        <div class="section-header fade-in">
+          <h2 class="glow-text">Order of the Tarnished Scholars</h2>
+          <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-symbol">◇</span>
+            <div class="divider-line"></div>
+          </div>
+        </div>
+
+        <!-- Leader Card -->
+        <div class="leader-card fade-in">
+          <article class="member-card leader">
+            <div class="member-image">
+              <img src="zaeim.jpeg" alt="Muhammad Zaeim Sufi" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="member-placeholder" style="display: none;">
+                <i class="ra ra-crown"></i>
+              </div>
+              <span class="member-rarity rarity-legendary">Elden Lord</span>
+            </div>
+            <div class="member-content">
+              <h3>Muhammad Zaeim Sufi Bin Jamaludin</h3>
+              <div class="member-title">
+                <i class="ra ra-crown"></i>
+                Lord of the Golden Order
+                <i class="ra ra-crown"></i>
+              </div>
+              <p class="member-id">Matrix ID: 2023886474</p>
+              <p class="member-quote">He who united the Tarnished and guided them to glory</p>
+            </div>
+          </article>
+        </div>
+
+        <!-- Team Grid -->
+        <div class="team-grid">
+          <!-- Member 2 - Shafeeq -->
+          <article class="member-card fade-in">
+            <div class="member-image">
+              <img src="shafeeq.jpeg" alt="Muhammad Shafeeq" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="member-placeholder" style="display: none;">
+                <i class="ra ra-sword"></i>
+              </div>
+              <span class="member-rarity rarity-epic">Champion</span>
+            </div>
+            <div class="member-content">
+              <h3>Muhammad Shafeeq Bin Shahrizad</h3>
+              <div class="member-title">
+                <i class="ra ra-sword"></i>
+                Blade of the Shattering
+              </div>
+              <p class="member-id">Matrix ID: 2023848328</p>
+              <p class="member-quote">The warrior whose code cuts through the fog of chaos</p>
+            </div>
+          </article>
+
+          <!-- Member 3 - Sophie -->
+          <article class="member-card fade-in">
+            <div class="member-image">
+              <img src="sophie.jpeg" alt="Nursophilea Harisya" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="member-placeholder" style="display: none;">
+                <i class="ra ra-crescent-moon"></i>
+              </div>
+              <span class="member-rarity rarity-epic">Lunar Sage</span>
+            </div>
+            <div class="member-content">
+              <h3>Nursophilea Harisya Binti Mohd Nasrol</h3>
+              <div class="member-title">
+                <i class="ra ra-crescent-moon"></i>
+                Daughter of the Dark Moon
+              </div>
+              <p class="member-id">Matrix ID: 2023829392</p>
+              <p class="member-quote">She who walks the path beneath the cold moonlight</p>
+            </div>
+          </article>
+
+          <!-- Member 4 - Amni -->
+          <article class="member-card fade-in">
+            <div class="member-image">
+              <img src="amni.jpeg" alt="Nur Amni Batrisyia" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="member-placeholder" style="display: none;">
+                <i class="ra ra-fairy-wand"></i>
+              </div>
+              <span class="member-rarity rarity-epic">Graced</span>
+            </div>
+            <div class="member-content">
+              <h3>Nur Amni Batrisyia Binti Yasmi</h3>
+              <div class="member-title">
+                <i class="ra ra-fairy-wand"></i>
+                Keeper of the Erdtree's Grace
+              </div>
+              <p class="member-id">Matrix ID: 2023841518</p>
+              <p class="member-quote">Blessed by the Erdtree, guided by its eternal light</p>
+            </div>
+          </article>
+
+          <!-- Member 5 - Umilah -->
+          <article class="member-card fade-in">
+            <div class="member-image">
+              <img src="umilah.jpeg" alt="Siti An Umillah" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="member-placeholder" style="display: none;">
+                <i class="ra ra-book"></i>
+              </div>
+              <span class="member-rarity rarity-epic">Sage</span>
+            </div>
+            <div class="member-content">
+              <h3>Siti An Umillah Binti Harman</h3>
+              <div class="member-title">
+                <i class="ra ra-book"></i>
+                Scribe of the Golden Lineage
+              </div>
+              <p class="member-id">Matrix ID: 2023647302</p>
+              <p class="member-quote">The keeper of ancient knowledge and forgotten lore</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lore Quote Section -->
+    <section class="lore-section">
+      <div class="container">
+        <div class="lore-quote fade-in">
+          <blockquote>
+            Rise, Tarnished, and be guided by grace. Together, we shall document the legends, 
+            preserve the lore, and honor those who came before us in the Lands Between.
+          </blockquote>
+          <cite>— The Architects of This Wiki</cite>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+        <footer>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+          <span>ELDEN RING WIKI</span>
+        </div>
+        <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+    </footer>
+
+  </div>
+
+  <!-- Scripts -->
+  <!-- Three.js (required for Vanta) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <!-- Vanta.js Fog Effect -->
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+
+  <script src="music-player.js"></script>
+  <script>
+    // ============================================
+    // VANTA FOG BACKGROUND
+    // ============================================
+    VANTA.FOG({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      highlightColor: 0x5c3d00,
+      midtoneColor: 0x1a0f00,
+      lowlightColor: 0x000000,
+      baseColor: 0x0a0500,
+      blurFactor: 0.5,
+      speed: 1.5,
+      zoom: 1.2
+    });
+
+    // ============================================
+    // FLOATING EMBERS
+    // ============================================
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      const emberCount = 50;
+
+      for (let i = 0; i < emberCount; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        
+        const size = Math.random() * 4 + 2;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 20;
+        const hue = Math.random() * 30 + 20;
+        const lightness = Math.random() * 20 + 50;
+
+        ember.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${left}%;
+          background: radial-gradient(circle, hsl(${hue}, 100%, ${lightness}%) 0%, hsl(${hue}, 100%, 30%) 50%, transparent 70%);
+          animation-duration: ${duration}s;
+          animation-delay: -${delay}s;
+          box-shadow: 0 0 ${size * 2}px hsl(${hue}, 100%, ${lightness}%);
+        `;
+
+        container.appendChild(ember);
+      }
+    }
+
+    createEmbers();
+
+    // ============================================
+    // HEADER SCROLL EFFECT
+    // ============================================
+    const header = document.getElementById('header');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // ============================================
+    // SCROLL ANIMATIONS
+    // ============================================
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+
+    // ============================================
+    // SMOOTH SCROLL FOR NAV LINKS
+    // ============================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <!-- Music Player -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()"><i class="ra ra-music-note" id="minimizedIcon"></i></div>
+    <div class="player-expanded">
+      <div class="player-header"><span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span><button class="player-minimize" onclick="togglePlayer()">−</button></div>
+      <div class="player-track"><div class="track-name" id="trackName">Track 1</div><div class="track-info" id="trackInfo">Elden Ring OST</div></div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header"><span class="volume-label">Volume</span><button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button></div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+  <audio id="audioPlayer" preload="auto"><source src="bgm1.mp3" type="audio/mpeg"></audio>
+
+<!-- Image Lightbox -->
+<div id="lightbox" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:2000;align-items:center;justify-content:center;padding:20px;" onclick="this.style.display='none'">
+  <img id="lightboxImg" style="max-width:90%;max-height:85vh;border:3px solid #bd6707;border-radius:5px;box-shadow:0 0 50px rgba(237,138,9,0.3);">
+  <div id="lightboxCaption" style="text-align:center;margin-top:15px;font-family:'Cinzel',serif;font-size:1.1rem;color:#ed8a09;letter-spacing:0.1em;"></div>
+  <button onclick="document.getElementById('lightbox').style.display='none'" style="position:absolute;top:20px;right:30px;background:none;border:none;color:#ed8a09;font-size:2.5rem;cursor:pointer;">&times;</button>
+</div>
+<style>.member-image{cursor:pointer;}.member-image:hover img{filter:brightness(1.1);}
+    /* ============================================
+       ENHANCED MEMBER MODAL - Side by Side Layout
+    ============================================ */
+    .member-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(12px);
+      padding: 20px;
+    }
+    
+    .member-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .member-modal {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-surface) 100%);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      max-width: 1000px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.9) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(237, 138, 9, 0.1);
+    }
+    
+    .member-modal-overlay.active .member-modal {
+      transform: scale(1) translateY(0);
+    }
+    
+    .member-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .member-modal-close:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: rgba(237, 138, 9, 0.1);
+      transform: rotate(90deg);
+    }
+    
+    /* Side by Side Layout */
+    .member-modal-top {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .member-modal-image-container {
+      position: relative;
+      height: 480px;
+      overflow: hidden;
+      border-radius: 10px 0 0 0;
+      border-right: 1px solid var(--border);
+    }
+    
+    .member-modal-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.6s ease;
+    }
+    
+    .member-modal:hover .member-modal-image-container img {
+      transform: scale(1.03);
+    }
+    
+    .member-modal-image-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 20px 20px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.95));
+    }
+    
+    .member-modal-role {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    
+    .member-modal-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      margin: 0 0 5px 0;
+      letter-spacing: 0.05em;
+    }
+    
+    .member-modal-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+    
+    /* Info Panel (Right Side) */
+    .member-modal-info-panel {
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .member-modal-info-panel h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    /* Info Table */
+    .member-info-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    
+    .member-info-table tr {
+      border-bottom: 1px solid rgba(189, 103, 7, 0.15);
+      transition: background 0.3s ease;
+    }
+    
+    .member-info-table tr:last-child {
+      border-bottom: none;
+    }
+    
+    .member-info-table tr:hover {
+      background: rgba(237, 138, 9, 0.05);
+    }
+    
+    .member-info-table th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-muted);
+      text-align: left;
+      padding: 12px 15px;
+      width: 35%;
+      background: rgba(0, 0, 0, 0.2);
+      border-right: 1px solid rgba(189, 103, 7, 0.15);
+      vertical-align: middle;
+    }
+    
+    .member-info-table td {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      padding: 12px 15px;
+      vertical-align: middle;
+    }
+    
+    .member-info-table .table-icon {
+      color: var(--gold-dark);
+      margin-right: 8px;
+      font-size: 0.85rem;
+    }
+    
+    /* Bottom Content */
+    .member-modal-body {
+      padding: 30px;
+    }
+    
+    .member-modal-section {
+      margin-bottom: 25px;
+    }
+    
+    .member-modal-section h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .member-modal-section p {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+    
+    .member-modal-quote {
+      background: rgba(0,0,0,0.4);
+      border-left: 3px solid var(--gold);
+      padding: 20px 25px;
+      margin: 25px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      position: relative;
+    }
+    
+    .member-modal-quote::before {
+      content: '"';
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      font-size: 3rem;
+      color: var(--gold-dark);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+    }
+    
+    .member-modal-quote cite {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      font-style: normal;
+    }
+    
+    /* Skills Tags */
+    .member-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    
+    .member-skill-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      padding: 8px 14px;
+      background: rgba(237, 138, 9, 0.1);
+      border: 1px solid var(--gold-dark);
+      color: var(--gold-muted);
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .member-skill-tag:hover {
+      background: rgba(237, 138, 9, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .member-card {
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .member-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(237, 138, 9, 0.2);
+    }
+    
+    /* Responsive - Stack on mobile */
+    @media (max-width: 800px) {
+      .member-modal-top {
+        grid-template-columns: 1fr;
+      }
+      .member-modal-image-container {
+        height: 300px;
+        border-radius: 10px 10px 0 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .member-modal-name {
+        font-size: 1.4rem;
+      }
+      .member-modal-body {
+        padding: 20px;
+      }
+      .member-info-table th,
+      .member-info-table td {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+      }
+    }
+
+  </style>
+<script>
+document.querySelectorAll('.member-image').forEach(div=>{
+  const img=div.querySelector('img');
+  const card=div.closest('.member-card');
+  const name=card?card.querySelector('h3')?.textContent:'';
+  div.onclick=()=>{
+    if(img&&img.src){
+      document.getElementById('lightboxImg').src=img.src;
+      document.getElementById('lightboxCaption').textContent=name;
+      document.getElementById('lightbox').style.display='flex';
+    }
+  };
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lightbox').style.display='none';});
+</script>
+
+  
+  <!-- Team Member Modal -->
+  <div class="member-modal-overlay" id="memberModal">
+    <div class="member-modal">
+      <button class="member-modal-close" onclick="closeMemberModal()">×</button>
+      
+      <!-- Top Section: Image + Info Table Side by Side -->
+      <div class="member-modal-top">
+        <!-- Left: Full Image -->
+        <div class="member-modal-image-container">
+          <img id="modalMemberImage" src="" alt="">
+          <div class="member-modal-image-overlay">
+            <div class="member-modal-role" id="modalMemberRole"></div>
+            <h2 class="member-modal-name gold-text" id="modalMemberName"></h2>
+            <div class="member-modal-subtitle" id="modalMemberSubtitle"></div>
+          </div>
+        </div>
+        
+        <!-- Right: Info Table -->
+        <div class="member-modal-info-panel">
+          <h4>Information</h4>
+          <table class="member-info-table">
+            <tr>
+              <th><i class="ra ra-player table-icon"></i>Full Name</th>
+              <td id="modalMemberFullName"></td>
+            </tr>
+            <tr>
+              <th><i class="ra ra-trophy table-icon"></i>Role</th>
+              <td id="modalMemberTitle"></td>
+            </tr>
+            <tr>
+              <th><i class="ra ra-key table-icon"></i>Matrix ID</th>
+              <td id="modalMemberID"></td>
+            </tr>
+            <tr>
+              <th><i class="ra ra-podium table-icon"></i>Status</th>
+              <td id="modalMemberStatus"></td>
+            </tr>
+            <tr>
+              <th><i class="ra ra-scroll-unfurled table-icon"></i>Affiliation</th>
+              <td id="modalMemberAffiliation"></td>
+            </tr>
+          </table>
+          
+          <!-- Skills in info panel -->
+          <h4 style="margin-top: 20px;">Expertise</h4>
+          <div class="member-skills" id="modalMemberSkills"></div>
+        </div>
+      </div>
+      
+      <!-- Bottom Section: Lore Content -->
+      <div class="member-modal-body">
+        <!-- Overview Section -->
+        <div class="member-modal-section">
+          <h4>Overview</h4>
+          <p id="modalMemberDesc"></p>
+        </div>
+        
+        <!-- Lore & Background Section -->
+        <div class="member-modal-section">
+          <h4>Lore & Background</h4>
+          <p id="modalMemberLore"></p>
+        </div>
+        
+        <!-- Quote Section -->
+        <div class="member-modal-quote">
+          <span id="modalMemberQuoteText"></span>
+          <cite id="modalMemberQuoteSource"></cite>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Enhanced Team member data with full lore
+    const teamMembers = {
+      'Muhammad Zaeim Sufi Bin Jamaludin': {
+        image: 'zaeim.jpeg',
+        role: 'Elden Lord',
+        subtitle: 'Lord of the Golden Order',
+        title: 'Lord of the Golden Order',
+        id: '2023886474',
+        desc: 'A mysterious figure who emerged from beyond the fog, bearing the mark of grace upon his brow. He alone possessed the vision to unite scattered Tarnished and forge them into a cohesive force capable of documenting the Lands Between.',
+        lore: 'Born under the light of the Erdtree, Zaeim was chosen by the Greater Will to lead the faithful. When the Shattering tore the land asunder, he gathered the lost and the wandering, giving them purpose. His mastery of both blade and quill made him the natural choice to helm this grand undertaking. Some whisper that he once stood before the Erdtree itself and received its blessing directly.',
+        quote: 'Rise, Tarnished, and let us write the tale of these lands so that none may forget.',
+        quoteSource: 'Muhammad Zaeim Sufi',
+        status: 'Active - Leading the Order',
+        affiliation: 'The Golden Order',
+        skills: ['Leadership', 'Project Oversight', 'Full-Stack Development', 'Documentation', 'Strategic Planning']
+      },
+      'Muhammad Shafeeq Bin Shahrizad': {
+        image: 'shafeeq.jpeg',
+        role: 'Champion',
+        subtitle: 'Blade of the Shattering',
+        title: 'Blade of the Shattering',
+        id: '2023848328',
+        desc: 'A warrior whose code cuts through the fog of chaos. Battle-hardened and precise, he ensures every combat strategy documented within these pages has been tested against the mightiest of foes.',
+        lore: 'Shafeeq trained in the arts of war from a young age, mastering every weapon the Lands Between had to offer. His journey through countless battles against demigods and ancient dragons gave him unparalleled insight into combat mechanics. He joined the Order after single-handedly defeating a Lesser Erdtree Guardian, proving his worth through action rather than words.',
+        quote: 'In battle, clarity is the sharpest blade. Know your enemy, and victory follows.',
+        quoteSource: 'Muhammad Shafeeq',
+        status: 'Active - Combat Division',
+        affiliation: 'The Champions of the Shattering',
+        skills: ['Combat Analysis', 'Boss Strategies', 'Weapon Testing', 'PvP Mechanics', 'Game Testing']
+      },
+      'Nursophilea Harisya Binti Mohd Nasrol': {
+        image: 'sophie.jpeg',
+        role: 'Lunar Sage',
+        subtitle: 'Daughter of the Dark Moon',
+        title: 'Daughter of the Dark Moon',
+        id: '2023829392',
+        desc: 'Walking the path beneath the cold moonlight, she brings wisdom and insight to the wiki\'s deepest lore sections. Her connection to the Dark Moon grants her vision beyond the veil of ordinary sight.',
+        lore: 'Sophie was discovered wandering the ruins of Caria Manor, speaking in tongues of ages past. The Carian Royal Family\'s legacy flows through her veins, granting her an innate understanding of sorcery and the moon\'s mysteries. She deciphers ancient texts that others cannot read and communes with spirits long forgotten. Her additions to the lore sections have illuminated secrets hidden for ages.',
+        quote: 'The moon reveals what the sun conceals. Look beyond the light to find true wisdom.',
+        quoteSource: 'Nursophilea Harisya',
+        status: 'Active - Lore Archives',
+        affiliation: 'Carian Royal Family (Honorary)',
+        skills: ['Lore Research', 'Ancient Languages', 'Sorcery Documentation', 'NPC Questlines', 'Hidden Content']
+      },
+      'Nur Amni Batrisyia Binti Yasmi': {
+        image: 'amni.jpeg',
+        role: 'Graced',
+        subtitle: 'Keeper of the Erdtree\'s Grace',
+        title: 'Keeper of the Erdtree\'s Grace',
+        id: '2023841518',
+        desc: 'Blessed by the Erdtree and guided by its eternal light, she maintains the sacred knowledge of Sites of Grace and ensures every Tarnished can find their way through the treacherous lands.',
+        lore: 'Amni received her blessing at the foot of the Minor Erdtree in Liurnia, where golden light descended upon her without warning. Since that day, she has been able to sense Sites of Grace across vast distances. Her mapping of rest points has saved countless Tarnished from permanent death in hostile territories. She believes the Erdtree itself guides her hand as she documents each location.',
+        quote: 'Grace touches all who seek it with a pure heart. Let the golden light guide your path.',
+        quoteSource: 'Nur Amni Batrisyia',
+        status: 'Active - Navigation Division',
+        affiliation: 'Servants of the Erdtree',
+        skills: ['Map Documentation', 'Site of Grace Locations', 'World Navigation', 'Item Locations', 'Area Guides']
+      },
+      'Siti An Umillah Binti Harman': {
+        image: 'umilah.jpeg',
+        role: 'Sage',
+        subtitle: 'Scribe of the Golden Lineage',
+        title: 'Scribe of the Golden Lineage',
+        id: '2023647302',
+        desc: 'The keeper of ancient knowledge and forgotten lore. With quill in hand, she documents the history and lineages of the Lands Between with meticulous care and scholarly dedication.',
+        lore: 'Umillah spent years in the great libraries beneath Leyndell, studying texts that predated even the Golden Order. Her knowledge of the demigod lineages is unmatched—she can trace every branch of Queen Marika\'s family tree and explain the complex relationships that led to the Shattering. Her scrolls are considered primary sources by scholars throughout the realm.',
+        quote: 'What is written shall endure beyond the ages. In knowledge, we find immortality.',
+        quoteSource: 'Siti An Umillah',
+        status: 'Active - Historical Archives',
+        affiliation: 'The Academy of Raya Lucaria (Honorary Scholar)',
+        skills: ['Historical Documentation', 'Character Profiles', 'Lineage Tracking', 'Item Descriptions', 'Database Management']
+      }
+    };
+
+    function openMemberModal(card) {
+      const nameEl = card.querySelector('h3');
+      if (!nameEl) return;
+      
+      const name = nameEl.textContent.trim();
+      const member = teamMembers[name];
+      
+      if (!member) return;
+      
+      // Populate header
+      document.getElementById('modalMemberImage').src = member.image;
+      document.getElementById('modalMemberRole').textContent = member.role;
+      document.getElementById('modalMemberName').textContent = name;
+      document.getElementById('modalMemberSubtitle').textContent = member.subtitle;
+      
+      // Populate sections
+      document.getElementById('modalMemberDesc').textContent = member.desc;
+      document.getElementById('modalMemberLore').textContent = member.lore;
+      
+      // Populate quote
+      document.getElementById('modalMemberQuoteText').textContent = member.quote;
+      document.getElementById('modalMemberQuoteSource').textContent = '— ' + member.quoteSource;
+      
+      // Populate info table
+      document.getElementById('modalMemberFullName').textContent = name;
+      document.getElementById('modalMemberTitle').textContent = member.title;
+      document.getElementById('modalMemberID').textContent = member.id;
+      document.getElementById('modalMemberStatus').textContent = member.status;
+      document.getElementById('modalMemberAffiliation').textContent = member.affiliation;
+      
+      // Populate skills
+      const skillsContainer = document.getElementById('modalMemberSkills');
+      skillsContainer.innerHTML = member.skills.map(skill => 
+        `<span class="member-skill-tag">${skill}</span>`
+      ).join('');
+      
+      document.getElementById('memberModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMemberModal() {
+      document.getElementById('memberModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close on overlay click
+    document.getElementById('memberModal').addEventListener('click', function(e) {
+      if (e.target === this) closeMemberModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMemberModal();
+    });
+
+    // Add click handlers to member cards
+    document.querySelectorAll('.member-card').forEach(card => {
+      card.addEventListener('click', function() {
+        openMemberModal(this);
+      });
+    });
+  </script>
+
+  <!-- Footer Clock -->
+  <script>
+    function updateFooterClock() {
+      const now = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('en-US', options);
+      const clockEl = document.getElementById('footerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    updateFooterClock();
+    setInterval(updateFooterClock, 1000);
+  </script>
+
+  <!-- Global Wiki Search -->
+  <script src="items-search.js"></script>
+  <script>document.addEventListener("DOMContentLoaded",function(){if(typeof initializeSearch==="function")initializeSearch();});</script>
+
+</body>
+</html>

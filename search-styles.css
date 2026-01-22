@@ -1,0 +1,513 @@
+/* ============================================
+   ELDEN RING WIKI - SHARED SEARCH STYLES
+   Wiki-Style Search Dropdown
+============================================ */
+
+/* Search Results Dropdown */
+.search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, var(--bg-card) 0%, rgba(26, 20, 16, 0.98) 100%);
+  border: 1px solid var(--gold-dark);
+  border-radius: 6px;
+  max-height: 450px;
+  overflow-y: auto;
+  z-index: 1001;
+  box-shadow: 
+    0 15px 50px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(237, 138, 9, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  display: none;
+  min-width: 320px;
+}
+
+/* Results Header */
+.search-results-header {
+  padding: 12px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(189, 103, 7, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-results-header i {
+  font-size: 0.9rem;
+}
+
+/* Results Footer with Keyboard Hints */
+.search-results-footer {
+  padding: 10px 16px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(189, 103, 7, 0.15);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.search-results-footer kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  background: rgba(237, 138, 9, 0.15);
+  border: 1px solid rgba(189, 103, 7, 0.3);
+  border-radius: 3px;
+  color: var(--gold-muted);
+  margin-right: 4px;
+}
+
+/* Individual Result Item */
+.search-result-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(189, 103, 7, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.search-result-item:last-child:not(.search-results-footer) {
+  border-bottom: none;
+}
+
+.search-result-item:hover,
+.search-result-item.active {
+  background: linear-gradient(90deg, rgba(237, 138, 9, 0.15) 0%, rgba(237, 138, 9, 0.05) 100%);
+}
+
+.search-result-item.active {
+  border-left: 3px solid var(--gold);
+  padding-left: 13px;
+}
+
+/* Result Icon */
+.search-result-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, rgba(237, 138, 9, 0.15), rgba(189, 103, 7, 0.1));
+  border: 1px solid rgba(189, 103, 7, 0.3);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.search-result-icon i {
+  font-size: 1.1rem;
+  color: var(--gold);
+}
+
+/* Result Info */
+.search-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-result-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-category {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-result-category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(189, 103, 7, 0.2);
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.search-result-redirect,
+.search-result-here {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+}
+
+.search-result-redirect {
+  color: var(--gold-muted);
+}
+
+.search-result-redirect i {
+  transform: rotate(180deg);
+  font-size: 0.6rem;
+}
+
+.search-result-here {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.search-result-here i {
+  font-size: 0.7rem;
+}
+
+/* Search Highlight */
+.search-highlight {
+  color: var(--gold);
+  font-weight: 600;
+  background: rgba(237, 138, 9, 0.2);
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+/* No Results State */
+.search-result-item.no-results {
+  cursor: default;
+  text-align: center;
+  padding: 30px 20px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-result-item.no-results:hover {
+  background: transparent;
+}
+
+.search-no-results-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(189, 103, 7, 0.2);
+  border-radius: 50%;
+  margin: 0 auto 5px;
+}
+
+.search-no-results-icon i {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+}
+
+.search-no-results-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.search-no-results-text strong {
+  color: var(--gold-muted);
+}
+
+/* Item Highlight Animation (when navigated from search) */
+.search-highlighted {
+  animation: highlight-pulse 2.5s ease-in-out;
+  position: relative;
+}
+
+@keyframes highlight-pulse {
+  0%, 100% {
+    background: transparent;
+    box-shadow: none;
+  }
+  15%, 85% {
+    background: rgba(237, 138, 9, 0.12);
+    box-shadow: 0 0 35px rgba(237, 138, 9, 0.25), inset 0 0 20px rgba(237, 138, 9, 0.05);
+    border-color: var(--gold);
+  }
+}
+
+/* Search Box Enhancement */
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  background: rgba(26, 20, 16, 0.9);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 10px 40px 10px 15px;
+  border-radius: 4px;
+  width: 220px;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(237, 138, 9, 0.2);
+  width: 300px;
+  background: rgba(26, 20, 16, 0.98);
+}
+
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-box > i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.search-box input:focus + i,
+.search-box:focus-within > i {
+  color: var(--gold);
+}
+
+/* Mobile Search Results */
+@media (max-width: 768px) {
+  .search-results {
+    position: fixed;
+    top: 75px;
+    left: 15px;
+    right: 15px;
+    max-height: calc(100vh - 100px);
+    min-width: unset;
+  }
+  
+  .search-box input {
+    width: 180px;
+  }
+  
+  .search-box input:focus {
+    width: 200px;
+  }
+  
+  .search-result-item {
+    padding: 12px 14px;
+  }
+  
+  .search-result-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .search-results-footer {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+}
+
+/* Scrollbar for Search Results */
+.search-results::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-results::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+  border-radius: 0 6px 6px 0;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold-dark), var(--gold-muted));
+  border-radius: 4px;
+  border: 2px solid var(--bg-dark);
+}
+
+.search-results::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ============================================
+   CLOCK WIDGET - Toggle Button (like music player)
+   Position: bottom left, next to music player
+============================================ */
+.clock-widget {
+  position: fixed;
+  bottom: 30px;
+  left: 100px;
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.clock-widget.minimized .clock-expanded {
+  display: none;
+}
+
+.clock-widget.minimized .clock-minimized {
+  display: flex !important;
+}
+
+.clock-widget:not(.minimized) .clock-minimized {
+  display: none !important;
+}
+
+/* Minimized Button */
+.clock-minimized {
+  display: flex;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-surface));
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.clock-minimized:hover {
+  border-color: var(--gold);
+  box-shadow: 0 5px 30px rgba(237, 138, 9, 0.3);
+  transform: scale(1.05);
+}
+
+.clock-minimized i {
+  font-size: 1.5rem;
+  color: var(--gold);
+  animation: clock-glow 2s ease-in-out infinite;
+}
+
+@keyframes clock-glow {
+  0%, 100% { filter: drop-shadow(0 0 3px var(--gold)); }
+  50% { filter: drop-shadow(0 0 12px var(--gold)); }
+}
+
+/* Expanded Panel */
+.clock-expanded {
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-surface));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  width: 260px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(237, 138, 9, 0.15);
+}
+
+.clock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(189, 103, 7, 0.25);
+}
+
+.clock-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clock-title i {
+  font-size: 1rem;
+}
+
+.clock-minimize {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.4rem;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.clock-minimize:hover {
+  color: var(--gold);
+  background: rgba(237, 138, 9, 0.1);
+}
+
+.clock-display {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.clock-time-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  border-left: 3px solid var(--gold-dark);
+}
+
+.clock-time-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.clock-time-value {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 10px rgba(237, 138, 9, 0.4);
+}
+
+.clock-day-value,
+.clock-date-value {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .clock-widget {
+    bottom: 20px;
+    left: 85px;
+  }
+  
+  .clock-minimized {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .clock-minimized i {
+    font-size: 1.2rem;
+  }
+  
+  .clock-expanded {
+    width: 220px;
+    padding: 15px;
+  }
+}

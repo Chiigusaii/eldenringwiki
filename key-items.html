@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Key Items - Elden Ring Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="search-styles.css">
+  <link rel="stylesheet" href="music-player.css">
+  
+  <style>
+    :root {
+      --gold: #ed8a09; --gold-bright: #f9c043; --gold-dark: #bd6707; --gold-muted: #e1b26b;
+      --bg-black: #040200; --bg-dark: #0d0906; --bg-surface: #1a1410; --bg-card: #231a12;
+      --text-primary: #f5f3e0; --text-secondary: #c9b99a; --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3); --glow: rgba(237, 138, 9, 0.4);
+      --keys: #ffd700; --medallions: #c9a227; --progression: #4dabf7; --containers: #b87333;
+      --quest: #9775fa; --dlc: #ff6b35;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; color: var(--text-primary); background: var(--bg-black); min-height: 100vh; overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 150px 60px rgba(0,0,0,0.8); z-index: 100; }
+    
+    #vanta-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .ember { position: absolute; border-radius: 50%; animation: ember-float linear infinite; opacity: 0; }
+    @keyframes ember-float { 0% { opacity: 0; transform: translateY(100vh) scale(0); } 10% { opacity: 1; } 90% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-5vh) scale(0); } }
+    
+    h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
+    .title-decorative { font-family: 'Cinzel Decorative', serif; }
+    .gold-text { background: linear-gradient(to bottom, #cfc09f 0%, #ffecb3 25%, #e7c66e 50%, #a17720 75%, #5c3d00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    
+    .content-wrapper { position: relative; z-index: 10; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 80px 0; }
+    
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s ease; padding: 15px 0; }
+    header.scrolled { background: rgba(4, 2, 0, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px var(--glow)); transition: all 0.3s ease; }
+    .logo:hover .logo-icon img { filter: drop-shadow(0 0 20px var(--glow)); transform: scale(1.05); }
+    .logo-text h1 { font-size: 1.4rem; letter-spacing: 0.15em; }
+    .logo-text span { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--text-muted); text-transform: uppercase; display: block; }
+    
+    nav { display: flex; gap: 5px; }
+    nav a { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: 10px 18px; border-radius: 2px; transition: all 0.3s ease; position: relative; }
+    nav a:hover { color: var(--gold); background: rgba(237, 138, 9, 0.1); }
+    nav a.active { color: var(--gold); }
+    nav a.active::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+    
+    .search-box { position: relative; }
+    .search-box input { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; background: rgba(26, 20, 16, 0.8); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 40px 10px 15px; border-radius: 2px; width: 220px; transition: all 0.3s ease; }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 15px rgba(237, 138, 9, 0.15); width: 280px; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    
+    .page-hero { padding: 160px 0 80px; text-align: center; position: relative; }
+    .page-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(237, 138, 9, 0.1) 0%, transparent 70%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.15em; margin-bottom: 15px; }
+    .page-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 750px; margin: 0 auto; line-height: 1.8; }
+    
+    .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 30px 0; }
+    .divider-line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); }
+    .divider-symbol { color: var(--gold); font-size: 1.2rem; letter-spacing: 0.3em; }
+    
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--gold-muted); text-decoration: none; transition: color 0.3s ease; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 8px; }
+    
+    .info-box { background: linear-gradient(135deg, var(--bg-card), var(--bg-surface)); border: 1px solid var(--border); border-radius: 3px; padding: 25px; margin-bottom: 40px; border-left: 3px solid var(--gold-dark); }
+    .info-box h3 { font-size: 1.1rem; color: var(--gold-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .info-box h3 i { color: var(--gold); }
+    .info-box p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 10px; }
+    .info-box p:last-child { margin-bottom: 0; }
+    
+    .tabs { display: flex; gap: 5px; margin-bottom: 30px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 10px; justify-content: center; }
+    .tab-btn { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 10px 20px; cursor: pointer; transition: all 0.3s ease; border-radius: 2px 2px 0 0; }
+    .tab-btn:hover { color: var(--text-primary); background: rgba(237, 138, 9, 0.05); }
+    .tab-btn.active { color: var(--gold); border-color: var(--gold-dark); border-bottom-color: transparent; background: rgba(237, 138, 9, 0.1); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .category-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+    .category-header i { font-size: 2rem; }
+    .category-header h3 { font-size: 1.4rem; color: var(--text-primary); margin: 0; }
+    .category-header p { font-size: 0.9rem; color: var(--text-muted); margin: 5px 0 0; }
+    
+    .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 40px; }
+    
+    .item-card { background: var(--bg-card); border: 2px solid var(--border); border-radius: 3px; padding: 20px; transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden; }
+    .item-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s ease; }
+    .item-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(237, 138, 9, 0.15); }
+    .item-card:hover::before { opacity: 1; }
+    
+    .item-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+    .item-icon { width: 55px; height: 55px; background: var(--bg-dark); border: 2px solid var(--gold-dark); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden; }
+    .item-icon::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%); }
+    .item-icon i { font-size: 1.4rem; color: var(--gold); z-index: 1; }
+    
+    .item-title { flex: 1; }
+    .item-title h4 { font-size: 1rem; color: var(--text-primary); margin-bottom: 2px; transition: color 0.3s ease; }
+    .item-card:hover .item-title h4 { color: var(--gold); }
+    .item-title span { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .item-effect { font-size: 0.9rem; color: var(--gold-muted); margin-bottom: 10px; padding: 8px 12px; background: rgba(237, 138, 9, 0.08); border-left: 2px solid var(--gold-dark); border-radius: 2px; }
+    
+    .item-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    
+    .item-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+    .item-tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .item-tag.consumable { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+    .item-tag.reusable { background: rgba(105, 219, 124, 0.2); color: #69db7c; }
+    .item-tag.purchase { background: rgba(237, 138, 9, 0.2); color: var(--gold); }
+    .item-tag.loot { background: rgba(154, 205, 50, 0.2); color: #9acd32; }
+    .item-tag.quest { background: rgba(147, 112, 219, 0.2); color: var(--quest); }
+    .item-tag.boss { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+    .item-tag.dlc { background: rgba(255, 107, 53, 0.2); color: var(--dlc); }
+    .item-tag.limited { background: rgba(201, 162, 39, 0.2); color: var(--medallions); }
+
+    .type-keys .item-icon { border-color: var(--keys); }
+    .type-keys .item-icon i { color: var(--keys); }
+    .type-medallions .item-icon { border-color: var(--medallions); }
+    .type-medallions .item-icon i { color: var(--medallions); }
+    .type-progression .item-icon { border-color: var(--progression); }
+    .type-progression .item-icon i { color: var(--progression); }
+    .type-containers .item-icon { border-color: var(--containers); }
+    .type-containers .item-icon i { color: var(--containers); }
+    .type-quest .item-icon { border-color: var(--quest); }
+    .type-quest .item-icon i { color: var(--quest); }
+    .type-dlc .item-icon { border-color: var(--dlc); }
+    .type-dlc .item-icon i { color: var(--dlc); }
+    
+    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+    
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-muted); cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 99; }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--gold); color: var(--bg-black); border-color: var(--gold); transform: translateY(-3px); }
+    
+    @media (max-width: 768px) {
+      .items-grid { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+  <div class="particles-container" id="particles"></div>
+
+  <div class="content-wrapper">
+    <header id="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="index.html" class="logo">
+            <div class="logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <div class="logo-text"><h1 class="gold-text">ELDEN RING</h1><span>Encyclopaedia</span></div>
+          </a>
+          <nav>
+            <a href="index.html">Home</a>
+            <a href="weapons.html">Weapons</a>
+            <a href="items.html" class="active">Items</a>
+            <a href="locations.html">Locations</a>
+            <a href="npcs.html">NPCs</a>
+          </nav>
+          <div class="search-box">
+            <input type="text" placeholder="Search the wiki..." id="searchInput">
+            <i class="ra ra-magnifying-glass"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a> <span>›</span>
+          <a href="items.html">Items</a> <span>›</span>
+          <span>Key Items</span>
+        </div>
+        <h1 class="title-decorative gold-text">KEY ITEMS</h1>
+        <div class="divider"><div class="divider-line"></div><span class="divider-symbol">◆ ✧ ◆</span><div class="divider-line"></div></div>
+        <p>Essential items that unlock areas, advance quests, increase character capabilities, and serve as containers for crafting. Many are unique per playthrough and cannot be dropped or traded.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="info-box fade-in">
+          <h3><i class="ra ra-key-basic"></i> About Key Items</h3>
+          <p>Key Items are special items that serve various purposes—unlocking sealed doors, activating lifts, increasing spell slots or talisman slots, or providing containers for crafting. Most are unique and cannot be obtained again until New Game+.</p>
+          <p>Some key items like Stonesword Keys are consumable and require careful consideration before use. Others like Memory Stones provide permanent passive benefits once collected.</p>
+        </div>
+
+        <div class="tabs fade-in">
+          <button class="tab-btn active" data-tab="keys">Keys & Access</button>
+          <button class="tab-btn" data-tab="medallions">Medallions</button>
+          <button class="tab-btn" data-tab="progression">Progression</button>
+          <button class="tab-btn" data-tab="containers">Containers</button>
+          <button class="tab-btn" data-tab="quest">Quest Items</button>
+          <button class="tab-btn" data-tab="dlc">DLC</button>
+        </div>
+
+        <!-- KEYS TAB -->
+        <div id="keys" class="tab-content active">
+          <div class="category-header fade-in">
+            <i class="ra ra-key-basic" style="color: var(--keys);"></i>
+            <div>
+              <h3>Keys & Access Items</h3>
+              <p>Items that unlock sealed doors, imp statues, and waygates throughout the Lands Between.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="item-card type-keys" data-name="Stonesword Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-key"></i></div>
+                <div class="item-title"><h4>Stonesword Key</h4><span>Consumable Key</span></div>
+              </div>
+              <div class="item-effect">Breaks seal on imp statues (consumed on use)</div>
+              <div class="item-desc">Sword-shaped stone key. Unlocks fog doors guarded by imp statues. Can be chosen as a starting Keepsake. ~30 found per playthrough.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Consumed</span>
+                <span class="item-tag purchase">Various Merchants</span>
+              </div>
+            </div>
+
+            <div class="item-card type-keys" data-name="Imbued Sword Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-crystal-wand"></i></div>
+                <div class="item-title"><h4>Imbued Sword Key</h4><span>Rare Key</span></div>
+              </div>
+              <div class="item-effect">Activates sending gates at The Four Belfries</div>
+              <div class="item-desc">Stone key imbued with rich blue magic. Only 4 exist per playthrough. Gates lead to Farum Azula, Nokron, and Chapel of Anticipation.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Consumed</span>
+                <span class="item-tag limited">4 Per Playthrough</span>
+              </div>
+            </div>
+
+            <div class="item-card type-keys" data-name="Academy Glintstone Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-gem"></i></div>
+                <div class="item-title"><h4>Academy Glintstone Key</h4><span>Major Key</span></div>
+              </div>
+              <div class="item-effect">Opens both gates to Raya Lucaria Academy</div>
+              <div class="item-desc">Activates warp magic bound within the seals. A glintstone key remembers its user—once used, it can never be passed to another.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag loot">Behind Glintstone Dragon</span>
+              </div>
+            </div>
+
+            <div class="item-card type-keys" data-name="Rusty Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-key-basic"></i></div>
+                <div class="item-title"><h4>Rusty Key</h4><span>Dungeon Key</span></div>
+              </div>
+              <div class="item-effect">Opens locked door in Stormveil Castle</div>
+              <div class="item-desc">Rusted iron key found in Stormveil. Opens the door to the area containing the Chrysalid's Memento.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag loot">Stormveil Castle</span>
+              </div>
+            </div>
+
+            <div class="item-card type-keys" data-name="Drawing-Room Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-key-basic"></i></div>
+                <div class="item-title"><h4>Drawing-Room Key</h4><span>Manor Key</span></div>
+              </div>
+              <div class="item-effect">Opens Volcano Manor's drawing room</div>
+              <div class="item-desc">Key to Volcano Manor's drawing room, given by Tanith. The door can be found in the westward corridor, upon the left hand side.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag quest">Tanith Quest</span>
+              </div>
+            </div>
+
+            <div class="item-card type-keys" data-name="Sewer-Gaol Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-key-basic"></i></div>
+                <div class="item-title"><h4>Sewer-Gaol Key</h4><span>Dungeon Key</span></div>
+              </div>
+              <div class="item-effect">Unlocks sewer-gaol door in Leyndell</div>
+              <div class="item-desc">Filthy key received from the Dung Eater. Unlocks his cell in the Subterranean Shunning-Grounds beneath Leyndell.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag quest">Dung Eater Quest</span>
+              </div>
+            </div>
+
+            <div class="item-card type-keys" data-name="Discarded Palace Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-key-basic"></i></div>
+                <div class="item-title"><h4>Discarded Palace Key</h4><span>Hidden Key</span></div>
+              </div>
+              <div class="item-effect">Opens chest in Raya Lucaria Grand Library</div>
+              <div class="item-desc">Found after defeating Astel in Lake of Rot. Opens the chest containing the Dark Moon Ring for Ranni's questline.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag boss">Astel Drop</span>
+              </div>
+            </div>
+
+            <div class="item-card type-keys" data-name="Sellian Sealbreaker">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="item-title"><h4>Sellian Sealbreaker</h4><span>Magic Key</span></div>
+              </div>
+              <div class="item-effect">Breaks seal confining Master Lusat</div>
+              <div class="item-desc">Glintstone key received from Sellen. Capable of breaking the seal that keeps Master Lusat confined in Sellia Hideaway.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag quest">Sellen Quest</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- MEDALLIONS TAB -->
+        <div id="medallions" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-medal" style="color: var(--medallions);"></i>
+            <div>
+              <h3>Medallions</h3>
+              <p>Split medallions that activate the Grand Lifts, granting access to major regions.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="item-card type-medallions" data-name="Dectus Medallion (Left)">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-medal"></i></div>
+                <div class="item-title"><h4>Dectus Medallion (Left)</h4><span>Split Medallion</span></div>
+              </div>
+              <div class="item-effect">Half of medallion for Grand Lift of Dectus</div>
+              <div class="item-desc">Left half depicting the Erdtree. Found in Fort Haight on the Weeping Peninsula coast. The right half is said to reside in Fort Faroth.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag loot">Fort Haight</span>
+              </div>
+            </div>
+
+            <div class="item-card type-medallions" data-name="Dectus Medallion (Right)">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-medal"></i></div>
+                <div class="item-title"><h4>Dectus Medallion (Right)</h4><span>Split Medallion</span></div>
+              </div>
+              <div class="item-effect">Half of medallion for Grand Lift of Dectus</div>
+              <div class="item-desc">Right half depicting the Erdtree. Found in Fort Faroth in the Dragonbarrow. Connects Altus Plateau to Liurnia when conjoined.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag loot">Fort Faroth</span>
+              </div>
+            </div>
+
+            <div class="item-card type-medallions" data-name="Rold Medallion">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-fire"></i></div>
+                <div class="item-title"><h4>Rold Medallion</h4><span>Whole Medallion</span></div>
+              </div>
+              <div class="item-effect">Activates Grand Lift of Rold</div>
+              <div class="item-desc">Conjoined medallion depicting the Flame Peak. Given by Melina after defeating Morgott. Connects Leyndell to the Mountaintops of the Giants.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag quest">Story Item</span>
+              </div>
+            </div>
+
+            <div class="item-card type-medallions" data-name="Haligtree Secret Medallion (Left)">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-branch"></i></div>
+                <div class="item-title"><h4>Haligtree Secret Medallion (Left)</h4><span>Secret Medallion</span></div>
+              </div>
+              <div class="item-effect">Half of secret medallion for hidden path</div>
+              <div class="item-desc">Grants access to hidden path at Grand Lift of Rold leading to Miquella's Haligtree. Found atop Castle Sol after defeating Commander Niall.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag boss">Castle Sol</span>
+              </div>
+            </div>
+
+            <div class="item-card type-medallions" data-name="Haligtree Secret Medallion (Right)">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-branch"></i></div>
+                <div class="item-title"><h4>Haligtree Secret Medallion (Right)</h4><span>Secret Medallion</span></div>
+              </div>
+              <div class="item-effect">Half of secret medallion for hidden path</div>
+              <div class="item-desc">Given by Albus (disguised as pot) in Village of the Albinaurics. Guides the bearer to Miquella's Haligtree when conjoined.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag quest">Albus/Latenna</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PROGRESSION TAB -->
+        <div id="progression" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-trophy" style="color: var(--progression);"></i>
+            <div>
+              <h3>Progression Items</h3>
+              <p>Items that permanently increase your character's capabilities—spell slots, talisman slots, and flask charges.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="item-card type-progression" data-name="Memory Stone">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="item-title"><h4>Memory Stone</h4><span>Slot Increase</span></div>
+              </div>
+              <div class="item-effect">+1 Memory Slot for spells/incantations</div>
+              <div class="item-desc">Black, lightly beguiling stone. 8 can be found for a total of 10 slots (start with 2). Mostly found in Rises (magic towers) or boss drops.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Passive</span>
+                <span class="item-tag limited">8 Per Playthrough</span>
+              </div>
+            </div>
+
+            <div class="item-card type-progression" data-name="Talisman Pouch">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-plain-dagger"></i></div>
+                <div class="item-title"><h4>Talisman Pouch</h4><span>Slot Increase</span></div>
+              </div>
+              <div class="item-effect">+1 Talisman equip slot</div>
+              <div class="item-desc">Small withered bag. 3 can be found for 4 total slots. Obtained from Margit, Enia (after 2 Great Runes), and Godfrey (golden shade).</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Passive</span>
+                <span class="item-tag boss">Boss Rewards</span>
+              </div>
+            </div>
+
+            <div class="item-card type-progression" data-name="Golden Seed">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-flower"></i></div>
+                <div class="item-title"><h4>Golden Seed</h4><span>Flask Upgrade</span></div>
+              </div>
+              <div class="item-effect">+1 Flask charge at Sites of Grace</div>
+              <div class="item-desc">Golden seed found at foot of illusory trees. Maximum 14 flasks total. Found near Minor Erdtrees, church sites, and certain boss drops.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Consumed at Grace</span>
+                <span class="item-tag loot">~30+ Available</span>
+              </div>
+            </div>
+
+            <div class="item-card type-progression" data-name="Sacred Tear">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-droplet"></i></div>
+                <div class="item-title"><h4>Sacred Tear</h4><span>Flask Upgrade</span></div>
+              </div>
+              <div class="item-effect">Increases HP/FP restored per flask use</div>
+              <div class="item-desc">Tear from a statue of Marika. Found at churches throughout the Lands Between. Maximum +12 flask potency.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Consumed at Grace</span>
+                <span class="item-tag loot">Churches</span>
+              </div>
+            </div>
+
+            <div class="item-card type-progression" data-name="Larval Tear">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-eye-monster"></i></div>
+                <div class="item-title"><h4>Larval Tear</h4><span>Respec Item</span></div>
+              </div>
+              <div class="item-effect">Respec character stats at Rennala</div>
+              <div class="item-desc">Rare creature that burgeons from spiritgraves. Required to be born anew and reallocate attributes. ~18 per playthrough.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Consumed</span>
+                <span class="item-tag limited">Limited Supply</span>
+              </div>
+            </div>
+
+            <div class="item-card type-progression" data-name="Whetstone Knife">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-plain-dagger"></i></div>
+                <div class="item-title"><h4>Whetstone Knife</h4><span>Feature Unlock</span></div>
+              </div>
+              <div class="item-effect">Enables Ash of War application</div>
+              <div class="item-desc">Whetstone with cipher inscription. Allows applying Ashes of War at Sites of Grace to bestow new skills and affinities to armaments.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Permanent</span>
+                <span class="item-tag loot">Gatefront Ruins</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CONTAINERS TAB -->
+        <div id="containers" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-round-bottom-flask" style="color: var(--containers);"></i>
+            <div>
+              <h3>Crafting Containers</h3>
+              <p>Reusable vessels required for crafting pots and perfumes. The containers return when the item is used.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="item-card type-containers" data-name="Cracked Pot">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-round-bottom-flask"></i></div>
+                <div class="item-title"><h4>Cracked Pot</h4><span>Crafting Container</span></div>
+              </div>
+              <div class="item-effect">Required for crafting throwable pot items</div>
+              <div class="item-desc">Empty pot that mends itself when broken. Maximum 20 can be held. Used for Fire Pots, Lightning Pots, Holy Water Pots, etc.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag purchase">Various Sources</span>
+              </div>
+            </div>
+
+            <div class="item-card type-containers" data-name="Ritual Pot">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-round-bottom-flask"></i></div>
+                <div class="item-title"><h4>Ritual Pot</h4><span>Crafting Container</span></div>
+              </div>
+              <div class="item-effect">Required for crafting ritual pot items</div>
+              <div class="item-desc">Larger pot for more powerful concoctions. Maximum 10 can be held. Used for Rancor Pot, Volcano Pot, and Alluring Pot.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag loot">Various Locations</span>
+              </div>
+            </div>
+
+            <div class="item-card type-containers" data-name="Perfume Bottle">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-bottle-vapors"></i></div>
+                <div class="item-title"><h4>Perfume Bottle</h4><span>Crafting Container</span></div>
+              </div>
+              <div class="item-effect">Required for crafting perfume/aromatic items</div>
+              <div class="item-desc">Ornate bottle for perfume arts. Maximum 10 can be held. Used for Uplifting Aromatic, Spark Aromatic, and Ironjar Aromatic.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Reusable</span>
+                <span class="item-tag loot">Perfumer Locations</span>
+              </div>
+            </div>
+
+            <div class="item-card type-containers" data-name="Empty Ashes of War">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-scroll-unfurled"></i></div>
+                <div class="item-title"><h4>Empty Ashes of War</h4><span>Duplication Item</span></div>
+              </div>
+              <div class="item-effect">Used by Hewg to duplicate Ashes of War</div>
+              <div class="item-desc">Empty ashes devoid of battle memories. Smithing Master Hewg can use these to recreate other ashes. The copy becomes genuine.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Consumed</span>
+                <span class="item-tag loot">Various Locations</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- QUEST TAB -->
+        <div id="quest" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-scroll-unfurled" style="color: var(--quest);"></i>
+            <div>
+              <h3>Quest Items</h3>
+              <p>Items tied to NPC questlines, offering lore significance and quest progression.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="item-card type-quest" data-name="Deathroot">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-root"></i></div>
+                <div class="item-title"><h4>Deathroot</h4><span>Beast Clergyman Quest</span></div>
+              </div>
+              <div class="item-effect">Trade to Gurranq for incantations/rewards</div>
+              <div class="item-desc">Source that gives rise to Those Who Live in Death. Gurranq at Bestial Sanctum collects and devours these roots. 9 available.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Given to NPC</span>
+                <span class="item-tag limited">9 Per Playthrough</span>
+              </div>
+            </div>
+
+            <div class="item-card type-quest" data-name="Beast Eye">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-bleeding-eye"></i></div>
+                <div class="item-title"><h4>Beast Eye</h4><span>Tracking Item</span></div>
+              </div>
+              <div class="item-effect">Trembles when near Deathroot</div>
+              <div class="item-desc">Claw-marked stone eye from Gurranq. The murky violet iris writhes as if alive. "I am not sated... Feed me more... Death..."</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Passive Detector</span>
+                <span class="item-tag quest">Gurranq Gift</span>
+              </div>
+            </div>
+
+            <div class="item-card type-quest" data-name="Chrysalid's Memento">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-skull"></i></div>
+                <div class="item-title"><h4>Chrysalid's Memento</h4><span>Roderika Quest</span></div>
+              </div>
+              <div class="item-effect">Give to Roderika to progress her quest</div>
+              <div class="item-desc">Memento left by the chrysalids sacrificed for grafting. Found in Stormveil Castle. Allows Roderika to move to Roundtable Hold.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Given to NPC</span>
+                <span class="item-tag loot">Stormveil Castle</span>
+              </div>
+            </div>
+
+            <div class="item-card type-quest" data-name="Amber Starlight">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-sun"></i></div>
+                <div class="item-title"><h4>Amber Starlight</h4><span>Seluvis Quest</span></div>
+              </div>
+              <div class="item-effect">Give to Seluvis for Amber Draught</div>
+              <div class="item-desc">Large amber crystal with faint glow. Found on Altus Plateau. Required for Seluvis's potion-making schemes.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Given to NPC</span>
+                <span class="item-tag loot">Altus Plateau</span>
+              </div>
+            </div>
+
+            <div class="item-card type-quest" data-name="Seluvis's Potion">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-round-bottom-flask"></i></div>
+                <div class="item-title"><h4>Seluvis's Potion</h4><span>Choice Item</span></div>
+              </div>
+              <div class="item-effect">Can be given to Nepheli, Dung Eater, or Gideon</div>
+              <div class="item-desc">Cloudy tonic of bluish black. "Find Nepheli, and ensure she drinks it." Giving to different NPCs leads to different outcomes.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Given to NPC</span>
+                <span class="item-tag quest">Multiple Outcomes</span>
+              </div>
+            </div>
+
+            <div class="item-card type-quest" data-name="Weathered Dagger">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-plain-dagger"></i></div>
+                <div class="item-title"><h4>Weathered Dagger</h4><span>Fia Quest</span></div>
+              </div>
+              <div class="item-effect">Return to its rightful owner (D)</div>
+              <div class="item-desc">Dagger from Fia that she wishes returned. Once gold and silver intertwined, now worn down and marred by a black gash.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Given to NPC</span>
+                <span class="item-tag quest">Fia Quest</span>
+              </div>
+            </div>
+
+            <div class="item-card type-quest" data-name="Fingerslayer Blade">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-sword"></i></div>
+                <div class="item-title"><h4>Fingerslayer Blade</h4><span>Ranni Quest</span></div>
+              </div>
+              <div class="item-effect">Give to Ranni to progress her quest</div>
+              <div class="item-desc">Hidden treasure of Nokron; blade said to be born of a corpse. Required to advance Ranni's questline toward the Age of Stars.</div>
+              <div class="item-tags">
+                <span class="item-tag consumable">Given to NPC</span>
+                <span class="item-tag loot">Nokron, Eternal City</span>
+              </div>
+            </div>
+
+            <div class="item-card type-quest" data-name="Carian Inverted Statue">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-tower"></i></div>
+                <div class="item-title"><h4>Carian Inverted Statue</h4><span>Ranni Quest</span></div>
+              </div>
+              <div class="item-effect">Inverts Carian Study Hall</div>
+              <div class="item-desc">Given by Ranni after giving her the Fingerslayer Blade. Place on pedestal in Carian Study Hall to access Divine Tower of Liurnia.</div>
+              <div class="item-tags">
+                <span class="item-tag reusable">Placed Once</span>
+                <span class="item-tag quest">Ranni Gift</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DLC TAB -->
+        <div id="dlc" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-scroll-unfurled" style="color: var(--dlc);"></i>
+            <div>
+              <h3>Shadow of the Erdtree Key Items</h3>
+              <p>New key items from the DLC including Hefty Pots, special keys, and quest items.</p>
+            </div>
+          </div>
+          <div class="items-grid">
+            
+            <div class="item-card type-dlc" data-name="Hefty Cracked Pot">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-round-bottom-flask"></i></div>
+                <div class="item-title"><h4>Hefty Cracked Pot</h4><span>DLC Container</span></div>
+              </div>
+              <div class="item-effect">Required for crafting hefty pot items</div>
+              <div class="item-desc">Larger container for the more powerful Hefty Pots introduced in the DLC. Enables Greater Potentate recipes.</div>
+              <div class="item-tags">
+                <span class="item-tag dlc">DLC</span>
+                <span class="item-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+            <div class="item-card type-dlc" data-name="Scadutree Fragment">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-branch"></i></div>
+                <div class="item-title"><h4>Scadutree Fragment</h4><span>DLC Progression</span></div>
+              </div>
+              <div class="item-effect">Increases Scadutree Blessing level</div>
+              <div class="item-desc">Fragment of the Shadow Tree. Increases damage dealt and reduces damage taken in the Land of Shadow. Essential for DLC progression.</div>
+              <div class="item-tags">
+                <span class="item-tag dlc">DLC</span>
+                <span class="item-tag consumable">Consumed at Grace</span>
+              </div>
+            </div>
+
+            <div class="item-card type-dlc" data-name="Revered Spirit Ash">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-fairy"></i></div>
+                <div class="item-title"><h4>Revered Spirit Ash</h4><span>DLC Progression</span></div>
+              </div>
+              <div class="item-effect">Strengthens Spirit Ashes in Land of Shadow</div>
+              <div class="item-desc">Increases Spirit Ash power in the DLC area. Works alongside Scadutree Blessing for full effectiveness.</div>
+              <div class="item-tags">
+                <span class="item-tag dlc">DLC</span>
+                <span class="item-tag consumable">Consumed at Grace</span>
+              </div>
+            </div>
+
+            <div class="item-card type-dlc" data-name="Storeroom Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-key-basic"></i></div>
+                <div class="item-title"><h4>Storeroom Key</h4><span>DLC Dungeon Key</span></div>
+              </div>
+              <div class="item-effect">Opens storeroom in Belurat</div>
+              <div class="item-desc">Key with spiral engraving. Opens the door to the storeroom on the second floor of Belurat, the Tower Settlement.</div>
+              <div class="item-tags">
+                <span class="item-tag dlc">DLC</span>
+                <span class="item-tag reusable">Reusable</span>
+              </div>
+            </div>
+
+            <div class="item-card type-dlc" data-name="Miquella's Charm">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-gem"></i></div>
+                <div class="item-title"><h4>Miquella's Charm</h4><span>DLC Quest Item</span></div>
+              </div>
+              <div class="item-effect">Central to DLC story progression</div>
+              <div class="item-desc">A mysterious charm connected to Miquella's journey through the Land of Shadow. Key to understanding the DLC's narrative.</div>
+              <div class="item-tags">
+                <span class="item-tag dlc">DLC</span>
+                <span class="item-tag quest">Story Item</span>
+              </div>
+            </div>
+
+            <div class="item-card type-dlc" data-name="Thiollier's Concoction">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-round-bottom-flask"></i></div>
+                <div class="item-title"><h4>Thiollier's Concoction</h4><span>DLC Quest Item</span></div>
+              </div>
+              <div class="item-effect">Puts target into deep slumber</div>
+              <div class="item-desc">Potion from Thiollier that induces sleep. Can be used on the Dragon Priestess for alternate quest outcomes.</div>
+              <div class="item-tags">
+                <span class="item-tag dlc">DLC</span>
+                <span class="item-tag quest">Choice Item</span>
+              </div>
+            </div>
+
+            <div class="item-card type-dlc" data-name="DLC Imbued Sword Key">
+              <div class="item-header">
+                <div class="item-icon"><i class="ra ra-crystal-wand"></i></div>
+                <div class="item-title"><h4>Imbued Sword Key (DLC)</h4><span>DLC Access Key</span></div>
+              </div>
+              <div class="item-effect">Activates waygate above Castle Ensis</div>
+              <div class="item-desc">Fourth Imbued Sword Key found in Castle Ensis. Opens a waygate leading to an isolated section of Ancient Ruins of Rauh.</div>
+              <div class="item-tags">
+                <span class="item-tag dlc">DLC</span>
+                <span class="item-tag consumable">Consumed</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+        <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <span>ELDEN RING WIKI</span>
+          </div>
+          <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+      </div>
+    </footer>
+  </div>
+
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()"><i class="ra ra-music-note" id="minimizedIcon"></i></div>
+    <div class="player-expanded">
+      <div class="player-header"><span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span><button class="player-minimize" onclick="togglePlayer()">−</button></div>
+      <div class="player-track"><div class="track-name" id="trackName">Track 1</div><div class="track-info" id="trackInfo">Elden Ring OST</div></div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header"><span class="volume-label">Volume</span><button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button></div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" preload="auto"><source src="bgm1.mp3" type="audio/mpeg"></audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+  <script src="items-search.js"></script>
+  <script src="music-player.js"></script>
+  
+  <script>
+    try {
+      VANTA.FOG({ el: "#vanta-bg", mouseControls: true, touchControls: true, gyroControls: false, minHeight: 200, minWidth: 200, highlightColor: 0x5c3d00, midtoneColor: 0x1a0f00, lowlightColor: 0x000000, baseColor: 0x0a0500, blurFactor: 0.5, speed: 1.5, zoom: 1.2 });
+    } catch(e) {}
+
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        const size = Math.random() * 4 + 2;
+        ember.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:radial-gradient(circle,hsl(${Math.random()*30+20},100%,${Math.random()*20+50}%) 0%,hsl(${Math.random()*30+20},100%,30%) 50%,transparent 70%);animation-duration:${Math.random()*15+10}s;animation-delay:-${Math.random()*20}s;box-shadow:0 0 ${size*2}px hsl(${Math.random()*30+20},100%,${Math.random()*20+50}%);`;
+        container.appendChild(ember);
+      }
+    }
+    createEmbers();
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50));
+
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 500));
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    if (typeof initializeSearch === 'function') initializeSearch('key-item');
+  </script>
+</body>
+</html>

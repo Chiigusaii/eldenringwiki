@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whetblades - Elden Ring Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="search-styles.css">
+  <link rel="stylesheet" href="music-player.css">
+  
+  <style>
+    :root {
+      --gold: #ed8a09; --gold-bright: #f9c043; --gold-dark: #bd6707; --gold-muted: #e1b26b;
+      --bg-black: #040200; --bg-dark: #0d0906; --bg-surface: #1a1410; --bg-card: #231a12;
+      --text-primary: #f5f3e0; --text-secondary: #c9b99a; --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3); --glow: rgba(237, 138, 9, 0.4);
+      --fire: #ff6b35; --magic: #6db3f2; --lightning: #f0e68c; --holy: #ffd700;
+      --poison: #9acd32; --blood: #dc143c; --occult: #9370db;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; color: var(--text-primary); background: var(--bg-black); min-height: 100vh; overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 150px 60px rgba(0,0,0,0.8); z-index: 100; }
+    
+    #vanta-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .ember { position: absolute; border-radius: 50%; animation: ember-float linear infinite; opacity: 0; }
+    @keyframes ember-float { 
+      0% { opacity: 0; transform: translateY(100vh) translateX(0) scale(0); } 
+      10% { opacity: 1; transform: translateY(90vh) translateX(10px) scale(1); } 
+      90% { opacity: 0.8; transform: translateY(10vh) translateX(-20px) scale(0.8); } 
+      100% { opacity: 0; transform: translateY(-5vh) translateX(30px) scale(0); } 
+    }
+    
+    h1, h2, h3, h4, h5, h6 { font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
+    .title-decorative { font-family: 'Cinzel Decorative', serif; }
+    .gold-text { background: linear-gradient(to bottom, #cfc09f 0%, #ffecb3 25%, #e7c66e 50%, #a17720 75%, #5c3d00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    .glow-text { color: var(--gold); text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px var(--glow); }
+    
+    .content-wrapper { position: relative; z-index: 10; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 80px 0; }
+    
+    /* Header */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s ease; padding: 15px 0; }
+    header.scrolled { background: rgba(4, 2, 0, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px var(--glow)); transition: all 0.3s ease; }
+    .logo:hover .logo-icon img { filter: drop-shadow(0 0 20px var(--glow)); transform: scale(1.05); }
+    .logo-text h1 { font-size: 1.4rem; letter-spacing: 0.15em; }
+    .logo-text span { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--text-muted); text-transform: uppercase; display: block; }
+    
+    nav { display: flex; gap: 5px; }
+    nav a { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: 10px 18px; border-radius: 2px; transition: all 0.3s ease; position: relative; }
+    nav a:hover { color: var(--gold); background: rgba(237, 138, 9, 0.1); }
+    nav a.active { color: var(--gold); }
+    nav a.active::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+    
+    .search-box { position: relative; }
+    .search-box input { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; background: rgba(26, 20, 16, 0.8); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 40px 10px 15px; border-radius: 2px; width: 220px; transition: all 0.3s ease; }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 15px rgba(237, 138, 9, 0.15); width: 280px; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    
+    /* Page Hero */
+    .page-hero { padding: 160px 0 80px; text-align: center; position: relative; }
+    .page-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(237, 138, 9, 0.1) 0%, transparent 70%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.15em; margin-bottom: 15px; }
+    .page-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 700px; margin: 0 auto; }
+    
+    .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 30px 0; }
+    .divider-line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); }
+    .divider-symbol { color: var(--gold); font-size: 1.2rem; letter-spacing: 0.3em; }
+    
+    /* Breadcrumb */
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--gold-muted); text-decoration: none; transition: color 0.3s ease; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 8px; }
+    
+    /* Info Box */
+    .info-box { background: linear-gradient(135deg, var(--bg-card), var(--bg-surface)); border: 1px solid var(--border); border-radius: 3px; padding: 25px; margin-bottom: 40px; border-left: 3px solid var(--gold-dark); }
+    .info-box h3 { font-size: 1.1rem; color: var(--gold-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .info-box h3 i { color: var(--gold); }
+    .info-box p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 10px; }
+    .info-box p:last-child { margin-bottom: 0; }
+    .info-box ul { margin-left: 25px; color: var(--text-secondary); }
+    .info-box li { margin-bottom: 8px; }
+    
+    /* Items Grid */
+    .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 25px; margin-bottom: 40px; }
+    
+    /* Whetblade Card */
+    .whetblade-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 3px; padding: 25px; transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; }
+    .whetblade-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); opacity: 0; transition: opacity 0.3s ease; }
+    .whetblade-card:hover { border-color: var(--gold-dark); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .whetblade-card:hover::before { opacity: 1; }
+    .whetblade-card.expanded { border-color: var(--gold); box-shadow: 0 15px 50px rgba(237, 138, 9, 0.2), 0 0 40px rgba(237, 138, 9, 0.1); transform: scale(1.02); }
+    .whetblade-card.expanded::before { opacity: 1; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    
+    .whetblade-header { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 15px; }
+    .whetblade-icon { width: 70px; height: 70px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden; }
+    .whetblade-icon::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%); }
+    .whetblade-icon i { font-size: 2rem; color: var(--gold-muted); z-index: 1; }
+    
+    .whetblade-title { flex: 1; }
+    .whetblade-title h4 { font-size: 1.15rem; color: var(--text-primary); margin-bottom: 5px; transition: color 0.3s ease; display: flex; align-items: center; justify-content: space-between; }
+    .whetblade-card:hover .whetblade-title h4 { color: var(--gold); }
+    .whetblade-title span { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .expand-icon { font-size: 1.2rem; color: var(--gold-muted); transition: all 0.3s ease; margin-left: 10px; }
+    .whetblade-card:hover .expand-icon { color: var(--gold); }
+    .whetblade-card.expanded .expand-icon { transform: rotate(180deg); color: var(--gold); }
+    
+    .whetblade-desc { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 15px; font-style: italic; }
+    .whetblade-lore { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; border-left: 2px solid var(--gold-dark); padding-left: 15px; margin: 15px 0; }
+    
+    .affinities-section { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(189, 103, 7, 0.15); }
+    .affinities-label { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-muted); margin-bottom: 10px; }
+    .affinity-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .affinity-tag { font-size: 0.75rem; padding: 5px 12px; border-radius: 2px; display: flex; align-items: center; gap: 5px; }
+    .affinity-tag i { font-size: 0.85rem; }
+    .affinity-standard { background: rgba(138, 122, 96, 0.2); color: var(--text-secondary); }
+    .affinity-heavy { background: rgba(169, 169, 169, 0.2); color: #c0c0c0; }
+    .affinity-keen { background: rgba(255, 215, 0, 0.2); color: #ffd700; }
+    .affinity-quality { background: rgba(237, 138, 9, 0.2); color: var(--gold); }
+    .affinity-fire { background: rgba(255, 107, 53, 0.2); color: var(--fire); }
+    .affinity-flame { background: rgba(255, 69, 0, 0.2); color: #ff4500; }
+    .affinity-lightning { background: rgba(240, 230, 140, 0.2); color: var(--lightning); }
+    .affinity-sacred { background: rgba(255, 215, 0, 0.2); color: var(--holy); }
+    .affinity-magic { background: rgba(109, 179, 242, 0.2); color: var(--magic); }
+    .affinity-cold { background: rgba(135, 206, 235, 0.2); color: #87ceeb; }
+    .affinity-poison { background: rgba(154, 205, 50, 0.2); color: var(--poison); }
+    .affinity-blood { background: rgba(220, 20, 60, 0.2); color: var(--blood); }
+    .affinity-occult { background: rgba(147, 112, 219, 0.2); color: var(--occult); }
+    
+    .location-section { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(189, 103, 7, 0.1); }
+    .location-tag { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    .location-tag i { color: var(--gold-muted); font-size: 0.9rem; }
+    .location-details { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-top: 8px; padding-left: 24px; }
+    
+    .source-tag { font-size: 0.65rem; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 2px; display: inline-block; margin-top: 12px; }
+    .source-base { background: rgba(138, 122, 96, 0.2); color: var(--text-muted); }
+    .source-dlc { background: rgba(237, 138, 9, 0.2); color: var(--gold); }
+    
+    /* Expandable Details */
+    .whetblade-details { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease; opacity: 0; }
+    .whetblade-card.expanded .whetblade-details { max-height: 1000px; opacity: 1; margin-top: 20px; }
+    
+    .details-section { background: rgba(13, 9, 6, 0.5); border: 1px solid rgba(189, 103, 7, 0.2); border-radius: 3px; padding: 20px; margin-bottom: 15px; }
+    .details-section:last-child { margin-bottom: 0; }
+    .details-title { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .details-title i { color: var(--gold); font-size: 1rem; }
+    .details-content { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+    .details-list { list-style: none; padding: 0; }
+    .details-list li { padding: 8px 0 8px 20px; border-left: 2px solid var(--gold-dark); margin-bottom: 8px; position: relative; }
+    .details-list li::before { content: '◆'; position: absolute; left: -2px; color: var(--gold); font-size: 0.6rem; }
+    
+    .scaling-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 10px; }
+    .scaling-item { background: rgba(26, 20, 16, 0.5); border: 1px solid var(--border); border-radius: 2px; padding: 10px; text-align: center; }
+    .scaling-stat { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .scaling-value { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold-muted); font-weight: 600; }
+    
+    .comparison-table { width: 100%; margin-top: 12px; border-collapse: collapse; }
+    .comparison-table th { font-family: 'Cinzel', serif; font-size: 0.75rem; text-transform: uppercase; color: var(--gold-muted); padding: 8px; text-align: left; border-bottom: 1px solid var(--border); }
+    .comparison-table td { font-size: 0.85rem; color: var(--text-secondary); padding: 8px; border-bottom: 1px solid rgba(189, 103, 7, 0.1); }
+    .comparison-table tr:last-child td { border-bottom: none; }
+    
+    .tip-box { background: rgba(237, 138, 9, 0.1); border-left: 3px solid var(--gold); padding: 12px 15px; margin-top: 12px; border-radius: 2px; }
+    .tip-box .tip-icon { color: var(--gold); margin-right: 8px; }
+    .tip-box p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin: 0; }
+    
+    /* Back to Top */
+    .back-to-top { position: fixed; bottom: 100px; right: 30px; width: 50px; height: 50px; background: var(--bg-card); border: 1px solid var(--gold-dark); border-radius: 3px; color: var(--gold); font-size: 1.2rem; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 500; display: flex; align-items: center; justify-content: center; }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--gold-dark); color: var(--bg-black); transform: translateY(-3px); }
+    
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+    
+    /* Animations */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; } 
+    ::-webkit-scrollbar-track { background: var(--bg-black); } 
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; } 
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    ::selection { background: var(--gold-dark); color: var(--bg-black); }
+    
+    /* Responsive */
+    @media (max-width: 768px) { 
+      nav, .search-box { display: none; } 
+      .items-grid { grid-template-columns: 1fr; }
+    }
+  
+    #footerClock {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-muted);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+  <div class="particles-container" id="particles"></div>
+  
+  <div class="content-wrapper">
+    <header id="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">
+              <img src="elden-ring-logo.png" alt="Elden Ring Logo">
+            </div>
+            <div class="logo-text"><h1 class="gold-text">ELDEN RING</h1><span>Wiki Database</span></div>
+          </a>
+                    <nav>
+            <a href="index.html">Home</a>
+            <a href="bosses.html">Bosses</a>
+            <a href="characters.html">Characters</a>
+            <a href="items.html" class="active">Items</a>
+            <a href="lore.html">Lore</a>
+          </nav>
+          <div class="search-box"><input type="text" placeholder="Search the wiki..." id="globalSearch"><i class="ra ra-telescope"></i></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a> <span>›</span>
+          <a href="items.html">Items</a> <span>›</span>
+          <span>Whetblades</span>
+        </div>
+        <h1 class="title-decorative gold-text">WHETBLADES</h1>
+        <div class="divider"><div class="divider-line"></div><span class="divider-symbol">◆ ✧ ◆</span><div class="divider-line"></div></div>
+        <p>Key items that unlock additional Ashes of War affinities when applying them to armaments at Sites of Grace. Essential tools for build customization and weapon scaling optimization.</p>
+      </div>
+    </section>
+
+    <section id="whetblades-content">
+      <div class="container">
+        
+        <div class="info-box fade-in">
+          <h3><i class="ra ra-anvil"></i> About Whetblades</h3>
+          <p>Whetblades are key items that expand your weapon customization options by unlocking additional affinities for Ashes of War. When you apply an Ash of War to a weapon at a Site of Grace, you can choose different affinities that modify the weapon's scaling and damage types.</p>
+          <p><strong>How They Work:</strong></p>
+          <ul>
+            <li>Each Whetblade unlocks specific affinity options (e.g., Heavy, Keen, Quality, Magic, etc.)</li>
+            <li>Once acquired, a Whetblade's effects are permanent and apply to all compatible weapons</li>
+            <li>Not all Ashes of War can use all affinities—some are restricted by weapon type</li>
+            <li>The Whetstone Knife (given by Smithing Master Hewg) is required to apply Ashes of War at Sites of Grace</li>
+          </ul>
+        </div>
+
+        <div class="items-grid">
+          
+          <!-- Whetstone Knife (Base Item) -->
+          <div class="whetblade-card fade-in" data-source="base">
+            <div class="whetblade-header">
+              <div class="whetblade-icon"><i class="ra ra-plain-dagger"></i></div>
+              <div class="whetblade-title">
+                <h4>Whetstone Knife <i class="expand-icon ra ra-chevron-down"></i></h4>
+                <span>Base Tool</span>
+              </div>
+            </div>
+            <div class="whetblade-desc">Tool given by Smithing Master Hewg that enables you to apply Ashes of War at Sites of Grace. Required before any other Whetblades can be used.</div>
+            <div class="whetblade-lore">"A tool used for weapon reinforcement. Provides basic functionality for applying Ashes of War, allowing warriors to customize their armaments to match their fighting style."</div>
+            <div class="affinities-section">
+              <div class="affinities-label">Base Affinity</div>
+              <div class="affinity-tags">
+                <span class="affinity-tag affinity-standard"><i class="ra ra-sword"></i> Standard</span>
+              </div>
+            </div>
+            <div class="location-section">
+              <div class="location-tag"><i class="ra ra-compass"></i> Location</div>
+              <div class="location-details">Given by Smithing Master Hewg at the Roundtable Hold after resting at a Site of Grace in Limgrave (or immediately if arriving at Roundtable Hold before visiting Limgrave).</div>
+            </div>
+            <span class="source-tag source-base">Base Game</span>
+            
+            <!-- Expandable Details -->
+            <div class="whetblade-details">
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-scroll-unfurled"></i> How to Obtain</div>
+                <div class="details-content">
+                  <ul class="details-list">
+                    <li>Speak to Smithing Master Hewg at the Roundtable Hold</li>
+                    <li>Must have rested at any Site of Grace in Limgrave first</li>
+                    <li>Automatically given when you meet the requirements</li>
+                    <li>Cannot be missed as it's essential for game progression</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-anvil"></i> What Standard Affinity Does</div>
+                <div class="details-content">
+                  <p>Standard affinity keeps the weapon's original scaling and damage distribution. This is the default option when applying any Ash of War.</p>
+                  <div class="tip-box">
+                    <span class="tip-icon">💡</span>
+                    <p><strong>Tip:</strong> Standard is best when you want to change the weapon's skill without altering its damage type or scaling properties.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Iron Whetblade -->
+          <div class="whetblade-card fade-in" data-source="base">
+            <div class="whetblade-header">
+              <div class="whetblade-icon"><i class="ra ra-anvil"></i></div>
+              <div class="whetblade-title">
+                <h4>Iron Whetblade <i class="expand-icon ra ra-chevron-down"></i></h4>
+                <span>Physical Affinities</span>
+              </div>
+            </div>
+            <div class="whetblade-desc">A whetstone that unlocks physical affinities for Ashes of War. Allows you to choose Heavy, Keen, or Quality affinities when applying Ashes of War.</div>
+            <div class="whetblade-lore">"An ordinary whetblade used for common weapon reinforcement. Provides fundamental options for physical scaling: Heavy for strength, Keen for dexterity, or Quality for balanced builds."</div>
+            <div class="affinities-section">
+              <div class="affinities-label">Unlocked Affinities</div>
+              <div class="affinity-tags">
+                <span class="affinity-tag affinity-heavy"><i class="ra ra-hammer"></i> Heavy (STR)</span>
+                <span class="affinity-tag affinity-keen"><i class="ra ra-katana"></i> Keen (DEX)</span>
+                <span class="affinity-tag affinity-quality"><i class="ra ra-doubled"></i> Quality (STR/DEX)</span>
+              </div>
+            </div>
+            <div class="location-section">
+              <div class="location-tag"><i class="ra ra-compass"></i> Location</div>
+              <div class="location-details">Stormveil Castle: In a small room on the southeastern side of the castle, accessed after going through the castle ramparts. Near the Rampart Tower Site of Grace.</div>
+            </div>
+            <span class="source-tag source-base">Base Game</span>
+            
+            <!-- Expandable Details -->
+            <div class="whetblade-details">
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-map"></i> Detailed Location Guide</div>
+                <div class="details-content">
+                  <ul class="details-list">
+                    <li>From Rampart Tower Site of Grace, head southeast along the castle walls</li>
+                    <li>Look for a small room with wooden scaffolding</li>
+                    <li>The whetblade is in a chest inside this room</li>
+                    <li>Watch out for the Exile Soldiers patrolling nearby</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-sword"></i> Affinity Comparison</div>
+                <div class="details-content">
+                  <table class="comparison-table">
+                    <thead>
+                      <tr>
+                        <th>Affinity</th>
+                        <th>Best For</th>
+                        <th>Scaling</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Heavy</strong></td>
+                        <td>Pure STR builds (60+ STR)</td>
+                        <td>High STR, Low DEX</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Keen</strong></td>
+                        <td>Pure DEX builds (60+ DEX)</td>
+                        <td>High DEX, Low STR</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Quality</strong></td>
+                        <td>Balanced builds (40/40)</td>
+                        <td>Equal STR/DEX</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="tip-box">
+                    <span class="tip-icon">💡</span>
+                    <p><strong>Tip:</strong> Heavy and Keen typically outdamage Quality at high stat investments (60+), but Quality shines in the 40/40 range.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-lightning-bolt"></i> Recommended Weapons</div>
+                <div class="details-content">
+                  <p><strong>Heavy:</strong> Greatswords, Colossal Weapons, Great Hammers</p>
+                  <p><strong>Keen:</strong> Katanas, Curved Swords, Daggers, Thrusting Swords</p>
+                  <p><strong>Quality:</strong> Straight Swords, Spears, most versatile weapons</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Glintstone Whetblade -->
+          <div class="whetblade-card fade-in" data-source="base">
+            <div class="whetblade-header">
+              <div class="whetblade-icon"><i class="ra ra-crystal-ball"></i></div>
+              <div class="whetblade-title">
+                <h4>Glintstone Whetblade <i class="expand-icon ra ra-chevron-down"></i></h4>
+                <span>Magic Affinities</span>
+              </div>
+            </div>
+            <div class="whetblade-desc">A whetstone forged from glintstone that unlocks magic affinities. Allows Magic and Cold affinities when applying Ashes of War.</div>
+            <div class="whetblade-lore">"Whetblade of blue-white stone found in the land of Liurnia. Said to have been used by the Carian royal family's astrologers. Allows sorcerous imbuement of armaments."</div>
+            <div class="affinities-section">
+              <div class="affinities-label">Unlocked Affinities</div>
+              <div class="affinity-tags">
+                <span class="affinity-tag affinity-magic"><i class="ra ra-crystals"></i> Magic (INT)</span>
+                <span class="affinity-tag affinity-cold"><i class="ra ra-snowflake"></i> Cold (INT + Frostbite)</span>
+              </div>
+            </div>
+            <div class="location-section">
+              <div class="location-tag"><i class="ra ra-compass"></i> Location</div>
+              <div class="location-details">Raya Lucaria Academy: In a treasure chest on the upper level of the Debate Parlor, accessible after defeating the Red Wolf of Radagon. Look for a western balcony area.</div>
+            </div>
+            <span class="source-tag source-base">Base Game</span>
+            
+            <!-- Expandable Details -->
+            <div class="whetblade-details">
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-map"></i> How to Reach</div>
+                <div class="details-content">
+                  <ul class="details-list">
+                    <li>Progress through Raya Lucaria Academy until you reach the Debate Parlor</li>
+                    <li>Defeat the Red Wolf of Radagon boss</li>
+                    <li>From the Debate Parlor Site of Grace, take the lift up</li>
+                    <li>Exit to the western balcony and find the chest</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-crystals"></i> Magic vs Cold</div>
+                <div class="details-content">
+                  <table class="comparison-table">
+                    <thead>
+                      <tr>
+                        <th>Affinity</th>
+                        <th>Effect</th>
+                        <th>Best Use</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Magic</strong></td>
+                        <td>Adds magic damage</td>
+                        <td>Pure INT builds for maximum damage</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Cold</strong></td>
+                        <td>Adds magic damage + frostbite</td>
+                        <td>Builds wanting status effect utility</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="tip-box">
+                    <span class="tip-icon">💡</span>
+                    <p><strong>Tip:</strong> Frostbite lowers enemy defenses by 20% for 30 seconds, making Cold excellent for sustained fights!</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-book"></i> Best Weapons</div>
+                <div class="details-content">
+                  <p><strong>Magic:</strong> Fast weapons that benefit from split scaling (Twin Blades, Curved Swords)</p>
+                  <p><strong>Cold:</strong> Weapons with fast hit rates to proc frostbite (Dual-wielded weapons, Flails)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Red-Hot Whetblade -->
+          <div class="whetblade-card fade-in" data-source="base">
+            <div class="whetblade-header">
+              <div class="whetblade-icon"><i class="ra ra-flame"></i></div>
+              <div class="whetblade-title">
+                <h4>Red-Hot Whetblade <i class="expand-icon ra ra-chevron-down"></i></h4>
+                <span>Fire Affinities</span>
+              </div>
+            </div>
+            <div class="whetblade-desc">A whetstone smelted in volcanic flame that unlocks fire affinities. Allows Fire Art and Flame Art affinities when applying Ashes of War.</div>
+            <div class="whetblade-lore">"Whetblade born of magma that seeped from the peak of Mt. Gelmir. Allows elemental affinity infusion. The flames born of sorcery differ from ordinary flames."</div>
+            <div class="affinities-section">
+              <div class="affinities-label">Unlocked Affinities</div>
+              <div class="affinity-tags">
+                <span class="affinity-tag affinity-fire"><i class="ra ra-fire-bomb"></i> Fire Art (STR/DEX)</span>
+                <span class="affinity-tag affinity-flame"><i class="ra ra-sun"></i> Flame Art (FAI)</span>
+              </div>
+            </div>
+            <div class="location-section">
+              <div class="location-tag"><i class="ra ra-compass"></i> Location</div>
+              <div class="location-details">Redmane Castle: In a treasure chest at the top of the southwestern tower. Accessible from the chamber of the Misbegotten Warrior and Crucible Knight boss fight.</div>
+            </div>
+            <span class="source-tag source-base">Base Game</span>
+            
+            <!-- Expandable Details -->
+            <div class="whetblade-details">
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-map"></i> Location Guide</div>
+                <div class="details-content">
+                  <ul class="details-list">
+                    <li>Travel to Redmane Castle in southeastern Caelid</li>
+                    <li>Defeat the Misbegotten Warrior and Crucible Knight duo boss</li>
+                    <li>From the boss chamber, find the exit to the southwestern tower</li>
+                    <li>Climb to the top of the tower to find the chest</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-fire-bomb"></i> Fire Art vs Flame Art</div>
+                <div class="details-content">
+                  <table class="comparison-table">
+                    <thead>
+                      <tr>
+                        <th>Affinity</th>
+                        <th>Scaling</th>
+                        <th>Best For</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Fire Art</strong></td>
+                        <td>STR/DEX (split)</td>
+                        <td>Quality builds wanting fire damage</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Flame Art</strong></td>
+                        <td>Faith</td>
+                        <td>Faith builds and incantation users</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="tip-box">
+                    <span class="tip-icon">💡</span>
+                    <p><strong>Tip:</strong> Fire damage is very effective against most beast-type enemies and shields!</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-target-arrows"></i> Recommended Uses</div>
+                <div class="details-content">
+                  <p><strong>Fire Art:</strong> Great for hybrid builds that want elemental damage without committing to a casting stat</p>
+                  <p><strong>Flame Art:</strong> Synergizes perfectly with faith builds using fire incantations</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sanctified Whetblade -->
+          <div class="whetblade-card fade-in" data-source="base">
+            <div class="whetblade-header">
+              <div class="whetblade-icon"><i class="ra ra-sun-symbol"></i></div>
+              <div class="whetblade-title">
+                <h4>Sanctified Whetblade <i class="expand-icon ra ra-chevron-down"></i></h4>
+                <span>Lightning & Holy Affinities</span>
+              </div>
+            </div>
+            <div class="whetblade-desc">A whetstone blessed by ancient lightning and the Golden Order. Unlocks Lightning and Sacred affinities for Ashes of War.</div>
+            <div class="whetblade-lore">"A sacred whetblade, misplaced by Leyndell knights. Allows both the thunderous power of ancient dragons and the blessed might of the Erdtree to be imbued into armaments."</div>
+            <div class="affinities-section">
+              <div class="affinities-label">Unlocked Affinities</div>
+              <div class="affinity-tags">
+                <span class="affinity-tag affinity-lightning"><i class="ra ra-lightning-bolt"></i> Lightning (DEX)</span>
+                <span class="affinity-tag affinity-sacred"><i class="ra ra-holy-symbol"></i> Sacred (FAI)</span>
+              </div>
+            </div>
+            <div class="location-section">
+              <div class="location-tag"><i class="ra ra-compass"></i> Location</div>
+              <div class="location-details">Leyndell, Royal Capital: In the Fortified Manor, First Floor. From the West Capital Rampart Site of Grace, enter through the main entrance. The whetblade is on a corpse in a room to the northeast.</div>
+            </div>
+            <span class="source-tag source-base">Base Game</span>
+            
+            <!-- Expandable Details -->
+            <div class="whetblade-details">
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-map"></i> Detailed Directions</div>
+                <div class="details-content">
+                  <ul class="details-list">
+                    <li>Reach Leyndell, Royal Capital (requires 2 Great Runes)</li>
+                    <li>Fast travel to West Capital Rampart Site of Grace</li>
+                    <li>Enter the Fortified Manor through the main entrance</li>
+                    <li>Navigate to the northeastern room on the first floor</li>
+                    <li>Find the whetblade on a corpse near a table</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-lightning-bolt"></i> Lightning vs Sacred</div>
+                <div class="details-content">
+                  <table class="comparison-table">
+                    <thead>
+                      <tr>
+                        <th>Affinity</th>
+                        <th>Scaling</th>
+                        <th>Effective Against</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Lightning</strong></td>
+                        <td>Dexterity</td>
+                        <td>Dragons, metal armor, wet enemies</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Sacred</strong></td>
+                        <td>Faith</td>
+                        <td>Undead, Those Who Live in Death</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="tip-box">
+                    <span class="tip-icon">💡</span>
+                    <p><strong>Tip:</strong> Sacred damage prevents undead enemies from reviving, making it essential for catacombs!</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-doubled"></i> Build Synergies</div>
+                <div class="details-content">
+                  <p><strong>Lightning:</strong> Perfect for DEX builds, pairs well with fast weapons like katanas and spears</p>
+                  <p><strong>Sacred:</strong> Essential for Faith builds, synergizes with holy incantations and buffs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Black Whetblade -->
+          <div class="whetblade-card fade-in" data-source="base">
+            <div class="whetblade-header">
+              <div class="whetblade-icon"><i class="ra ra-death-skull"></i></div>
+              <div class="whetblade-title">
+                <h4>Black Whetblade <i class="expand-icon ra ra-chevron-down"></i></h4>
+                <span>Status Effect Affinities</span>
+              </div>
+            </div>
+            <div class="whetblade-desc">A mysterious black whetstone that unlocks status effect affinities. Allows Poison, Blood, and Occult affinities when applying Ashes of War.</div>
+            <div class="whetblade-lore">"A whetblade as black as the night. Opens up affinities that were sealed away by the Golden Order. Once upon a time, in the black home of the Nox, weapons were smithed that clashed with the Order."</div>
+            <div class="affinities-section">
+              <div class="affinities-label">Unlocked Affinities</div>
+              <div class="affinity-tags">
+                <span class="affinity-tag affinity-poison"><i class="ra ra-biohazard"></i> Poison (STR/DEX/ARC)</span>
+                <span class="affinity-tag affinity-blood"><i class="ra ra-bleeding-hearts"></i> Blood (ARC)</span>
+                <span class="affinity-tag affinity-occult"><i class="ra ra-evil-moon"></i> Occult (ARC)</span>
+              </div>
+            </div>
+            <div class="location-section">
+              <div class="location-tag"><i class="ra ra-compass"></i> Location</div>
+              <div class="location-details">Nokron, Eternal City: In the Night's Sacred Ground, past the Mimic Tear boss arena. Found on a corpse near the edge of a cliff overlooking the city, behind a large stone monument.</div>
+            </div>
+            <span class="source-tag source-base">Base Game</span>
+            
+            <!-- Expandable Details -->
+            <div class="whetblade-details">
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-map"></i> How to Access Nokron</div>
+                <div class="details-content">
+                  <ul class="details-list">
+                    <li>Defeat Starscourge Radahn in Redmane Castle</li>
+                    <li>A meteor will crash near Fort Haight in Mistwood</li>
+                    <li>Enter the crater to access Nokron, Eternal City</li>
+                    <li>Progress through to defeat the Mimic Tear boss</li>
+                    <li>Continue past the boss arena to Night's Sacred Ground</li>
+                    <li>Look for a corpse near the cliff edge behind the monument</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-bleeding-hearts"></i> Affinity Breakdown</div>
+                <div class="details-content">
+                  <table class="comparison-table">
+                    <thead>
+                      <tr>
+                        <th>Affinity</th>
+                        <th>Effect</th>
+                        <th>Best Weapons</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Poison</strong></td>
+                        <td>Poison buildup</td>
+                        <td>Fast multi-hit weapons</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Blood</strong></td>
+                        <td>Hemorrhage buildup</td>
+                        <td>Rapid attack weapons, dual-wield</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Occult</strong></td>
+                        <td>Pure ARC scaling</td>
+                        <td>Any weapon for ARC builds</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="tip-box">
+                    <span class="tip-icon">💡</span>
+                    <p><strong>Tip:</strong> Blood affinity is considered one of the strongest in the game due to the massive damage from blood loss procs!</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="details-section">
+                <div class="details-title"><i class="ra ra-cycle"></i> Status Build Strategy</div>
+                <div class="details-content">
+                  <p><strong>Poison:</strong> Good for passive damage over time, less viable in PvP</p>
+                  <p><strong>Blood:</strong> Excellent burst damage, dominant in both PvE and PvP</p>
+                  <p><strong>Occult:</strong> Best for pure Arcane scaling without status effects, boosts item discovery</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Additional Tips Section -->
+        <div class="info-box fade-in" style="margin-top: 40px;">
+          <h3><i class="ra ra-book"></i> Affinity Selection Guide</h3>
+          <p><strong>Physical Builds:</strong></p>
+          <ul>
+            <li><strong>Heavy</strong> - Best for pure Strength builds (STR 60+)</li>
+            <li><strong>Keen</strong> - Best for pure Dexterity builds (DEX 60+)</li>
+            <li><strong>Quality</strong> - Best for balanced STR/DEX builds (both 40+)</li>
+          </ul>
+          <p><strong>Magic Builds:</strong></p>
+          <ul>
+            <li><strong>Magic</strong> - Adds magic damage, scales with Intelligence</li>
+            <li><strong>Cold</strong> - Adds magic damage + Frostbite buildup, scales with Intelligence</li>
+          </ul>
+          <p><strong>Fire Builds:</strong></p>
+          <ul>
+            <li><strong>Fire Art</strong> - Adds fire damage, scales with Strength/Dexterity (split scaling)</li>
+            <li><strong>Flame Art</strong> - Adds fire damage, scales with Faith</li>
+          </ul>
+          <p><strong>Faith Builds:</strong></p>
+          <ul>
+            <li><strong>Lightning</strong> - Adds lightning damage, scales with Dexterity (some Faith)</li>
+            <li><strong>Sacred</strong> - Adds holy damage, scales with Faith</li>
+          </ul>
+          <p><strong>Arcane Builds:</strong></p>
+          <ul>
+            <li><strong>Poison</strong> - Poison buildup, scales with STR/DEX/ARC</li>
+            <li><strong>Blood</strong> - Blood loss buildup, scales with Arcane</li>
+            <li><strong>Occult</strong> - Increases base damage, scales with Arcane (no status effect)</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+        <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <span>ELDEN RING WIKI</span>
+          </div>
+          <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Music Player -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()">
+      <i class="ra ra-music-note" id="minimizedIcon"></i>
+    </div>
+    <div class="player-expanded">
+      <div class="player-header">
+        <span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span>
+        <button class="player-minimize" onclick="togglePlayer()">−</button>
+      </div>
+      <div class="player-track">
+        <div class="track-name" id="trackName">Track 1</div>
+        <div class="track-info" id="trackInfo">Elden Ring OST</div>
+      </div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header">
+          <span class="volume-label">Volume</span>
+          <button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button>
+        </div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" preload="auto">
+    <source src="bgm1.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+  
+  <script src="music-player.js"></script>
+  
+  <script>
+    // Initialize Vanta Fog Background
+    try {
+      VANTA.FOG({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        highlightColor: 0x5c3d00,
+        midtoneColor: 0x1a0f00,
+        lowlightColor: 0x000000,
+        baseColor: 0x0a0500,
+        blurFactor: 0.5,
+        speed: 1.5,
+        zoom: 1.2
+      });
+    } catch(e) {
+      console.log('Vanta background not loaded');
+    }
+
+    // Create Floating Embers
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        const size = Math.random() * 4 + 2;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 20;
+        const hue = Math.random() * 30 + 20;
+        const lightness = Math.random() * 20 + 50;
+        ember.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${left}%;
+          background: radial-gradient(circle, hsl(${hue}, 100%, ${lightness}%) 0%, hsl(${hue}, 100%, 30%) 50%, transparent 70%);
+          animation-duration: ${duration}s;
+          animation-delay: -${delay}s;
+          box-shadow: 0 0 ${size * 2}px hsl(${hue}, 100%, ${lightness}%);
+        `;
+        container.appendChild(ember);
+      }
+    }
+    createEmbers();
+
+    // Header Scroll Effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 500);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Initialize Universal Search
+    if (typeof initializeSearch === 'function') {
+      initializeSearch('whetblades');
+    }
+
+    // Whetblade Card Expand/Collapse
+    document.querySelectorAll('.whetblade-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Prevent expansion if clicking on links or buttons
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+        
+        // Toggle expanded class
+        const wasExpanded = this.classList.contains('expanded');
+        
+        // Close all other cards
+        document.querySelectorAll('.whetblade-card').forEach(otherCard => {
+          if (otherCard !== this) {
+            otherCard.classList.remove('expanded');
+          }
+        });
+        
+        // Toggle this card
+        this.classList.toggle('expanded');
+        
+        // Smooth scroll to card if expanding
+        if (!wasExpanded) {
+          setTimeout(() => {
+            const cardTop = this.getBoundingClientRect().top + window.pageYOffset - 100;
+            window.scrollTo({ top: cardTop, behavior: 'smooth' });
+          }, 100);
+        }
+      });
+    });
+
+    // Keyboard accessibility - Space or Enter to expand
+    document.querySelectorAll('.whetblade-card').forEach(card => {
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+    });
+  </script>
+
+  <!-- Footer Clock -->
+  <script>
+    function updateFooterClock() {
+      const now = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('en-US', options);
+      const clockEl = document.getElementById('footerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    updateFooterClock();
+    setInterval(updateFooterClock, 1000);
+  </script>
+
+  <!-- Global Wiki Search -->
+  <script src="items-search.js"></script>
+  <script>document.addEventListener("DOMContentLoaded",function(){if(typeof initializeSearch==="function")initializeSearch();});</script>
+
+</body>
+</html>

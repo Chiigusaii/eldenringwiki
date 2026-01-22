@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upgrade Materials - Elden Ring Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="search-styles.css">
+  <link rel="stylesheet" href="music-player.css">
+  
+  <style>
+    :root {
+      --gold: #ed8a09; --gold-bright: #f9c043; --gold-dark: #bd6707; --gold-muted: #e1b26b;
+      --bg-black: #040200; --bg-dark: #0d0906; --bg-surface: #1a1410; --bg-card: #231a12;
+      --text-primary: #f5f3e0; --text-secondary: #c9b99a; --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3); --glow: rgba(237, 138, 9, 0.4);
+      --fire: #ff6b35; --magic: #6db3f2; --lightning: #f0e68c; --holy: #ffd700;
+      --poison: #9acd32; --bleed: #dc143c; --sleep: #9370db; --rot: #8b4513; --frost: #87ceeb;
+      --somber: #7a8fa6; --glovewort: #a8d5ba; --ghost: #c4a8d5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; color: var(--text-primary); background: var(--bg-black); min-height: 100vh; overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 150px 60px rgba(0,0,0,0.8); z-index: 100; }
+    
+    #vanta-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    
+    .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .ember { position: absolute; border-radius: 50%; animation: ember-float linear infinite; opacity: 0; }
+    @keyframes ember-float { 
+      0% { opacity: 0; transform: translateY(100vh) translateX(0) scale(0); } 
+      10% { opacity: 1; transform: translateY(90vh) translateX(10px) scale(1); } 
+      90% { opacity: 0.8; transform: translateY(10vh) translateX(-20px) scale(0.8); } 
+      100% { opacity: 0; transform: translateY(-5vh) translateX(30px) scale(0); } 
+    }
+    
+    h1, h2, h3, h4, h5, h6 { font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
+    .title-decorative { font-family: 'Cinzel Decorative', serif; }
+    .gold-text { background: linear-gradient(to bottom, #cfc09f 0%, #ffecb3 25%, #e7c66e 50%, #a17720 75%, #5c3d00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    .glow-text { color: var(--gold); text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px var(--glow); }
+    
+    .content-wrapper { position: relative; z-index: 10; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 80px 0; }
+    
+    /* Header */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all 0.4s ease; padding: 15px 0; }
+    header.scrolled { background: rgba(4, 2, 0, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 30px rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px var(--glow)); transition: all 0.3s ease; }
+    .logo:hover .logo-icon img { filter: drop-shadow(0 0 20px var(--glow)); transform: scale(1.05); }
+    .logo-text h1 { font-size: 1.4rem; letter-spacing: 0.15em; }
+    .logo-text span { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--text-muted); text-transform: uppercase; display: block; }
+    
+    nav { display: flex; gap: 5px; }
+    nav a { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: 10px 18px; border-radius: 2px; transition: all 0.3s ease; position: relative; }
+    nav a:hover { color: var(--gold); background: rgba(237, 138, 9, 0.1); }
+    nav a.active { color: var(--gold); }
+    nav a.active::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+    
+    .search-box { position: relative; }
+    .search-box input { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; background: rgba(26, 20, 16, 0.8); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 40px 10px 15px; border-radius: 2px; width: 220px; transition: all 0.3s ease; }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 15px rgba(237, 138, 9, 0.15); width: 280px; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    
+    /* Page Hero */
+    .page-hero { padding: 160px 0 80px; text-align: center; position: relative; }
+    .page-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse at center, rgba(237, 138, 9, 0.1) 0%, transparent 70%); pointer-events: none; }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.15em; margin-bottom: 15px; }
+    .page-hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 750px; margin: 0 auto; line-height: 1.8; }
+    
+    /* Hero Logo */
+    .hero-logo { width: 280px; height: auto; margin: 0 auto 30px; position: relative; }
+    .hero-logo img { width: 100%; height: auto; filter: drop-shadow(0 0 30px var(--glow)) drop-shadow(0 0 60px rgba(237, 138, 9, 0.3)); animation: logo-pulse 4s ease-in-out infinite; }
+    @keyframes logo-pulse { 0%, 100% { filter: drop-shadow(0 0 30px var(--glow)) drop-shadow(0 0 60px rgba(237, 138, 9, 0.3)); transform: scale(1); } 50% { filter: drop-shadow(0 0 40px var(--glow)) drop-shadow(0 0 80px rgba(237, 138, 9, 0.4)); transform: scale(1.02); } }
+    .hero-logo::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 350px; height: 350px; background: radial-gradient(circle, rgba(237, 138, 9, 0.15) 0%, transparent 70%); border-radius: 50%; z-index: -1; animation: ring-glow 4s ease-in-out infinite; }
+    @keyframes ring-glow { 0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
+    
+    .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 30px 0; }
+    .divider-line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); }
+    .divider-symbol { color: var(--gold); font-size: 1.2rem; letter-spacing: 0.3em; }
+    
+    /* Breadcrumb */
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--gold-muted); text-decoration: none; transition: color 0.3s ease; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 8px; }
+    
+    /* Tabs */
+    .tabs { display: flex; gap: 5px; margin-bottom: 30px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 10px; justify-content: center; }
+    .tab-btn { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 10px 20px; cursor: pointer; transition: all 0.3s ease; position: relative; border-radius: 2px 2px 0 0; }
+    .tab-btn:hover { color: var(--text-primary); background: rgba(237, 138, 9, 0.05); }
+    .tab-btn.active { color: var(--gold); border-color: var(--gold-dark); border-bottom-color: transparent; background: rgba(237, 138, 9, 0.1); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Material Grid */
+    .material-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    
+    /* Material Card */
+    .material-card { background: var(--bg-card); border: 2px solid var(--border); border-radius: 3px; padding: 20px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+    .material-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s ease; }
+    .material-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(237, 138, 9, 0.15); }
+    .material-card:hover::before { opacity: 1; }
+    
+    .material-card.somber { border-color: rgba(122, 143, 166, 0.4); }
+    .material-card.somber:hover { border-color: var(--somber); box-shadow: 0 12px 35px rgba(122, 143, 166, 0.2); }
+    .material-card.somber::before { background: linear-gradient(90deg, transparent, var(--somber), transparent); }
+    
+    .material-card.glovewort { border-color: rgba(168, 213, 186, 0.4); }
+    .material-card.glovewort:hover { border-color: var(--glovewort); box-shadow: 0 12px 35px rgba(168, 213, 186, 0.2); }
+    .material-card.glovewort::before { background: linear-gradient(90deg, transparent, var(--glovewort), transparent); }
+    
+    .material-card.ghost { border-color: rgba(196, 168, 213, 0.4); }
+    .material-card.ghost:hover { border-color: var(--ghost); box-shadow: 0 12px 35px rgba(196, 168, 213, 0.2); }
+    .material-card.ghost::before { background: linear-gradient(90deg, transparent, var(--ghost), transparent); }
+    
+    .material-card.dlc { border-color: rgba(255, 107, 53, 0.4); }
+    .material-card.dlc:hover { border-color: var(--fire); box-shadow: 0 12px 35px rgba(255, 107, 53, 0.2); }
+    .material-card.dlc::before { background: linear-gradient(90deg, transparent, var(--fire), transparent); }
+    
+    .material-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+    .material-icon { width: 60px; height: 60px; background: var(--bg-dark); border: 2px solid var(--gold-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden; }
+    .material-icon::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%); }
+    .material-icon i { font-size: 1.6rem; color: var(--gold); z-index: 1; }
+    .material-icon.somber { border-color: var(--somber); }
+    .material-icon.somber i { color: var(--somber); }
+    .material-icon.glovewort { border-color: var(--glovewort); }
+    .material-icon.glovewort i { color: var(--glovewort); }
+    .material-icon.ghost { border-color: var(--ghost); }
+    .material-icon.ghost i { color: var(--ghost); }
+    .material-icon.dlc { border-color: var(--fire); }
+    .material-icon.dlc i { color: var(--fire); }
+    .material-icon.flask { border-color: var(--holy); }
+    .material-icon.flask i { color: var(--holy); }
+    
+    .material-title { flex: 1; }
+    .material-title h4 { font-size: 1rem; color: var(--text-primary); margin-bottom: 2px; }
+    .material-title .material-type { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .material-effect { font-size: 0.9rem; color: var(--gold-muted); margin-bottom: 10px; padding: 8px 12px; background: rgba(237, 138, 9, 0.08); border-left: 2px solid var(--gold-dark); border-radius: 2px; }
+    .material-card.somber .material-effect { background: rgba(122, 143, 166, 0.1); border-color: var(--somber); }
+    .material-card.glovewort .material-effect { background: rgba(168, 213, 186, 0.1); border-color: var(--glovewort); }
+    .material-card.ghost .material-effect { background: rgba(196, 168, 213, 0.1); border-color: var(--ghost); }
+    .material-card.dlc .material-effect { background: rgba(255, 107, 53, 0.1); border-color: var(--fire); }
+    
+    .material-lore { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; font-style: italic; }
+    
+    .material-    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+    
+    /* Animations */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; } 
+    ::-webkit-scrollbar-track { background: var(--bg-black); } 
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; } 
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    ::selection { background: var(--gold-dark); color: var(--bg-black); }
+    
+    /* Responsive */
+    @media (max-width: 768px) { 
+      nav, .search-box { display: none; } 
+      .material-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .upgrade-table { font-size: 0.8rem; }
+      .upgrade-table th, .upgrade-table td { padding: 8px 10px; }
+    }
+    
+    /* Two-column layout for tables */
+    .tables-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 30px; }
+    @media (max-width: 1100px) {
+      .tables-row { grid-template-columns: 1fr; }
+    }
+    
+    .table-section { background: var(--bg-card); padding: 20px; border-radius: 3px; border: 1px solid var(--border); }
+    .table-section h4 { font-size: 1rem; color: var(--gold-muted); margin-bottom: 15px; text-align: center; }
+  
+    #footerClock {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-muted);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+  <div class="particles-container" id="particles"></div>
+  
+  <div class="content-wrapper">
+    <header id="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">
+              <img src="elden-ring-logo.png" alt="Elden Ring Logo">
+            </div>
+            <div class="logo-text"><h1 class="gold-text">ELDEN RING</h1><span>Wiki Database</span></div>
+          </a>
+                    <nav>
+            <a href="index.html">Home</a>
+            <a href="bosses.html">Bosses</a>
+            <a href="characters.html">Characters</a>
+            <a href="items.html" class="active">Items</a>
+            <a href="lore.html">Lore</a>
+          </nav>
+          <div class="search-box"><input type="text" placeholder="Search the wiki..." id="globalSearch"><i class="ra ra-telescope"></i></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a> <span>›</span>
+          <a href="items.html">Items</a> <span>›</span>
+          <span>Upgrade Materials</span>
+        </div>
+        <h1 class="title-decorative gold-text">UPGRADE MATERIALS</h1>
+        <div class="divider"><div class="divider-line"></div><span class="divider-symbol">◆ ✧ ◆</span><div class="divider-line"></div></div>
+        <p>Essential materials for strengthening your weapons, shields, spirit ashes, and sacred flasks. Smithing Stones reinforce armaments, Gloveworts empower spirit ashes, and special items enhance your flasks and blessings. Collect Bell Bearings to purchase unlimited quantities from the Twin Maiden Husks.</p>
+      </div>
+    </section>
+
+    <section id="how-to-use">
+      <div class="container">
+        <div class="how-to-use fade-in">
+          <h2>Upgrading Your Equipment</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4>Collect Materials</h4>
+              <p>Find upgrade materials throughout the Lands Between—in mines, catacombs, dropped by enemies, or purchased from merchants.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4>Visit a Smithing Table</h4>
+              <p>Use any Smithing Table found at Sites of Grace or visit Master Hewg at Roundtable Hold for weapon upgrades.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4>Spirit Tuning</h4>
+              <p>Speak with Roderika at Roundtable Hold to strengthen your Spirit Ashes using Grave and Ghost Gloveworts.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4>Bell Bearings</h4>
+              <p>Collect Miner's Bell Bearings to unlock unlimited material purchases from the Twin Maiden Husks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="upgrade-costs">
+      <div class="container">
+        <div class="upgrade-section fade-in">
+          <h2>Total Upgrade Costs</h2>
+          
+          <div class="bell-bearing-info">
+            <h4><i class="ra ra-bell"></i> Bell Bearing Tip</h4>
+            <p>While materials can be scavenged throughout the Lands Between, collecting Bell Bearings and giving them to the Twin Maiden Husks allows you to purchase unlimited quantities. This makes upgrading multiple weapons much easier in the late game.</p>
+          </div>
+          
+          <div class="tables-row">
+            <div class="table-section">
+              <h4><i class="ra ra-anvil"></i> Normal Armaments (+25 Max)</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 15px;">Requires 12 Smithing Stones per 3 levels (2→4→6 pattern)</p>
+              <table class="upgrade-table">
+                <thead>
+                  <tr>
+                    <th>Level</th>
+                    <th>Material</th>
+                    <th>Unit Cost</th>
+                    <th>Tier Cost</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>To +3</td><td>Smithing Stone [1]</td><td>200</td><td>2,400</td><td>2,400</td></tr>
+                  <tr><td>To +6</td><td>Smithing Stone [2]</td><td>400</td><td>4,800</td><td>7,200</td></tr>
+                  <tr><td>To +9</td><td>Smithing Stone [3]</td><td>600</td><td>7,200</td><td>14,400</td></tr>
+                  <tr><td>To +12</td><td>Smithing Stone [4]</td><td>900</td><td>10,800</td><td>25,200</td></tr>
+                  <tr><td>To +15</td><td>Smithing Stone [5]</td><td>1,200</td><td>14,400</td><td>39,600</td></tr>
+                  <tr><td>To +18</td><td>Smithing Stone [6]</td><td>1,500</td><td>18,000</td><td>57,600</td></tr>
+                  <tr><td>To +21</td><td>Smithing Stone [7]</td><td>2,400</td><td>28,800</td><td>86,400</td></tr>
+                  <tr><td>To +24</td><td>Smithing Stone [8]</td><td>3,600</td><td>43,200</td><td>129,600</td></tr>
+                  <tr class="total-row"><td>To +25</td><td colspan="3">Ancient Dragon Smithing Stone</td><td>129,600</td></tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="table-section">
+              <h4><i class="ra ra-gem-pendant"></i> Special Armaments (+10 Max)</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 15px;">Requires 1 Somber Smithing Stone per level</p>
+              <table class="upgrade-table">
+                <thead>
+                  <tr>
+                    <th>Level</th>
+                    <th>Material</th>
+                    <th>Unit Cost</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>To +1</td><td>Somber Smithing Stone [1]</td><td>2,000</td><td>2,000</td></tr>
+                  <tr><td>To +2</td><td>Somber Smithing Stone [2]</td><td>3,000</td><td>5,000</td></tr>
+                  <tr><td>To +3</td><td>Somber Smithing Stone [3]</td><td>4,000</td><td>9,000</td></tr>
+                  <tr><td>To +4</td><td>Somber Smithing Stone [4]</td><td>6,000</td><td>15,000</td></tr>
+                  <tr><td>To +5</td><td>Somber Smithing Stone [5]</td><td>9,000</td><td>24,000</td></tr>
+                  <tr><td>To +6</td><td>Somber Smithing Stone [6]</td><td>12,000</td><td>36,000</td></tr>
+                  <tr><td>To +7</td><td>Somber Smithing Stone [7]</td><td>16,000</td><td>52,000</td></tr>
+                  <tr><td>To +8</td><td>Somber Smithing Stone [8]</td><td>20,000</td><td>72,000</td></tr>
+                  <tr><td>To +9</td><td>Somber Smithing Stone [9]</td><td>25,000</td><td>97,000</td></tr>
+                  <tr class="total-row"><td>To +10</td><td colspan="2">Somber Ancient Dragon Smithing Stone</td><td>97,000</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="tables-row" style="margin-top: 30px;">
+            <div class="table-section">
+              <h4><i class="ra ra-flower"></i> Standard Spirit Ashes (+10 Max)</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 15px;">Requires 1 Grave Glovewort per level</p>
+              <table class="upgrade-table">
+                <thead>
+                  <tr>
+                    <th>Level</th>
+                    <th>Material</th>
+                    <th>Unit Cost</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>To +1</td><td>Grave Glovewort [1]</td><td>800</td><td>800</td></tr>
+                  <tr><td>To +2</td><td>Grave Glovewort [2]</td><td>1,200</td><td>2,000</td></tr>
+                  <tr><td>To +3</td><td>Grave Glovewort [3]</td><td>1,600</td><td>3,600</td></tr>
+                  <tr><td>To +4</td><td>Grave Glovewort [4]</td><td>2,400</td><td>6,000</td></tr>
+                  <tr><td>To +5</td><td>Grave Glovewort [5]</td><td>3,200</td><td>9,200</td></tr>
+                  <tr><td>To +6</td><td>Grave Glovewort [6]</td><td>4,000</td><td>13,200</td></tr>
+                  <tr><td>To +7</td><td>Grave Glovewort [7]</td><td>5,000</td><td>18,200</td></tr>
+                  <tr><td>To +8</td><td>Grave Glovewort [8]</td><td>6,000</td><td>24,200</td></tr>
+                  <tr><td>To +9</td><td>Grave Glovewort [9]</td><td>8,000</td><td>32,200</td></tr>
+                  <tr class="total-row"><td>To +10</td><td colspan="2">Great Grave Glovewort</td><td>32,200</td></tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="table-section">
+              <h4><i class="ra ra-fairy"></i> Renowned Spirit Ashes (+10 Max)</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 15px;">Requires 1 Ghost Glovewort per level</p>
+              <table class="upgrade-table">
+                <thead>
+                  <tr>
+                    <th>Level</th>
+                    <th>Material</th>
+                    <th>Unit Cost</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>To +1</td><td>Ghost Glovewort [1]</td><td>1,200</td><td>1,200</td></tr>
+                  <tr><td>To +2</td><td>Ghost Glovewort [2]</td><td>1,800</td><td>3,000</td></tr>
+                  <tr><td>To +3</td><td>Ghost Glovewort [3]</td><td>2,400</td><td>5,400</td></tr>
+                  <tr><td>To +4</td><td>Ghost Glovewort [4]</td><td>3,600</td><td>9,000</td></tr>
+                  <tr><td>To +5</td><td>Ghost Glovewort [5]</td><td>4,800</td><td>13,800</td></tr>
+                  <tr><td>To +6</td><td>Ghost Glovewort [6]</td><td>6,000</td><td>19,800</td></tr>
+                  <tr><td>To +7</td><td>Ghost Glovewort [7]</td><td>7,500</td><td>27,300</td></tr>
+                  <tr><td>To +8</td><td>Ghost Glovewort [8]</td><td>9,000</td><td>36,300</td></tr>
+                  <tr><td>To +9</td><td>Ghost Glovewort [9]</td><td>12,000</td><td>48,300</td></tr>
+                  <tr class="total-row"><td>To +10</td><td colspan="2">Great Ghost Glovewort</td><td>48,300</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="materials">
+      <div class="container">
+        <div class="tabs fade-in">
+          <button class="tab-btn active" data-tab="smithing">Smithing Stones</button>
+          <button class="tab-btn" data-tab="somber">Somber Stones</button>
+          <button class="tab-btn" data-tab="glovewort">Gloveworts</button>
+          <button class="tab-btn" data-tab="flask">Flask & Blessings</button>
+        </div>
+
+        <!-- SMITHING STONES -->
+        <div id="smithing" class="tab-content active">
+          <div class="category-header fade-in">
+            <i class="ra ra-anvil"></i>
+            <div>
+              <h3>Smithing Stones</h3>
+              <p>Used to reinforce standard armaments up to +25. Found in mines and purchased from merchants.</p>
+            </div>
+          </div>
+          <div class="material-grid">
+            
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-diamond"></i></div>
+                <div class="material-title">
+                  <h4>Smithing Stone [1]</h4>
+                  <span class="material-type">Basic Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments up to +3</div>
+              <p class="material-lore">A shard found in plenty. Smithing stone is found throughout the Lands Between, and mining galleries built to excavate it can be found everywhere.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 200 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-diamond"></i></div>
+                <div class="material-title">
+                  <h4>Smithing Stone [2]</h4>
+                  <span class="material-type">Basic Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments up to +6</div>
+              <p class="material-lore">A large shard found in plenty. Mining galleries built to excavate smithing stone can be found everywhere across the realm.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 400 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-diamond"></i></div>
+                <div class="material-title">
+                  <h4>Smithing Stone [3]</h4>
+                  <span class="material-type">Refined Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments up to +9</div>
+              <p class="material-lore">A particularly hard specimen of smithing stone, requiring greater skill to work with properly.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 600 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-diamond"></i></div>
+                <div class="material-title">
+                  <h4>Smithing Stone [4]</h4>
+                  <span class="material-type">Refined Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments up to +12</div>
+              <p class="material-lore">A large and particularly hard specimen, prized by master smiths for its superior qualities.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 900 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="material-title">
+                  <h4>Smithing Stone [5]</h4>
+                  <span class="material-type">Rare Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments up to +15</div>
+              <p class="material-lore">A rare specimen, tinged with gold. Mined near the foot of the Erdtree, these stones were used to bolster the strength of the Royal forces.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 1,200 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-crystal-ball"></i></div>
+                <div class="material-title">
+                  <h4>Smithing Stone [6]</h4>
+                  <span class="material-type">Rare Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments up to +18</div>
+              <p class="material-lore">A larger rare specimen, tinged with gold. Said to have been used to bolster the strength of the Royal forces in ages past.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 1,500 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-snowflake"></i></div>
+                <div class="material-title">
+                  <h4>Smithing Stone [7]</h4>
+                  <span class="material-type">Polar Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments up to +21</div>
+              <p class="material-lore">Found in polar regions, it is semi-vitrified. Thought to have been used to hone the weapons of champions in the War against the Giants.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 2,400 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-snowflake"></i></div>
+                <div class="material-title">
+                  <h4>Smithing Stone [8]</h4>
+                  <span class="material-type">Polar Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments up to +24</div>
+              <p class="material-lore">The largest polar specimen, semi-vitrified and exceptionally rare. Used by the greatest smiths of the Erdtree era.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 3,600 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon"><i class="ra ra-dragon"></i></div>
+                <div class="material-title">
+                  <h4>Ancient Dragon Smithing Stone</h4>
+                  <span class="material-type">Legendary Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce armaments to +25 (Maximum)</div>
+              <p class="material-lore">A scale of the Ancient Dragonlord, and hidden treasure of Farum Azula. This stone lightly twists time, allowing the creation of a weapon capable of slaying a god.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> Cannot be purchased</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SOMBER SMITHING STONES -->
+        <div id="somber" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-gem-pendant"></i>
+            <div>
+              <h3>Somber Smithing Stones</h3>
+              <p>Used to reinforce special armaments (unique weapons) up to +10. Rarer but only requires one per level.</p>
+            </div>
+          </div>
+          <div class="material-grid">
+            
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [1]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +1</div>
+              <p class="material-lore">Shard of smithing stone drained of color. Special armaments with unique characteristics cannot be strengthened with colored smithing stones.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 2,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [2]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +2</div>
+              <p class="material-lore">Large shard of smithing stone drained of color. Number of steps and amount strengthened differ from standard equipment.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 3,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [3]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +3</div>
+              <p class="material-lore">Hard smithing stone drained of color. Its pale surface belies the power contained within.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 4,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [4]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +4</div>
+              <p class="material-lore">Large hard smithing stone drained of color. Sought after by smiths who work with legendary armaments.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 6,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [5]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +5</div>
+              <p class="material-lore">Gold smithing stone drained of color. Once tinged with the golden hue of the Erdtree, now pale and mysterious.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 9,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [6]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +6</div>
+              <p class="material-lore">Large gold smithing stone drained of color. Its ashen appearance conceals immense potential.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 12,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [7]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +7</div>
+              <p class="material-lore">Polar smithing stone drained of color. Found only in the most frigid reaches of the realm.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 16,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [8]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +8</div>
+              <p class="material-lore">Large polar smithing stone drained of color. Exceedingly rare and prized beyond measure.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 20,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-gem"></i></div>
+                <div class="material-title">
+                  <h4>Somber Smithing Stone [9]</h4>
+                  <span class="material-type">Special Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +9</div>
+              <p class="material-lore">Ancient smithing stone drained of color. The penultimate step in unlocking a weapon's true potential.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 25,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card somber fade-in">
+              <div class="material-header">
+                <div class="material-icon somber"><i class="ra ra-dragon"></i></div>
+                <div class="material-title">
+                  <h4>Somber Ancient Dragon Smithing Stone</h4>
+                  <span class="material-type">Legendary Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Reinforce special armaments to +10 (Maximum)</div>
+              <p class="material-lore">Ancient dragonrock smithing stone drained of color. A scale of the Ancient Dragonlord. This stone lightly twists time, allowing the creation of a weapon capable of slaying a god.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> Cannot be purchased</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- GLOVEWORTS -->
+        <div id="glovewort" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-flower"></i>
+            <div>
+              <h3>Gloveworts</h3>
+              <p>White flowers used to strengthen Spirit Ashes. Grave Gloveworts for standard ashes, Ghost Gloveworts for renowned ashes.</p>
+            </div>
+          </div>
+          
+          <h3 class="gold-text" style="margin: 30px 0 20px; text-align: center;">Grave Glovewort (Standard Spirit Ashes)</h3>
+          <div class="material-grid">
+            
+            <div class="material-card glovewort fade-in">
+              <div class="material-header">
+                <div class="material-icon glovewort"><i class="ra ra-flower"></i></div>
+                <div class="material-title">
+                  <h4>Grave Glovewort [1]</h4>
+                  <span class="material-type">Spirit Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Strengthen ashes to +1</div>
+              <p class="material-lore">White flower that blooms in catacombs. Each a soundless bell used to summon spirits. The art of strengthening ashes is known as spirit tuning.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 800 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card glovewort fade-in">
+              <div class="material-header">
+                <div class="material-icon glovewort"><i class="ra ra-flower"></i></div>
+                <div class="material-title">
+                  <h4>Grave Glovewort [2-9]</h4>
+                  <span class="material-type">Spirit Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Strengthen ashes to +2 through +9</div>
+              <p class="material-lore">Spirit tuning is not merely the simple act of imbuing strength. It is an art that lies somewhere between tuning an instrument and conducting a conversation.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 1,200 - 8,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card glovewort fade-in">
+              <div class="material-header">
+                <div class="material-icon glovewort"><i class="ra ra-trophy"></i></div>
+                <div class="material-title">
+                  <h4>Great Grave Glovewort</h4>
+                  <span class="material-type">Legendary Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Strengthen ashes to +10 (Maximum)</div>
+              <p class="material-lore">An especially large specimen. Since times of old, large gloveworts were used to comfort heroic spirits. Given in tribute to those who died the most glorious of deaths.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> Cannot be purchased</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+          </div>
+
+          <h3 class="gold-text" style="margin: 40px 0 20px; text-align: center;">Ghost Glovewort (Renowned Spirit Ashes)</h3>
+          <div class="material-grid">
+            
+            <div class="material-card ghost fade-in">
+              <div class="material-header">
+                <div class="material-icon ghost"><i class="ra ra-fairy"></i></div>
+                <div class="material-title">
+                  <h4>Ghost Glovewort [1]</h4>
+                  <span class="material-type">Renowned Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Strengthen renowned ashes to +1</div>
+              <p class="material-lore">White flower that blooms in catacombs. A spirit nestles close to it. Ashes which keep their renown even after death cannot be strengthened by merely corporeal glovewort.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 1,200 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card ghost fade-in">
+              <div class="material-header">
+                <div class="material-icon ghost"><i class="ra ra-fairy"></i></div>
+                <div class="material-title">
+                  <h4>Ghost Glovewort [2-9]</h4>
+                  <span class="material-type">Renowned Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Strengthen renowned ashes to +2 through +9</div>
+              <p class="material-lore">Ashes which keep their renown even after death cannot be strengthened by merely corporeal glovewort. These ethereal blooms are essential.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> 1,800 - 12,000 Runes</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card ghost fade-in">
+              <div class="material-header">
+                <div class="material-icon ghost"><i class="ra ra-trophy"></i></div>
+                <div class="material-title">
+                  <h4>Great Ghost Glovewort</h4>
+                  <span class="material-type">Legendary Material</span>
+                </div>
+              </div>
+              <div class="material-effect">Strengthen renowned ashes to +10 (Maximum)</div>
+              <p class="material-lore">A spirit nestles close to this grand specimen. Since times of old, large gloveworts were used to comfort heroic spirits, in the hope their stories would become legend.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> Cannot be purchased</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLASK & BLESSINGS -->
+        <div id="flask" class="tab-content">
+          <div class="category-header fade-in">
+            <i class="ra ra-potion"></i>
+            <div>
+              <h3>Sacred Flask & Blessings</h3>
+              <p>Materials to enhance your Sacred Flasks and the special blessings available in the Shadow of the Erdtree DLC.</p>
+            </div>
+          </div>
+          
+          <h3 class="gold-text" style="margin: 30px 0 20px; text-align: center;">Sacred Flask Upgrades</h3>
+          <div class="material-grid">
+            
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon flask"><i class="ra ra-round-bottom-flask"></i></div>
+                <div class="material-title">
+                  <h4>Golden Seed</h4>
+                  <span class="material-type">Flask Enhancement</span>
+                </div>
+              </div>
+              <div class="material-effect">Increases Sacred Flask uses (up to 14 total)</div>
+              <p class="material-lore">A golden seed, found at the base of an illusory tree. When the Elden Ring was shattered, these seeds flew from the Erdtree, scattering across the various lands, as if life itself knew its end had come.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> Found at Minor Erdtrees</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+            <div class="material-card fade-in">
+              <div class="material-header">
+                <div class="material-icon flask"><i class="ra ra-droplet"></i></div>
+                <div class="material-title">
+                  <h4>Sacred Tear</h4>
+                  <span class="material-type">Flask Enhancement</span>
+                </div>
+              </div>
+              <div class="material-effect">Improves Sacred Flask potency (up to +12)</div>
+              <p class="material-lore">Blessing of the Erdtree, worshiped in the churches of all lands; this is but a faint vestige. During the age of the Erdtree, these tears were used to spread the faith.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> Found at Churches</span>
+                <span class="source-badge base">Base Game</span>
+              </div>
+            </div>
+
+          </div>
+
+          <h3 class="gold-text" style="margin: 40px 0 20px; text-align: center;">Shadow of the Erdtree Blessings</h3>
+          <div class="material-grid">
+            
+            <div class="material-card dlc fade-in">
+              <div class="material-header">
+                <div class="material-icon dlc"><i class="ra ra-sun"></i></div>
+                <div class="material-title">
+                  <h4>Scadutree Fragment</h4>
+                  <span class="material-type">DLC Blessing</span>
+                </div>
+              </div>
+              <div class="material-effect">Bolsters Scadutree Blessing (damage dealt & negation)</div>
+              <p class="material-lore">A splinter of the Scadutree that contains golden brilliance. The Scadutree Blessing bolsters the bearer's ability to deal and negate damage but has no influence outside the realm of shadow.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> Found in Land of Shadow</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+            <div class="material-card dlc fade-in">
+              <div class="material-header">
+                <div class="material-icon dlc"><i class="ra ra-fire-ring"></i></div>
+                <div class="material-title">
+                  <h4>Revered Spirit Ash</h4>
+                  <span class="material-type">DLC Blessing</span>
+                </div>
+              </div>
+              <div class="material-effect">Bolsters Revered Spirit Ash Blessing (summons & Torrent)</div>
+              <p class="material-lore">Spirit ash of those who came before, infused with potent spirituality. Found from the corpses of hornsent decorating townships across the realm of shadow.</p>
+              <div class="material-footer">
+                <span class="material-cost"><i class="ra ra-gold-bar"></i> Found in Land of Shadow</span>
+                <span class="source-badge dlc">Shadow of the Erdtree</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+        <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+            <span>ELDEN RING WIKI</span>
+          </div>
+          <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+        <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+      </div>
+    </footer>
+  </div>
+
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <!-- Music Player -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()">
+      <i class="ra ra-music-note" id="minimizedIcon"></i>
+    </div>
+    <div class="player-expanded">
+      <div class="player-header">
+        <span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span>
+        <button class="player-minimize" onclick="togglePlayer()">−</button>
+      </div>
+      <div class="player-track">
+        <div class="track-name" id="trackName">Track 1</div>
+        <div class="track-info" id="trackInfo">Elden Ring OST</div>
+      </div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header">
+          <span class="volume-label">Volume</span>
+          <button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button>
+        </div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" preload="auto">
+    <source src="bgm1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+  
+  <script src="music-player.js"></script>
+  
+  <script>
+    // Initialize Vanta Fog Background
+    try {
+      VANTA.FOG({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        highlightColor: 0x5c3d00,
+        midtoneColor: 0x1a0f00,
+        lowlightColor: 0x000000,
+        baseColor: 0x0a0500,
+        blurFactor: 0.5,
+        speed: 1.5,
+        zoom: 1.2
+      });
+    } catch(e) {
+      console.log('Vanta background not loaded');
+    }
+
+    // Create Floating Embers
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        const size = Math.random() * 4 + 2;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 20;
+        const hue = Math.random() * 30 + 20;
+        const lightness = Math.random() * 20 + 50;
+        ember.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${left}%;
+          background: radial-gradient(circle, hsl(${hue}, 100%, ${lightness}%) 0%, hsl(${hue}, 100%, 30%) 50%, transparent 70%);
+          animation-duration: ${duration}s;
+          animation-delay: -${delay}s;
+          box-shadow: 0 0 ${size * 2}px hsl(${hue}, 100%, ${lightness}%);
+        `;
+        container.appendChild(ember);
+      }
+    }
+    createEmbers();
+
+    // Header Scroll Effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Back to Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 500);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabGroup = this.closest('section');
+        tabGroup.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        tabGroup.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Initialize Universal Search (if available)
+    if (typeof initializeSearch === 'function') {
+      initializeSearch('upgrade-material');
+    }
+    
+    // Handle item parameter from URL (when navigating from search)
+    if (typeof handleItemParameter === 'function') {
+      handleItemParameter();
+    }
+  </script>
+
+  <!-- Footer Clock -->
+  <script>
+    function updateFooterClock() {
+      const now = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('en-US', options);
+      const clockEl = document.getElementById('footerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    updateFooterClock();
+    setInterval(updateFooterClock, 1000);
+  </script>
+
+  <!-- Global Wiki Search -->
+  <script src="items-search.js"></script>
+  <script>document.addEventListener("DOMContentLoaded",function(){if(typeof initializeSearch==="function")initializeSearch();});</script>
+
+</body>
+</html>
