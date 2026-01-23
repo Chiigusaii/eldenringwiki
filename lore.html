@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elden Ring Wiki - The Lore</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- RPG Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/rpg-awesome@0.2.0/css/rpg-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="search-styles.css">
+  <link rel="stylesheet" href="music-player.css">
+  
+  <!-- Font Awesome for UI controls -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #ed8a09;
+      --gold-bright: #f9c043;
+      --gold-dark: #bd6707;
+      --gold-muted: #e1b26b;
+      --bg-black: #040200;
+      --bg-dark: #0d0906;
+      --bg-surface: #1a1410;
+      --bg-card: #231a12;
+      --text-primary: #f5f3e0;
+      --text-secondary: #c9b99a;
+      --text-muted: #8a7a60;
+      --border: rgba(189, 103, 7, 0.3);
+      --glow: rgba(237, 138, 9, 0.4);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 150px 60px rgba(0, 0, 0, 0.8);
+      z-index: 100;
+    }
+
+    /* VIDEO BACKGROUND */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .video-background video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(4,2,0,0.75) 0%, rgba(4,2,0,0.55) 30%, rgba(4,2,0,0.6) 70%, rgba(4,2,0,0.9) 100%);
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    /* FULLSCREEN VIDEO MODE */
+    body.video-fullscreen .video-overlay { opacity: 0; pointer-events: none; }
+    body.video-fullscreen .content-wrapper { opacity: 0; pointer-events: none; }
+    body.video-fullscreen::after { display: none; }
+    body.video-fullscreen .particles-container { opacity: 0; }
+    body.video-fullscreen .video-controls { bottom: 50px; }
+
+    /* VIDEO CONTROLS */
+    .video-controls {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .control-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      border-radius: 50%;
+      background: rgba(35, 26, 18, 0.9);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .control-btn:hover {
+      background: var(--gold);
+      color: var(--bg-black);
+      box-shadow: 0 0 25px var(--glow);
+      transform: scale(1.1);
+    }
+
+    .control-btn.muted { opacity: 0.7; }
+    .control-btn.active { background: var(--gold); color: var(--bg-black); }
+    .control-btn .icon { font-size: 1.1rem; }
+
+    /* FLOATING EMBERS */
+    .particles-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .ember {
+      position: absolute;
+      border-radius: 50%;
+      animation: ember-float linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes ember-float {
+      0% { opacity: 0; transform: translateY(100vh) translateX(0) scale(0); }
+      10% { opacity: 1; transform: translateY(90vh) translateX(10px) scale(1); }
+      90% { opacity: 0.8; transform: translateY(10vh) translateX(-20px) scale(0.8); }
+      100% { opacity: 0; transform: translateY(-5vh) translateX(30px) scale(0); }
+    }
+
+    /* TYPOGRAPHY */
+    h1, h2, h3, h4, h5, h6 { font-family: 'Cinzel', serif; font-weight: 600; letter-spacing: 0.05em; line-height: 1.3; }
+    .title-decorative { font-family: 'Cinzel Decorative', serif; }
+    .gold-text {
+      background: linear-gradient(to bottom, #cfc09f 0%, #ffecb3 25%, #e7c66e 50%, #a17720 75%, #5c3d00 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+    .glow-text { color: var(--gold); text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px var(--glow); }
+
+    /* LAYOUT */
+    .content-wrapper { position: relative; z-index: 10; transition: opacity 0.3s ease; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 80px 0; }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      transition: all 0.4s ease;
+      padding: 15px 0;
+    }
+
+    header.scrolled {
+      background: rgba(4, 2, 0, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-icon { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px var(--glow)); transition: all 0.3s ease; }
+    .logo:hover .logo-icon img { filter: drop-shadow(0 0 20px var(--glow)); transform: scale(1.05); }
+    .logo-text h1 { font-size: 1.4rem; letter-spacing: 0.15em; }
+    .logo-text span { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--text-muted); text-transform: uppercase; display: block; }
+
+    nav { display: flex; gap: 5px; }
+    nav a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    nav a:hover { color: var(--gold); background: rgba(237, 138, 9, 0.1); }
+    nav a.active { color: var(--gold); }
+    nav a.active::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 10px var(--gold); }
+
+    .search-box { position: relative; }
+    .search-box input {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      background: rgba(26, 20, 16, 0.8);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 10px 40px 10px 15px;
+      border-radius: 2px;
+      width: 220px;
+      transition: all 0.3s ease;
+    }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 15px rgba(237, 138, 9, 0.15); width: 280px; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 80px;
+      position: relative;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 900px; }
+    .hero-logo { width: 280px; height: auto; margin: 0 auto 30px; position: relative; }
+    .hero-logo::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(237, 138, 9, 0.2) 0%, rgba(237, 138, 9, 0.05) 50%, transparent 70%);
+      animation: ring-glow 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes ring-glow { 0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); } }
+    .hero-logo img { width: 100%; height: auto; filter: drop-shadow(0 0 30px var(--glow)) drop-shadow(0 0 60px rgba(237, 138, 9, 0.3)); animation: logo-pulse 4s ease-in-out infinite; position: relative; z-index: 1; }
+    @keyframes logo-pulse { 0%, 100% { filter: drop-shadow(0 0 30px var(--glow)) drop-shadow(0 0 60px rgba(237, 138, 9, 0.3)); transform: scale(1); } 50% { filter: drop-shadow(0 0 40px var(--glow)) drop-shadow(0 0 80px rgba(237, 138, 9, 0.4)); transform: scale(1.02); } }
+    .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: 0.15em; margin-bottom: 20px; }
+    .hero-tagline { font-style: italic; font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 30px; letter-spacing: 0.05em; }
+    .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 40px 0; }
+    .divider-line { width: 100px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-dark), transparent); }
+    .divider-symbol { color: var(--gold); font-size: 1.2rem; letter-spacing: 0.3em; }
+
+    /* LORE CONTENT */
+    .lore-section { padding: 80px 0; background: linear-gradient(to bottom, transparent, rgba(4, 2, 0, 0.5), transparent); }
+    .lore-chapter { margin-bottom: 80px; }
+    .chapter-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .chapter-icon { font-size: 2.5rem; color: var(--gold); opacity: 0.8; }
+    .chapter-header h2 { font-size: 1.8rem; letter-spacing: 0.1em; }
+    .chapter-content { color: var(--text-secondary); font-size: 1.05rem; }
+    .chapter-content p { margin-bottom: 20px; text-align: justify; }
+    .chapter-content strong { color: var(--gold-muted); }
+
+    /* CHARACTER CARDS */
+    .character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin: 40px 0; }
+
+    .character-card {
+      background: linear-gradient(145deg, rgba(35, 26, 18, 0.95), rgba(26, 20, 16, 0.95));
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+    }
+    .character-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s ease; z-index: 2; }
+    .character-card:hover { transform: translateY(-5px); border-color: var(--gold-dark); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
+    .character-card:hover::before { opacity: 1; }
+
+    .character-image {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-surface));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .character-image img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.5s ease; }
+    .character-card:hover .character-image img { transform: scale(1.1); }
+    .character-image::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to top, rgba(35, 26, 18, 1), transparent); }
+
+    /* Placeholder for failed images */
+    .character-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #231a12, #1a1410);
+      color: var(--gold-muted);
+      font-size: 4rem;
+      opacity: 0.5;
+    }
+    .character-placeholder span {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      letter-spacing: 0.1em;
+    }
+
+    .view-indicator {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.85);
+      color: var(--gold);
+      padding: 10px 18px;
+      border-radius: 3px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 5;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--gold);
+    }
+    .character-card:hover .view-indicator { opacity: 1; }
+
+    .character-info { padding: 20px 25px 25px; }
+    .character-info h3 { font-size: 1.15rem; color: var(--gold-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .character-info h3 i { font-size: 1.3rem; opacity: 0.7; }
+    .character-info p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+
+    .character-card .rarity {
+      position: absolute;
+      top: 15px; right: 15px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+      background: rgba(4, 2, 0, 0.8);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      z-index: 3;
+      backdrop-filter: blur(5px);
+    }
+
+    /* FEATURED CHARACTER */
+    .featured-character {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 40px;
+      align-items: start;
+      margin: 40px 0;
+      background: linear-gradient(145deg, rgba(35, 26, 18, 0.9), rgba(26, 20, 16, 0.9));
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      backdrop-filter: blur(5px);
+    }
+    .featured-image {
+      height: 100%;
+      min-height: 400px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-surface));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .featured-image img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform 0.5s ease; }
+    .featured-image:hover img { transform: scale(1.05); }
+    .featured-image::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 100px; background: linear-gradient(to left, rgba(35, 26, 18, 1), transparent); }
+    .featured-image .view-indicator { opacity: 0; }
+    .featured-image:hover .view-indicator { opacity: 1; }
+    .featured-content { padding: 40px 40px 40px 0; }
+    .featured-content h3 { font-size: 1.6rem; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+    .featured-content p { color: var(--text-secondary); margin-bottom: 15px; line-height: 1.8; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.97);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      cursor: pointer;
+    }
+    .lightbox.active { display: flex; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .lightbox-content { position: relative; max-width: 90vw; max-height: 90vh; cursor: default; }
+    .lightbox-content img { max-width: 100%; max-height: 80vh; object-fit: contain; border: 2px solid var(--gold); border-radius: 5px; box-shadow: 0 0 50px rgba(237, 138, 9, 0.3); }
+    .lightbox-title { text-align: center; margin-top: 20px; font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--gold); letter-spacing: 0.1em; }
+    .lightbox-close { position: absolute; top: -15px; right: -15px; width: 45px; height: 45px; border-radius: 50%; background: var(--gold); color: var(--bg-black); border: none; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+    .lightbox-close:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--glow); }
+    .lightbox-hint { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.1em; }
+
+    /* TIMELINE */
+    .timeline { position: relative; padding-left: 40px; margin: 40px 0; }
+    .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--gold), var(--gold-dark), transparent); }
+    .timeline-item { position: relative; margin-bottom: 40px; padding-left: 20px; }
+    .timeline-item::before { content: ''; position: absolute; left: -34px; top: 5px; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 15px var(--gold); }
+    .timeline-item h4 { font-size: 1.1rem; color: var(--gold-muted); margin-bottom: 8px; }
+    .timeline-item p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* QUOTE BOX */
+    .lore-quote {
+      background: linear-gradient(145deg, rgba(35, 26, 18, 0.9), rgba(26, 20, 16, 0.9));
+      border-left: 3px solid var(--gold);
+      padding: 30px;
+      margin: 40px 0;
+      position: relative;
+      backdrop-filter: blur(5px);
+    }
+    .lore-quote::before { content: '"'; font-family: 'Cinzel Decorative', serif; font-size: 4rem; color: var(--gold); opacity: 0.2; position: absolute; top: 10px; left: 20px; }
+    .lore-quote blockquote { font-size: 1.2rem; font-style: italic; color: var(--text-secondary); line-height: 1.8; margin-left: 30px; }
+    .lore-quote cite { display: block; margin-top: 15px; margin-left: 30px; font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--gold-muted); font-style: normal; }
+
+    /* SECTION DIVIDER */
+    .section-divider { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 60px 0; }
+    .section-divider .line { width: 150px; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+    .section-divider i { font-size: 1.5rem; color: var(--gold); opacity: 0.5; }
+
+    /* ENDINGS */
+    .endings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; margin: 40px 0; }
+    .ending-card {
+      background: linear-gradient(145deg, rgba(35, 26, 18, 0.9), rgba(26, 20, 16, 0.9));
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 30px;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(5px);
+    }
+    .ending-card:hover { transform: translateY(-3px); border-color: var(--gold-dark); }
+    .ending-card h3 { font-size: 1.1rem; color: var(--gold); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .ending-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; background: rgba(4, 2, 0, 0.8); }
+    .footer-content { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .footer-logo { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-icon { width: 35px; height: 35px; }
+    .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; opacity: 0.7; filter: drop-shadow(0 0 5px var(--glow)); }
+    .footer-logo span { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.15em; color: var(--text-muted); }
+    .footer-clock-wrapper { padding: 0 30px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    #footerClock { font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-muted); }
+    .footer-links { display: flex; gap: 25px; }
+    .footer-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-disclaimer { font-size: 0.75rem; color: var(--text-muted); opacity: 0.6; text-align: center; margin-top: 20px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .featured-character { grid-template-columns: 1fr; }
+      .featured-image { min-height: 300px; }
+      .featured-image::after { display: none; }
+      .featured-content { padding: 30px; }
+    }
+    @media (max-width: 768px) {
+      nav, .search-box { display: none; }
+      .hero h1 { letter-spacing: 0.08em; }
+      .character-grid, .endings-grid { grid-template-columns: 1fr; }
+      .footer-content { flex-direction: column; text-align: center; }
+      .chapter-header { flex-direction: column; text-align: center; }
+      .video-controls { bottom: 20px; right: 20px; }
+      .control-btn { padding: 12px 16px; font-size: 0.7rem; }
+    }
+
+    /* ANIMATIONS */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    ::selection { background: var(--gold-dark); color: var(--bg-black); }
+  
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-muted); cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 99; }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+    .back-to-top:hover { background: var(--gold); color: var(--bg-black); border-color: var(--gold); transform: translateY(-3px); }
+
+  
+    #footerClock {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-muted);
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Video Background -->
+  <div class="video-background">
+    <video autoplay loop playsinline muted id="bg-video">
+      <source src="eldenringtrailer.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay" id="video-overlay"></div>
+  </div>
+
+  <!-- Video Controls with Clear Icons & Labels -->
+  <div class="video-controls">
+    <button class="control-btn" id="fullscreenBtn" title="Fullscreen">
+      <i class="fa-solid fa-expand icon" id="fullscreenIcon"></i>
+    </button>
+    <button class="control-btn muted" id="audioBtn" title="Toggle Audio">
+      <i class="fa-solid fa-volume-xmark icon" id="audioIcon"></i>
+    </button>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close">&times;</button>
+      <img src="" alt="" id="lightbox-img">
+      <div class="lightbox-title" id="lightbox-title"></div>
+      <div class="lightbox-hint">Press ESC or click outside to close</div>
+    </div>
+  </div>
+
+  <!-- Floating Embers -->
+  <div class="particles-container" id="particles"></div>
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    
+    <!-- Header -->
+    <header id="header">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img src="elden-ring-logo.png" alt="Elden Ring Logo">
+          </div>
+          <div class="logo-text">
+            <h1 class="gold-text">ELDEN RING</h1>
+            <span>Wiki Database</span>
+          </div>
+        </a>
+                  <nav>
+            <a href="index.html">Home</a>
+            <a href="bosses.html">Bosses</a>
+            <a href="characters.html">Characters</a>
+            <a href="items.html">Items</a>
+            <a href="lore.html" class="active">Lore</a>
+          </nav>
+        <div class="search-box">
+          <input type="text" placeholder="Search the wiki...">
+          <i class="ra ra-compass"></i>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-logo">
+          <img src="elden-ring-logo.png" alt="Elden Ring">
+        </div>
+        <h1 class="title-decorative gold-text">THE LORE</h1>
+        <p class="hero-tagline">"The fallen leaves tell a story... of how a Tarnished became Elden Lord."</p>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <span class="divider-symbol">◆ ✧ ◆</span>
+          <div class="divider-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lore Content -->
+    <section class="lore-section">
+      <div class="container">
+
+        <!-- Chapter 1: The Greater Will -->
+        <div class="lore-chapter fade-in">
+          <div class="chapter-header">
+            <i class="ra ra-sun-symbol chapter-icon"></i>
+            <h2 class="glow-text">The Greater Will & The Cosmic Order</h2>
+          </div>
+          <div class="chapter-content">
+            <p>The <strong>Greater Will</strong> is a mysterious cosmic entity that serves as the dominant divine force in the Lands Between. It hails from a "lightless void" and operates through emissaries rather than direct intervention. According to the Three Fingers, the Greater Will <strong>fractured the primordial "One Great"</strong>—a unified existence from which "all that there is came"—creating individuality, souls, and the world itself.</p>
+            <p>The Greater Will sent multiple emissaries to the Lands Between. <strong>Metyr, Mother of Fingers</strong> was described as a "magnificently gleaming daughter" and the first shooting star to fall upon the world. She spawned the Two Fingers—physical entities that communicate through a "language of light" requiring special interpreters to understand. The <strong>Elden Beast</strong> arrived later, carried by a golden star—it would later become the Elden Ring itself.</p>
+            <p>The Elden Ring is not merely a physical object but <strong>a living incarnation of Order</strong> that defines the fundamental laws of reality. Its interlocking runes represent concepts like life, death, causality, and regression. The Elden Beast serves as both the Ring and its guardian—the living incarnation of the concept of Order.</p>
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <div class="line"></div>
+          <i class="ra ra-crown"></i>
+          <div class="line"></div>
+        </div>
+
+        <!-- Chapter 2: Queen Marika -->
+        <div class="lore-chapter fade-in">
+          <div class="chapter-header">
+            <i class="ra ra-queen-crown chapter-icon"></i>
+            <h2 class="glow-text">Queen Marika the Eternal</h2>
+          </div>
+          
+          <div class="featured-character">
+            <div class="featured-image" data-title="Queen Marika the Eternal">
+              <img src="marika.jpg" alt="Queen Marika the Eternal">
+              <div class="view-indicator">
+                <i class="ra ra-eye"></i> Click to View
+              </div>
+            </div>
+            <div class="featured-content">
+              <h3><i class="ra ra-queen-crown"></i> The Goddess-Queen</h3>
+              <p><strong>Queen Marika</strong> was a Numen woman from Shaman Village in what would become the Land of Shadow. The Numen were an extremely long-lived race from outside the Lands Between.</p>
+              <p>The Shadow of the Erdtree DLC reveals her traumatic origins: the Hornsent civilization that ruled her homeland systematically tortured her people, discovering that Shaman flesh "mended harmoniously with others" and using them to create Living Jars through horrific rituals.</p>
+              <p>Chosen as an Empyrean by the Two Fingers, Marika traveled to the Gate of Divinity atop Enir-Ilim where she became the vessel of the Elden Ring. Her first major act as goddess was <strong>removing the Rune of Death</strong>, eliminating natural mortality for herself and her bloodline.</p>
+            </div>
+          </div>
+
+          <div class="lore-quote">
+            <blockquote>
+              "O Radagon, leal hound of the Golden Order. Thou'rt yet to become me. Thou'rt yet to become a god. Let us be shattered, both. Mine other self."
+            </blockquote>
+            <cite>— Queen Marika's Spoken Echo</cite>
+          </div>
+          
+          <div class="chapter-content">
+            <p>The game's central mystery—<strong>"Radagon is Marika"</strong>—reveals they are the same being with two distinct personalities and often opposing wills. This duality mirrors the alchemical Rebis, a being possessing both male and female qualities. When Marika shattered the Elden Ring, Radagon attempted to repair it.</p>
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <div class="line"></div>
+          <i class="ra ra-double-team"></i>
+          <div class="line"></div>
+        </div>
+
+        <!-- Chapter 3: The Demigods -->
+        <div class="lore-chapter fade-in">
+          <div class="chapter-header">
+            <i class="ra ra-helmet chapter-icon"></i>
+            <h2 class="glow-text">The Demigod Shardbearers</h2>
+          </div>
+          <div class="chapter-content">
+            <p>Marika's first consort was <strong>Godfrey</strong> (originally Hoarah Loux), a savage warrior chieftain. Together they produced Godwyn the Golden, and the cursed Omen twins Morgott and Mohg. Her second consort was Radagon—her own other half. Before returning to Marika, Radagon had married <strong>Rennala, Queen of the Full Moon</strong>, producing Ranni, Radahn, and Rykard. Marika and Radagon's union produced <strong>Malenia</strong> and <strong>Miquella</strong>—both born as Empyreans.</p>
+          </div>
+
+          <div class="character-grid">
+            <!-- Godrick -->
+            <div class="character-card" data-title="Godrick the Grafted">
+              <span class="rarity">Demigod</span>
+              <div class="character-image">
+                <img src="godrick.gif" alt="Godrick the Grafted">
+                <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+              </div>
+              <div class="character-info">
+                <h3><i class="ra ra-helmet"></i> Godrick the Grafted</h3>
+                <p>The weakest shardbearer, merely a distant descendant of the Golden Lineage. To compensate for his diluted blood, he practices grafting—attaching body parts from others onto himself.</p>
+              </div>
+            </div>
+
+            <!-- Rennala -->
+            <div class="character-card" data-title="Rennala, Queen of the Full Moon">
+              <span class="rarity">Demigod</span>
+              <div class="character-image">
+                <img src="rennala.gif" alt="Rennala, Queen of the Full Moon">
+                <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+              </div>
+              <div class="character-info">
+                <h3><i class="ra ra-crescent-moon"></i> Rennala, Queen of the Full Moon</h3>
+                <p>Not actually a demigod—she holds a Great Rune only because Radagon entrusted her with the amber egg when he left. Once powerful, she was broken when Radagon abandoned her.</p>
+              </div>
+            </div>
+
+            <!-- Radahn -->
+            <div class="character-card" data-title="Starscourge Radahn">
+              <span class="rarity">Demigod</span>
+              <div class="character-image">
+                <img src="radahn.gif" alt="Starscourge Radahn">
+                <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+              </div>
+              <div class="character-info">
+                <h3><i class="ra ra-meteor"></i> Starscourge Radahn</h3>
+                <p>The mightiest demigod, son of Radagon and Rennala. He learned gravity magic from love—his horse Leonard couldn't carry his massive frame. He challenged the stars and won.</p>
+              </div>
+            </div>
+
+            <!-- Morgott -->
+            <div class="character-card" data-title="Morgott the Omen King">
+              <span class="rarity">Demigod</span>
+              <div class="character-image">
+                <img src="morgot.gif" alt="Morgott the Omen King">
+                <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+              </div>
+              <div class="character-info">
+                <h3><i class="ra ra-player-king"></i> Morgott the Omen King</h3>
+                <p>Born as an Omen with cursed horns, yet his devotion to the Erdtree never wavered despite its rejection. As the Veiled Monarch, he ruled Leyndell from the shadows.</p>
+              </div>
+            </div>
+
+            <!-- Rykard -->
+            <div class="character-card" data-title="Rykard, Lord of Blasphemy">
+              <span class="rarity">Demigod</span>
+              <div class="character-image">
+                <img src="rykard.gif" alt="Rykard, Lord of Blasphemy">
+                <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+              </div>
+              <div class="character-info">
+                <h3><i class="ra ra-hydra"></i> Rykard, Lord of Blasphemy</h3>
+                <p>Son of Radagon and Rennala who willingly fed himself to the God-Devouring Serpent. His face now manifests on the serpent's neck.</p>
+              </div>
+            </div>
+
+            <!-- Malenia -->
+            <div class="character-card" data-title="Malenia, Blade of Miquella">
+              <span class="rarity">Empyrean</span>
+              <div class="character-image">
+                <img src="malenia.gif" alt="Malenia, Blade of Miquella">
+                <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+              </div>
+              <div class="character-info">
+                <h3><i class="ra ra-sword"></i> Malenia, Blade of Miquella</h3>
+                <p>The undefeated swordswoman afflicted with Scarlet Rot from birth. Despite losing her eyes and three limbs, she became the most feared warrior in the Lands Between.</p>
+              </div>
+            </div>
+
+            <!-- Mohg -->
+            <div class="character-card" data-title="Mohg, Lord of Blood">
+              <span class="rarity">Demigod</span>
+              <div class="character-image">
+                <img src="mohg.gif" alt="Mohg, Lord of Blood">
+                <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+              </div>
+              <div class="character-info">
+                <h3><i class="ra ra-bleeding-eye"></i> Mohg, Lord of Blood</h3>
+                <p>Twin to Morgott who fully embraced his cursed nature after encountering the Formless Mother. He established the Mohgwyn Dynasty and kidnapped Miquella.</p>
+              </div>
+            </div>
+
+            <!-- Miquella -->
+            <div class="character-card" data-title="Miquella of the Haligtree">
+              <span class="rarity">Empyrean</span>
+              <div class="character-image">
+                <img src="miquella.gif" alt="Miquella of the Haligtree">
+                <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+              </div>
+              <div class="character-info">
+                <h3><i class="ra ra-fairy-wand"></i> Miquella of the Haligtree</h3>
+                <p>The most fearsome Empyrean, cursed with eternal childhood. He created unalloyed gold to ward off Outer Gods. His power to compel affection is dangerously manipulative.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <div class="line"></div>
+          <i class="ra ra-knife"></i>
+          <div class="line"></div>
+        </div>
+
+        <!-- Chapter 4: Night of Black Knives -->
+        <div class="lore-chapter fade-in">
+          <div class="chapter-header">
+            <i class="ra ra-knife chapter-icon"></i>
+            <h2 class="glow-text">The Night of Black Knives</h2>
+          </div>
+          
+          <!-- Ranni Featured -->
+          <div class="featured-character">
+            <div class="featured-image" data-title="Ranni the Witch">
+              <img src="ranni.gif" alt="Ranni the Witch">
+              <div class="view-indicator"><i class="ra ra-eye"></i> Click to View</div>
+            </div>
+            <div class="featured-content">
+              <h3><i class="ra ra-crescent-moon"></i> Ranni the Witch - Mastermind</h3>
+              <p>On a cold, wintry night during the Golden Age, <strong>Black Knife Assassins infiltrated Leyndell and murdered Godwyn the Golden</strong>—the first recorded death of a demigod.</p>
+              <p>The mastermind was <strong>Ranni the Witch</strong>, who resented being chosen by the Two Fingers as Marika's potential successor. She stole a fragment of the Rune of Death from Maliketh and performed a fearsome rite to imbue it into the Black Knives.</p>
+              <p>At the exact moment Godwyn was killed, <strong>Ranni killed her own physical body</strong>. This split death created the Cursemark: Godwyn's soul died while his body lived; Ranni's body died while her soul survived.</p>
+            </div>
+          </div>
+
+          <div class="chapter-content">
+            <p>Godwyn's soulless body, buried at the Erdtree's roots, transformed into the grotesque <strong>Prince of Death</strong>, and Deathroot began spreading through the world.</p>
+          </div>
+
+          <div class="lore-quote">
+            <blockquote>
+              The death of her firstborn drove Marika to shatter the Elden Ring with her hammer, fragmenting cosmic law itself. The Greater Will punished her by crucifying both Marika and Radagon within the Erdtree.
+            </blockquote>
+            <cite>— The Shattering</cite>
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <div class="line"></div>
+          <i class="ra ra-crossed-swords"></i>
+          <div class="line"></div>
+        </div>
+
+        <!-- Chapter 5: The Shattering -->
+        <div class="lore-chapter fade-in">
+          <div class="chapter-header">
+            <i class="ra ra-crossed-swords chapter-icon"></i>
+            <h2 class="glow-text">The Shattering & The War</h2>
+          </div>
+          <div class="chapter-content">
+            <p>The shattered Ring's fragments became <strong>Great Runes</strong>, inherited by Marika's demigod offspring. "Tainted by their newfound strength," they warred against each other for dominance.</p>
+            <p>The final major battle occurred at <strong>Aeonia in Caelid</strong> between Radahn and Malenia. They fought to a stalemate until Malenia unleashed her first Scarlet Aeonia, devastating the entire region. The rot poisoned Radahn so deeply he lost his mind, becoming a feral beast. During Malenia's absence, <strong>Mohg kidnapped Miquella</strong> from his cocoon, taking him to Mohgwyn Palace.</p>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <h4>The Age Before the Erdtree</h4>
+              <p>The Greater Will fractures the One Great. Ancient Dragons rule under Dragonlord Placidusax. Fire Giants worship the Fell God.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>The Rise of Marika</h4>
+              <p>The Elden Beast arrives carrying the Elden Ring. Marika becomes its vessel and removes the Rune of Death, founding the Golden Order.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>The Golden Age</h4>
+              <p>Wars against Giants, dragons, and the Eternal Cities. Radagon marries Rennala, then returns to become Marika's consort.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>The Night of Black Knives</h4>
+              <p>Ranni orchestrates Godwyn's assassination. Marika shatters the Elden Ring. Both she and Radagon are imprisoned within the Erdtree.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>The Shattering War</h4>
+              <p>Demigods war for Great Runes. Radahn vs Malenia devastates Caelid. Mohg takes Miquella. No victor emerges—stalemate.</p>
+            </div>
+            <div class="timeline-item">
+              <h4>Return of the Tarnished</h4>
+              <p>Grace calls the exiled Tarnished back to collect Great Runes and claim the Elden Throne.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <div class="line"></div>
+          <i class="ra ra-player"></i>
+          <div class="line"></div>
+        </div>
+
+        <!-- Chapter 6: The Tarnished -->
+        <div class="lore-chapter fade-in">
+          <div class="chapter-header">
+            <i class="ra ra-player chapter-icon"></i>
+            <h2 class="glow-text">The Tarnished</h2>
+          </div>
+          <div class="chapter-content">
+            <p><strong>Tarnished</strong> are individuals who lost the Erdtree's grace and were banished from the Lands Between. The original Tarnished were Godfrey and his warrior kinfolk, whose eyes literally lost their golden hue when grace departed.</p>
+            <p>Grace manifests as golden light in one's eyes and at Sites of Grace, providing guidance, healing, and resurrection. When Marika stripped Godfrey of grace, she promised: "Return to the Lands Between, wage war, and brandish the Elden Ring. Grow strong in the face of death."</p>
+            <p>After the Shattering, grace was extended to the Tarnished once more, beckoning them back to collect Great Runes, defeat corrupted demigods, and become Elden Lord.</p>
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <div class="line"></div>
+          <i class="ra ra-radial-balance"></i>
+          <div class="line"></div>
+        </div>
+
+        <!-- Chapter 7: The Endings -->
+        <div class="lore-chapter fade-in">
+          <div class="chapter-header">
+            <i class="ra ra-cycle chapter-icon"></i>
+            <h2 class="glow-text">The Six Endings</h2>
+          </div>
+          <div class="chapter-content">
+            <p>Every ending responds to the failures of the Golden Order differently—restoration, reform, liberation, or annihilation.</p>
+          </div>
+
+          <div class="endings-grid">
+            <div class="ending-card">
+              <h3><i class="ra ra-gem-pendant"></i> Age of Fracture</h3>
+              <p>The default ending. Mend the Elden Ring as-is and become Elden Lord, restoring the Golden Order with all its original flaws.</p>
+            </div>
+            <div class="ending-card">
+              <h3><i class="ra ra-skull"></i> Age of Duskborn</h3>
+              <p>Fia's ending. Embed the principle of life within Death into Order. Natural death returns, and Those Who Live in Death are legitimized.</p>
+            </div>
+            <div class="ending-card">
+              <h3><i class="ra ra-bleeding-eye"></i> Blessing of Despair</h3>
+              <p>Dung Eater's ending. Make everyone an Omen—souls can no longer return to the Erdtree. If everyone is cursed, none can be scorned.</p>
+            </div>
+            <div class="ending-card">
+              <h3><i class="ra ra-gavel"></i> Age of Order</h3>
+              <p>Goldmask's ending. Create a purified Golden Order that removes divine whim but may sacrifice freedom for cold perfectionism.</p>
+            </div>
+            <div class="ending-card">
+              <h3><i class="ra ra-crescent-moon"></i> Age of Stars</h3>
+              <p>Ranni's ending. Supplant Marika with an Order of moon and stars. A thousand year voyage under the Moon, removing all divine oversight.</p>
+            </div>
+            <div class="ending-card">
+              <h3><i class="ra ra-fire"></i> Lord of Frenzied Flame</h3>
+              <p>Become Lord of the Frenzied Flame, burning everything and returning existence to primordial chaos. Total annihilation.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final Quote -->
+        <div class="lore-quote fade-in" style="margin-top: 80px;">
+          <blockquote>
+            "The Elden Ring was shattered. In our home, across the fog, the Lands Between, now holds the cursed brand. The fallen leaves tell a story... of how a Tarnished became Elden Lord."
+          </blockquote>
+          <cite>— Opening Narration</cite>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+        <footer>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <div class="footer-logo-icon"><img src="elden-ring-logo.png" alt="Elden Ring"></div>
+          <span>ELDEN RING WIKI</span>
+        </div>
+        <div class="footer-clock-wrapper"><div id="footerClock">Loading time...</div></div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <p class="footer-disclaimer">Fan-made wiki. Not affiliated with FromSoftware or Bandai Namco.</p>
+    </footer>
+
+  </div>
+
+  <script src="music-player.js"></script>
+  <script>
+    // Floating Embers
+    function createEmbers() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const ember = document.createElement('div');
+        ember.className = 'ember';
+        const size = Math.random() * 4 + 2;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 20;
+        const hue = Math.random() * 30 + 20;
+        const lightness = Math.random() * 20 + 50;
+        ember.style.cssText = `width:${size}px;height:${size}px;left:${left}%;background:radial-gradient(circle,hsl(${hue},100%,${lightness}%) 0%,hsl(${hue},100%,30%) 50%,transparent 70%);animation-duration:${duration}s;animation-delay:-${delay}s;box-shadow:0 0 ${size*2}px hsl(${hue},100%,${lightness}%);`;
+        container.appendChild(ember);
+      }
+    }
+    createEmbers();
+
+    // Header Scroll
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50));
+
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // VIDEO AUDIO CONTROL
+    const video = document.getElementById('bg-video');
+    const audioBtn = document.getElementById('audioBtn');
+    const audioIcon = document.getElementById('audioIcon');
+    // audioText removed
+    
+    video.muted = true;
+    video.play().catch(e => console.log('Autoplay blocked:', e));
+
+    audioBtn.addEventListener('click', function() {
+      if (video.muted) {
+        video.muted = false;
+        audioBtn.classList.remove('muted');
+        // audio text removed
+        audioIcon.className = 'fa-solid fa-volume-high icon';
+      } else {
+        video.muted = true;
+        audioBtn.classList.add('muted');
+        // audio text removed
+        audioIcon.className = 'fa-solid fa-volume-xmark icon';
+      }
+    });
+
+    // VIDEO FULLSCREEN CONTROL
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const fullscreenIcon = document.getElementById('fullscreenIcon');
+    // fullscreenText removed
+    let isVideoFullscreen = false;
+
+    fullscreenBtn.addEventListener('click', function() {
+      isVideoFullscreen = !isVideoFullscreen;
+      
+      if (isVideoFullscreen) {
+        document.body.classList.add('video-fullscreen');
+        fullscreenBtn.classList.add('active');
+        // fullscreen text removed
+        fullscreenIcon.className = 'fa-solid fa-compress icon';
+        
+        // Auto unmute
+        if (video.muted) {
+          video.muted = false;
+          audioBtn.classList.remove('muted');
+          // audio text removed
+          audioIcon.className = 'fa-solid fa-volume-high icon';
+        }
+      } else {
+        document.body.classList.remove('video-fullscreen');
+        fullscreenBtn.classList.remove('active');
+        // fullscreen text removed
+        fullscreenIcon.className = 'fa-solid fa-expand icon';
+      }
+    });
+
+    // ESC key to exit fullscreen
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && isVideoFullscreen) {
+        isVideoFullscreen = false;
+        document.body.classList.remove('video-fullscreen');
+        fullscreenBtn.classList.remove('active');
+        // fullscreen text removed
+        fullscreenIcon.className = 'fa-solid fa-expand icon';
+      }
+    });
+
+    // LIGHTBOX FUNCTIONALITY
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    // For character cards - show actual image in lightbox
+    document.querySelectorAll('.character-card, .featured-image').forEach(card => {
+      card.addEventListener('click', function() {
+        const title = this.getAttribute('data-title') || 'Character';
+        const img = this.querySelector('img');
+        
+        if (img && img.src) {
+          // Use actual image
+          lightboxImg.src = img.src;
+        } else {
+          // Fallback to placeholder SVG
+          const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+            <defs>
+              <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#2d2218"/>
+                <stop offset="100%" style="stop-color:#1a1410"/>
+              </linearGradient>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#f9c043"/>
+                <stop offset="50%" style="stop-color:#ed8a09"/>
+                <stop offset="100%" style="stop-color:#bd6707"/>
+              </linearGradient>
+            </defs>
+            <rect width="500" height="500" fill="url(#bgGrad)"/>
+            <rect x="10" y="10" width="480" height="480" fill="none" stroke="#bd6707" stroke-width="2" rx="5"/>
+            <text x="250" y="220" text-anchor="middle" font-family="serif" font-size="150" fill="url(#goldGrad)" opacity="0.7">⚔</text>
+            <text x="250" y="350" text-anchor="middle" font-family="Cinzel, serif" font-size="28" fill="#ed8a09" font-weight="600">${title}</text>
+            <text x="250" y="400" text-anchor="middle" font-family="serif" font-size="16" fill="#8a7a60">Elden Ring Demigod</text>
+          </svg>`;
+          lightboxImg.src = 'data:image/svg+xml,' + encodeURIComponent(svg);
+        }
+        
+        lightboxImg.alt = title;
+        lightboxTitle.textContent = title;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+    });
+  </script>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop"><i class="ra ra-arrow-cluster" style="transform: rotate(-90deg);"></i></button>
+
+  <!-- Music Player -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-minimized" id="playerMinimized" onclick="togglePlayer()"><i class="ra ra-music-note" id="minimizedIcon"></i></div>
+    <div class="player-expanded">
+      <div class="player-header"><span class="player-title"><i class="ra ra-music-note"></i> Soundtrack</span><button class="player-minimize" onclick="togglePlayer()">−</button></div>
+      <div class="player-track"><div class="track-name" id="trackName">Track 1</div><div class="track-info" id="trackInfo">Elden Ring OST</div></div>
+      <div class="player-controls">
+        <button class="control-btn" onclick="previousTrack()"><i class="ra ra-double-team"></i></button>
+        <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="ra ra-play" id="playIcon"></i></button>
+        <button class="control-btn" onclick="nextTrack()"><i class="ra ra-double-team" style="transform: rotate(180deg);"></i></button>
+      </div>
+      <div class="volume-control">
+        <div class="volume-header"><span class="volume-label">Volume</span><button class="mute-btn" id="muteBtn" onclick="toggleMute()"><i class="ra ra-horn-call"></i></button></div>
+        <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider" oninput="changeVolume(this.value)">
+      </div>
+    </div>
+  </div>
+  <audio id="audioPlayer" preload="auto"><source src="bgm1.mp3" type="audio/mpeg"></audio>
+
+  <!-- Footer Clock -->
+  <script>
+    function updateFooterClock() {
+      const now = new Date();
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('en-US', options);
+      const clockEl = document.getElementById('footerClock');
+      if (clockEl) clockEl.textContent = formatted;
+    }
+    updateFooterClock();
+    setInterval(updateFooterClock, 1000);
+  </script>
+
+  <!-- Global Wiki Search -->
+  <script src="items-search.js"></script>
+  <script>document.addEventListener("DOMContentLoaded",function(){if(typeof initializeSearch==="function")initializeSearch();});</script>
+
+</body>
+</html>
